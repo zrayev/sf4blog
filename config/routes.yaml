@@ -1,3 +1,16 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+
+blog:
+    path: /blog
+    controller: App\Controller\PostController::index
+
+post_new:
+    path: /post/new
+    controller: App\Controller\PostController::index
+
+post_show:
+    path: /post/show/{slug}
+    controller: App\Controller\PostController::index
