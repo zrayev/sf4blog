@@ -50,7 +50,7 @@ class Post
     private $author;
 
     /**
- @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="post")
+     * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="post")
      */
     private $category;
 
