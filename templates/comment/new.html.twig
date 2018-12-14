@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+  Create comment
+{% endblock %}
+{% block body %}
+  <h1 class="text-center">Create tag</h1>
+  {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class':'comment-form'}}) }}
+  {{ form_widget(form) }}
+  {{ form_end(form) }}
+{% endblock %}

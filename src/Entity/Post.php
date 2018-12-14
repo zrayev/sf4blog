@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
@@ -25,7 +27,22 @@ class Post
     /**
      * @ORM\Column(type="text")
      */
+    private $description;
+
+    /**
+     * @ORM\Column(type="text")
+     */
     private $body;
+
+    /**
+     * @ORM\Column(type="blob")
+     */
+    private $image;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $status;
 
     /**
      * @ORM\Column(type="integer")
@@ -33,7 +50,7 @@ class Post
     private $author;
 
     /**
-     * @ORM\Column(type="integer")
+ @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="post")
      */
     private $category;
 
@@ -43,6 +60,7 @@ class Post
     private $comments;
 
     /**
+     * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
@@ -53,11 +71,15 @@ class Post
     private $tags;
 
     /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
     private $modifiedAt;
@@ -79,6 +101,18 @@ class Post
         return $this;
     }
 
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
     public function getBody(): ?string
     {
         return $this->body;
@@ -87,6 +121,28 @@ class Post
     public function setBody(string $body): self
     {
         $this->body = $body;
+
+        return $this;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage(File $image): void
+    {
+        $this->image = $image;
+    }
+
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status)
+    {
+        $this->status = $status;
 
         return $this;
     }

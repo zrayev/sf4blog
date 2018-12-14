@@ -2,15 +2,46 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
-
 blog:
     path: /blog
     controller: App\Controller\PostController::index
 
 post_new:
     path: /post/new
-    controller: App\Controller\PostController::index
+    controller: App\Controller\PostController::new
 
 post_show:
     path: /post/show/{slug}
     controller: App\Controller\PostController::index
+
+author_new:
+    path: /author/new
+    controller: App\Controller\AuthorController::new
+
+author_show:
+    path: /author/show/{slug}
+    controller: App\Controller\AuthorController::index
+
+category_new:
+    path: /category/new
+    controller: App\Controller\CategoryController::new
+
+category_show:
+    path: /category/show/{slug}
+    controller: App\Controller\CategoryController::index
+
+comment_new:
+    path: /comment/new
+    controller: App\Controller\CommentController::new
+
+comment_show:
+    path: /comment/show/{slug}
+    controller: App\Controller\CommentController::index
+
+tag_new:
+    path: /tag/new
+    controller: App\Controller\TagController::new
+
+tag_show:
+    path: /tag/show/{slug}
+    controller: App\Controller\TagController::index

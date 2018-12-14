@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+  Create post
+{% endblock %}
+{% block body %}
+  <h1 class="text-center">Create post</h1>
+  {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class':'post-form'}}) }}
+  {{ form_widget(form) }}
+  {{ form_end(form) }}
+{% endblock %}

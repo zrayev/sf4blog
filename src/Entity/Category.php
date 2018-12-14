@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
@@ -23,17 +24,20 @@ class Category
     private $title;
 
     /**
+     * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="category")
      */
-    private $postId;
+    private $post;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="create")
+     * @var \DateTime
      */
     private $createdAt;
 
@@ -66,14 +70,14 @@ class Category
         return $this;
     }
 
-    public function getPostId(): ?int
+    public function getPost(): ?int
     {
-        return $this->postId;
+        return $this->post;
     }
 
-    public function setPostId(int $postId): self
+    public function setPostId(int $post): self
     {
-        $this->postId = $postId;
+        $this->post = $post;
 
         return $this;
     }
