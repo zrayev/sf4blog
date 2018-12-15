@@ -18,7 +18,6 @@ class PostType extends AbstractType
     {
         $builder
             ->add('title', TextType::class)
-            ->add('slug', TextType::class)
             ->add('description', TextareaType::class)
             ->add('body', TextareaType::class)
             ->add('image', FileType::class)

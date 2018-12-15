@@ -15,7 +15,6 @@ class TagType extends AbstractType
     {
         $builder
             ->add('title', TextType::class)
-            ->add('slug', TextType::class)
             ->add('save', SubmitType::class, ['label' => 'Create Tag', 'attr' => ['class' => 'btn btn-default pull-right']])
         ;
     }
