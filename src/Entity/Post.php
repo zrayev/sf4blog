@@ -219,11 +219,11 @@ class Post
     }
 
     /**
-     * @param int $category
+     * @param Category $category
      *
      * @return $this
      */
-    public function setCategory(int $category): self
+    public function setCategory(Category $category): self
     {
         $this->category = $category;
 
