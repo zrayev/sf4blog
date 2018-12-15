@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -31,20 +32,36 @@ class Author
     private $createdAt;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="author", cascade={"persist", "remove"})
      */
     private $posts;
 
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
+
+    /**
+     * @return int
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     *
+     * @return Author
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -52,11 +69,19 @@ class Author
         return $this;
     }
 
+    /**
+     * @return DateTimeInterface
+     */
     public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }
 
+    /**
+     * @param DateTimeInterface $createdAt
+     *
+     * @return Author
+     */
     public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
@@ -64,15 +89,31 @@ class Author
         return $this;
     }
 
-    public function getPosts(): ?string
+    /**
+     * @param Post $post
+     *
+     * @return $this
+     */
+    public function addPost(Post $post): self
     {
-        return $this->posts;
-    }
-
-    public function setPosts(string $posts): self
-    {
-        $this->posts = $posts;
+        $this->posts[] = $post;
 
         return $this;
+    }
+
+    /**
+     * @param Post $post
+     */
+    public function removePost(Post $post): void
+    {
+        $this->posts->removeElement($post);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPosts(): ArrayCollection
+    {
+        return $this->posts;
     }
 }

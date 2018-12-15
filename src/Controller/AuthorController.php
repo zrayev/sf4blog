@@ -19,6 +19,7 @@ class AuthorController extends AbstractController
 
     /**
      * @param Request $request
+     *
      * @return Response
      */
     public function new(Request $request): Response

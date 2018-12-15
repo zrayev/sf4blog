@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -29,7 +31,7 @@ class Tag
     private $slug;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToMany(targetEntity="App\Entity\Post", mappedBy="tags")
      */
     private $posts;
 
@@ -40,16 +42,32 @@ class Tag
      */
     private $createdAt;
 
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
+
+    /**
+     * @return int
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
+    /**
+     * @param string $title
+     *
+     * @return Tag
+     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -57,11 +75,19 @@ class Tag
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
+    /**
+     * @param string $slug
+     *
+     * @return Tag
+     */
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
@@ -69,24 +95,49 @@ class Tag
         return $this;
     }
 
-    public function getPosts(): ?string
+    /**
+     * @param Post $post
+     *
+     * @return $this
+     */
+    public function addPost(Post $post): self
     {
-        return $this->posts;
-    }
-
-    public function setPosts(string $posts): self
-    {
-        $this->posts = $posts;
+        $this->posts[] = $post;
+        $post->addTag($this);
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    /**
+     * @param Post $post
+     */
+    public function removePost(Post $post): void
+    {
+        $this->posts->removeElement($post);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPosts(): ArrayCollection
+    {
+        return $this->posts;
+    }
+
+    /**
+     * @return DateTimeInterface
+     */
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    /**
+     * @param DateTimeInterface $createdAt
+     *
+     * @return Tag
+     */
+    public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 

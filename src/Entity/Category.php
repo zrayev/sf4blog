@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -30,9 +31,9 @@ class Category
     private $slug;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Post", inversedBy="category")
+     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="category", cascade={"persist", "remove"})
      */
-    private $post;
+    private $posts;
 
     /**
      * @ORM\Column(type="datetime")
@@ -41,16 +42,31 @@ class Category
      */
     private $createdAt;
 
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
+
+    /**
+     * @return int
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
+    /**
+     * @param string $title
+     * @return Category
+     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -58,11 +74,18 @@ class Category
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
+    /**
+     * @param string $slug
+     * @return Category
+     */
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
@@ -70,23 +93,46 @@ class Category
         return $this;
     }
 
-    public function getPost(): ?int
+    /**
+     * @return ArrayCollection
+     */
+    public function getPosts(): ArrayCollection
     {
-        return $this->post;
+        return $this->posts;
     }
 
-    public function setPostId(int $post): self
+    /**
+     * @param Post $post
+     *
+     * @return $this
+     */
+    public function addPost(Post $post): self
     {
-        $this->post = $post;
+        $this->posts[] = $post;
 
         return $this;
     }
 
+    /**
+     * @param Post $post
+     */
+    public function removePost(Post $post): void
+    {
+        $this->posts->removeElement($post);
+    }
+
+    /**
+     * @return DateTimeInterface
+     */
     public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }
 
+    /**
+     * @param DateTimeInterface $createdAt
+     * @return Category
+     */
     public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;

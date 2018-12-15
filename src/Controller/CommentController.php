@@ -10,15 +10,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CommentController extends AbstractController
 {
-    public function index()
-    {
-        return $this->render('comment/index.html.twig', [
-            'controller_name' => 'CommentController',
-        ]);
-    }
-
     /**
      * @param Request $request
+     *
      * @return Response
      */
     public function new(Request $request): Response

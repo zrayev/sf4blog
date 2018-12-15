@@ -29,7 +29,7 @@ class Comment
     private $body;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="comments")
      */
     private $post;
 
@@ -47,16 +47,27 @@ class Comment
      */
     private $modifiedAt;
 
+    /**
+     * @return int
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
+    /**
+     * @param string $title
+     *
+     * @return Comment
+     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -64,11 +75,19 @@ class Comment
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getBody(): ?string
     {
         return $this->body;
     }
 
+    /**
+     * @param string $body
+     *
+     * @return Comment
+     */
     public function setBody(string $body): self
     {
         $this->body = $body;
@@ -76,11 +95,19 @@ class Comment
         return $this;
     }
 
-    public function getPost(): ?int
+    /**
+     * @return Post
+     */
+    public function getPost(): ?Post
     {
         return $this->post;
     }
 
+    /**
+     * @param int $post
+     *
+     * @return Comment
+     */
     public function setPost(int $post): self
     {
         $this->post = $post;
@@ -88,11 +115,19 @@ class Comment
         return $this;
     }
 
+    /**
+     * @return DateTimeInterface
+     */
     public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }
 
+    /**
+     * @param DateTimeInterface $createdAt
+     *
+     * @return Comment
+     */
     public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
@@ -100,11 +135,19 @@ class Comment
         return $this;
     }
 
+    /**
+     * @return DateTimeInterface
+     */
     public function getModifiedAt(): ?DateTimeInterface
     {
         return $this->modifiedAt;
     }
 
+    /**
+     * @param DateTimeInterface $modifiedAt
+     *
+     * @return Comment
+     */
     public function setModifiedAt(DateTimeInterface $modifiedAt): self
     {
         $this->modifiedAt = $modifiedAt;
