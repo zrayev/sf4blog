@@ -41,7 +41,7 @@ class Post
     private $image;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="smallint")
      */
     private $status;
 
@@ -176,19 +176,19 @@ class Post
     }
 
     /**
-     * @return bool
+     * @return int
      */
-    public function getStatus(): ?bool
+    public function getStatus(): ?int
     {
         return $this->status;
     }
 
     /**
-     * @param bool $status
+     * @param int $status
      *
      * @return $this
      */
-    public function setStatus(bool $status): self
+    public function setStatus(int $status): self
     {
         $this->status = $status;
 
