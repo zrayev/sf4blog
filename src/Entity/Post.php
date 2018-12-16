@@ -12,6 +12,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Post
 {
+    public const STATUS_DRAFT = 0;
+    public const STATUS_REVIEW = 1;
+    public const STATUS_PUBLISH = 2;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

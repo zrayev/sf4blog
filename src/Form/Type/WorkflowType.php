@@ -2,6 +2,7 @@
 
 namespace App\Form\Type;
 
+use App\Entity\Post;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,9 +16,9 @@ class WorkflowType extends AbstractType
     {
         $resolver->setDefaults([
             'choices' => [
-                'Draft' => 0,
-                'Review' => 1,
-                'Publish' => 2,
+                'Draft' => Post::STATUS_DRAFT,
+                'Review' => Post::STATUS_REVIEW,
+                'Publish' => Post::STATUS_PUBLISH,
             ],
         ]);
     }

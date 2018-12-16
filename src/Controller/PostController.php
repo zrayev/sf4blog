@@ -12,9 +12,11 @@ class PostController extends AbstractController
 {
     public function index()
     {
+        $status = Post::STATUS_PUBLISH;
+
         $posts = $this->getDoctrine()
             ->getRepository(Post::class)
-            ->findAll()
+            ->findAllPublishArticles($status)
         ;
 
         if (!$posts) {
