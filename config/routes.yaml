@@ -11,23 +11,27 @@ post_new:
     controller: App\Controller\PostController::new
 
 post_show:
-    path: /post/show/{slug}
-    controller: App\Controller\PostController::index
+    path: /post/{slug}
+    controller: App\Controller\PostController::show
 
 author_new:
     path: /author/new
     controller: App\Controller\AuthorController::new
 
 author_show:
-    path: /author/show/{slug}
+    path: /author/{slug}
     controller: App\Controller\AuthorController::index
+
+post_edit:
+    path: /post/edit/{slug}
+    controller: App\Controller\PostController::edit
 
 category_new:
     path: /category/new
     controller: App\Controller\CategoryController::new
 
 category_show:
-    path: /category/show/{slug}
+    path: /category/{slug}
     controller: App\Controller\CategoryController::index
 
 comment_new:
@@ -35,7 +39,7 @@ comment_new:
     controller: App\Controller\CommentController::new
 
 comment_show:
-    path: /comment/show/{slug}
+    path: /comment/{slug}
     controller: App\Controller\CommentController::index
 
 tag_new:
@@ -43,5 +47,5 @@ tag_new:
     controller: App\Controller\TagController::new
 
 tag_show:
-    path: /tag/show/{slug}
+    path: /tag/{slug}
     controller: App\Controller\TagController::index

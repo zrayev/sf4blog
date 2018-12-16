@@ -10,7 +10,6 @@ use App\Entity\Tag;
 use App\Form\Type\WorkflowType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -25,7 +24,6 @@ class PostType extends AbstractType
             ->add('title', TextType::class)
             ->add('description', TextareaType::class)
             ->add('body', TextareaType::class)
-            ->add('image', FileType::class)
             ->add('status', WorkflowType::class, [
                 'placeholder' => 'Choose a article status option', ])
             ->add('author', EntityType::class, [
@@ -48,7 +46,7 @@ class PostType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
             ])
-            ->add('save', SubmitType::class, ['label' => 'Create Post', 'attr' => ['class' => 'btn btn-default pull-right']])
+            ->add('save', SubmitType::class, ['label' => 'Save', 'attr' => ['class' => 'btn btn-default pull-right']])
         ;
     }
 

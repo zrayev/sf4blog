@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Author;
 use App\Entity\Category;
 use App\Entity\Comment;
+use App\Entity\Post;
 use App\Entity\Tag;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -42,6 +43,32 @@ class AppFixtures extends Fixture
             $comment->setTitle($faker->name);
             $comment->setBody($faker->realText($maxNbChars = 200, $indexSize = 2));
             $manager->persist($comment);
+        }
+
+        $authors = $manager->getRepository(Author::class)->findAll();
+        $categories = $manager->getRepository(Category::class)->findAll();
+        $tags = $manager->getRepository(Tag::class)->findAll();
+        $comments = $manager->getRepository(Comment::class)->findAll();
+
+        for ($i = 0; $i < 5; ++$i) {
+            $post = new Post();
+            $post->setTitle($faker->sentence($nbWords = 5, $variableNbWords = true));
+            $post->setDescription($faker->realText($maxNbChars = 160, $indexSize = 2));
+            $post->setBody($faker->realText($maxNbChars = 600, $indexSize = 2));
+            $post->setStatus(random_int(0, 2));
+            foreach ($authors as $author) {
+                $post->setAuthor($author);
+            }
+            foreach ($categories as $category) {
+                $post->setCategory($category);
+            }
+            foreach ($tags as $tag) {
+                $post->addTag($tag);
+            }
+            foreach ($comments as $comment) {
+                $post->addComment($comment);
+            }
+            $manager->persist($post);
         }
 
         $manager->flush();

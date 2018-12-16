@@ -6,7 +6,6 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
@@ -34,11 +33,6 @@ class Post
      * @ORM\Column(type="text")
      */
     private $body;
-
-    /**
-     * @ORM\Column(type="blob")
-     */
-    private $image;
 
     /**
      * @ORM\Column(type="smallint")
@@ -157,22 +151,6 @@ class Post
         $this->body = $body;
 
         return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    /**
-     * @param File $image
-     */
-    public function setImage(File $image): void
-    {
-        $this->image = $image;
     }
 
     /**

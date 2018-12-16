@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block title %} {{ post.title }} {% endblock %}
+{% block body %}
+    <div class="row pb-4 align-items-center">
+        <div class="col-md-5">
+            {% block left %}
+                <p> {{ post.description }} </p>
+            {% endblock %}
+        </div>
+        <div class="col-md-7">
+            {% block right %}
+                <h1 class="text-center pb-4"> {{ post.title }} </h1>
+                <p> {{ post.body }} </p>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
