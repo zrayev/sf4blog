@@ -8,6 +8,7 @@ use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\Tag;
 use App\Form\Type\WorkflowType;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -28,23 +29,39 @@ class PostType extends AbstractType
                 'placeholder' => 'Choose a article status option', ])
             ->add('author', EntityType::class, [
                 'class' => Author::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.name', 'ASC');
+                },
                 'choice_label' => 'name',
+                'required' => true,
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'title',
+                'required' => true,
             ])
             ->add('tags', EntityType::class, [
                 'class' => Tag::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.title', 'ASC');
+                },
                 'choice_label' => 'title',
                 'multiple' => true,
                 'expanded' => true,
+                'required' => true,
             ])
             ->add('comments', EntityType::class, [
                 'class' => Comment::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.title', 'ASC');
+                },
                 'choice_label' => 'title',
                 'multiple' => true,
                 'expanded' => true,
+                'required' => true,
             ])
             ->add('save', SubmitType::class, ['label' => 'Save', 'attr' => ['class' => 'btn btn-default pull-right']])
         ;
