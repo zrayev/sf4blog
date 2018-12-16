@@ -53,7 +53,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 5; ++$i) {
             $post = new Post();
             $post->setTitle($faker->sentence($nbWords = 5, $variableNbWords = true));
-            $post->setDescription($faker->realText($maxNbChars = 160, $indexSize = 2));
+            $post->setDescription($faker->realText($maxNbChars = 120, $indexSize = 2));
             $post->setBody($faker->realText($maxNbChars = 600, $indexSize = 2));
             $post->setStatus(random_int(0, 2));
             foreach ($authors as $author) {

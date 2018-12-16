@@ -45,7 +45,7 @@ class PostController extends AbstractController
             $em->persist($post);
             $em->flush();
 
-            return new Response('Saved new post with id ' . $post->getId());
+            return $this->redirectToRoute('blog');
         }
 
         return $this->render('post/new.html.twig', [
@@ -96,7 +96,7 @@ class PostController extends AbstractController
             if ($form->isValid()) {
                 $em->flush();
 
-                return $this->redirectToRoute('posts_refactor');
+                return $this->redirectToRoute('blog');
             }
         }
 

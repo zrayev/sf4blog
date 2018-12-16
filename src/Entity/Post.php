@@ -179,9 +179,9 @@ class Post
     }
 
     /**
-     * @return int
+     * @return Author
      */
-    public function getAuthor(): ?int
+    public function getAuthor(): ?Author
     {
         return $this->author;
     }
@@ -194,9 +194,9 @@ class Post
     }
 
     /**
-     * @return int
+     * @return Category
      */
-    public function getCategory(): ?int
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
