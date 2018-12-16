@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -29,9 +31,9 @@ class Comment
     private $body;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="comments")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Post", mappedBy="comments")
      */
-    private $post;
+    private $posts;
 
     /**
      * @var \DateTime
@@ -46,6 +48,11 @@ class Comment
      * @ORM\Column(type="datetime")
      */
     private $modifiedAt;
+
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -96,23 +103,32 @@ class Comment
     }
 
     /**
-     * @return Post
+     * @param Post $post
+     *
+     * @return $this
      */
-    public function getPost(): ?Post
+    public function addPost(Post $post): self
     {
-        return $this->post;
+        $post->addComment($this);
+        $this->posts[] = $post;
+
+        return $this;
     }
 
     /**
-     * @param int $post
-     *
-     * @return Comment
+     * @param Post $post
      */
-    public function setPost(int $post): self
+    public function removePost(Post $post): void
     {
-        $this->post = $post;
+        $this->posts->removeElement($post);
+    }
 
-        return $this;
+    /**
+     * @return Collection
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
     }
 
     /**

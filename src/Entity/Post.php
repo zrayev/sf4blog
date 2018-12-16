@@ -55,7 +55,7 @@ class Post
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Comment", inversedBy="posts")
      */
     private $comments;
 
@@ -214,20 +214,13 @@ class Post
     }
 
     /**
-     * @return Collection
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
-    /**
      * @param Comment $comment
      *
      * @return $this
      */
     public function addComment(Comment $comment): self
     {
+        $comment->addPost($this);
         $this->comments[] = $comment;
 
         return $this;
@@ -239,6 +232,14 @@ class Post
     public function removeComment(Comment $comment): void
     {
         $this->comments->removeElement($comment);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
     }
 
     /**
