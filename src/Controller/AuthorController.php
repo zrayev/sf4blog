@@ -31,8 +31,12 @@ class AuthorController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($author);
             $em->flush();
+            $this->addFlash(
+                'notice',
+                'Your author with name - ' . $author->getName() . ' were saved!'
+            );
 
-            return new Response('Saved new author with id ' . $author->getId());
+            return $this->redirectToRoute('author_new');
         }
 
         return $this->render('author/new.html.twig', [

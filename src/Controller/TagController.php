@@ -31,8 +31,12 @@ class TagController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($tag);
             $em->flush();
+            $this->addFlash(
+                'notice',
+                'Your tag  with title - ' . $tag->getTitle() . ' were saved!'
+            );
 
-            return new Response('Saved new tag with id ' . $tag->getId());
+            return $this->redirectToRoute('tag_new');
         }
 
         return $this->render('tag/new.html.twig', [

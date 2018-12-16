@@ -1,0 +1,8 @@
+App\Entity\Author:
+    properties:
+        name:
+            - NotNull: ~
+            - Length:
+                max: 64
+            - Type:
+                type: string

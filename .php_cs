@@ -53,7 +53,6 @@ return PhpCsFixer\Config::create()
             'null_adjustment' => 'always_last',
         ],
         'void_return' => false,
-        'pre_increment' => false,
         'yoda_style' => false,
     ])
 ;

@@ -24,8 +24,12 @@ class CommentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($comment);
             $em->flush();
+            $this->addFlash(
+                'notice',
+                'Your comment with title - ' . $comment->getTitle() . ' were saved!'
+            );
 
-            return new Response('Saved new comment with id ' . $comment->getId());
+            return $this->redirectToRoute('comment_new');
         }
 
         return $this->render('comment/new.html.twig', [

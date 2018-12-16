@@ -44,8 +44,12 @@ class PostController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($post);
             $em->flush();
+            $this->addFlash(
+                'notice',
+                'Your post  with title - ' . $post->getTitle() . ' were saved!'
+            );
 
-            return $this->redirectToRoute('blog');
+            return $this->redirectToRoute('blog_new');
         }
 
         return $this->render('post/new.html.twig', [

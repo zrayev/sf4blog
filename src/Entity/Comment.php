@@ -2,9 +2,7 @@
 
 namespace App\Entity;
 
-use DateTimeInterface;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -31,28 +29,23 @@ class Comment
     private $body;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Post", mappedBy="comments")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="comments")
      */
-    private $posts;
+    private $post;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
     private $modifiedAt;
-
-    public function __construct()
-    {
-        $this->posts = new ArrayCollection();
-    }
 
     /**
      * @return int
@@ -103,48 +96,39 @@ class Comment
     }
 
     /**
+     * @return Post
+     */
+    public function getPost(): ?Post
+    {
+        return $this->post;
+    }
+
+    /**
      * @param Post $post
      *
-     * @return $this
+     * @return Comment
      */
-    public function addPost(Post $post): self
+    public function setPost(Post $post): self
     {
-        $post->addComment($this);
-        $this->posts[] = $post;
+        $this->post = $post;
 
         return $this;
     }
 
     /**
-     * @param Post $post
+     * @return DateTime
      */
-    public function removePost(Post $post): void
-    {
-        $this->posts->removeElement($post);
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getPosts(): Collection
-    {
-        return $this->posts;
-    }
-
-    /**
-     * @return DateTimeInterface
-     */
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
     /**
-     * @param DateTimeInterface $createdAt
+     * @param DateTime $createdAt
      *
      * @return Comment
      */
-    public function setCreatedAt(DateTimeInterface $createdAt): self
+    public function setCreatedAt(DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -152,19 +136,19 @@ class Comment
     }
 
     /**
-     * @return DateTimeInterface
+     * @return DateTime
      */
-    public function getModifiedAt(): ?DateTimeInterface
+    public function getModifiedAt(): ?DateTime
     {
         return $this->modifiedAt;
     }
 
     /**
-     * @param DateTimeInterface $modifiedAt
+     * @param DateTime $modifiedAt
      *
      * @return Comment
      */
-    public function setModifiedAt(DateTimeInterface $modifiedAt): self
+    public function setModifiedAt(DateTime $modifiedAt): self
     {
         $this->modifiedAt = $modifiedAt;
 

@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use DateTimeInterface;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -55,7 +55,7 @@ class Post
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Comment", inversedBy="posts")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post", cascade={"persist", "remove"})
      */
     private $comments;
 
@@ -186,6 +186,11 @@ class Post
         return $this->author;
     }
 
+    /**
+     * @param Author $author
+     *
+     * @return Post
+     */
     public function setAuthor(Author $author): self
     {
         $this->author = $author;
@@ -220,7 +225,6 @@ class Post
      */
     public function addComment(Comment $comment): self
     {
-        $comment->addPost($this);
         $this->comments[] = $comment;
 
         return $this;
@@ -292,19 +296,19 @@ class Post
     }
 
     /**
-     * @return DateTimeInterface
+     * @return DateTime
      */
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
     /**
-     * @param DateTimeInterface $createdAt
+     * @param DateTime $createdAt
      *
      * @return Post
      */
-    public function setCreatedAt(DateTimeInterface $createdAt): self
+    public function setCreatedAt(DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -312,19 +316,19 @@ class Post
     }
 
     /**
-     * @return DateTimeInterface
+     * @return DateTime
      */
-    public function getModifiedAt(): ?DateTimeInterface
+    public function getModifiedAt(): ?DateTime
     {
         return $this->modifiedAt;
     }
 
     /**
-     * @param DateTimeInterface $modifiedAt
+     * @param DateTime $modifiedAt
      *
      * @return Post
      */
-    public function setModifiedAt(DateTimeInterface $modifiedAt): self
+    public function setModifiedAt(DateTime $modifiedAt): self
     {
         $this->modifiedAt = $modifiedAt;
 

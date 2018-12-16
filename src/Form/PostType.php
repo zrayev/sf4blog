@@ -4,10 +4,9 @@ namespace App\Form;
 
 use App\Entity\Author;
 use App\Entity\Category;
-use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\Tag;
-use App\Form\Type\WorkflowType;
+use App\Form\Type\PostWorkflowType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -25,7 +24,7 @@ class PostType extends AbstractType
             ->add('title', TextType::class)
             ->add('description', TextareaType::class)
             ->add('body', TextareaType::class)
-            ->add('status', WorkflowType::class, [
+            ->add('status', PostWorkflowType::class, [
                 'placeholder' => 'Choose a article status option', ])
             ->add('author', EntityType::class, [
                 'class' => Author::class,
@@ -43,17 +42,6 @@ class PostType extends AbstractType
             ])
             ->add('tags', EntityType::class, [
                 'class' => Tag::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.title', 'ASC');
-                },
-                'choice_label' => 'title',
-                'multiple' => true,
-                'expanded' => true,
-                'required' => true,
-            ])
-            ->add('comments', EntityType::class, [
-                'class' => Comment::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
                         ->orderBy('u.title', 'ASC');
