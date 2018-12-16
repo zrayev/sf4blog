@@ -45,10 +45,7 @@ class AppFixtures extends Fixture
             $manager->persist($comment);
         }
 
-        $authors = $manager->getRepository(Author::class)->findAll();
-        $categories = $manager->getRepository(Category::class)->findAll();
-        $tags = $manager->getRepository(Tag::class)->findAll();
-        $comments = $manager->getRepository(Comment::class)->findAll();
+        $manager->flush();
 
         for ($i = 0; $i < 5; ++$i) {
             $post = new Post();
@@ -56,18 +53,6 @@ class AppFixtures extends Fixture
             $post->setDescription($faker->realText($maxNbChars = 120, $indexSize = 2));
             $post->setBody($faker->realText($maxNbChars = 600, $indexSize = 2));
             $post->setStatus(random_int(0, 2));
-            foreach ($authors as $author) {
-                $post->setAuthor($author);
-            }
-            foreach ($categories as $category) {
-                $post->setCategory($category);
-            }
-            foreach ($tags as $tag) {
-                $post->addTag($tag);
-            }
-            foreach ($comments as $comment) {
-                $post->addComment($comment);
-            }
             $manager->persist($post);
         }
 
