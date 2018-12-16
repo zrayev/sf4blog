@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -65,7 +66,7 @@ class Post
     private $slug;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="tags")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="posts")
      */
     private $tags;
 
@@ -213,9 +214,9 @@ class Post
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getComments(): ArrayCollection
+    public function getComments(): Collection
     {
         return $this->comments;
     }
@@ -267,6 +268,7 @@ class Post
      */
     public function addTag(Tag $tag): self
     {
+        $tag->addPost($this);
         $this->tags[] = $tag;
 
         return $this;
@@ -281,9 +283,9 @@ class Post
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getTags(): ArrayCollection
+    public function getTags(): Collection
     {
         return $this->tags;
     }

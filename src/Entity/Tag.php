@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -102,8 +103,8 @@ class Tag
      */
     public function addPost(Post $post): self
     {
-        $this->posts[] = $post;
         $post->addTag($this);
+        $this->posts[] = $post;
 
         return $this;
     }
@@ -117,9 +118,9 @@ class Tag
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getPosts(): ArrayCollection
+    public function getPosts(): Collection
     {
         return $this->posts;
     }
