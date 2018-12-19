@@ -1,0 +1,22 @@
+App\Entity\Post:
+    properties:
+        title:
+            - NotNull:
+            - Type:
+                  type: string
+        description:
+            - NotBlank: ~
+            - Length:
+                  min: 65
+                  max: 120
+                  minMessage: 'Your description must be at least {{ limit }} characters long'
+                  maxMessage: 'Your description cannot be longer than {{ limit }} characters'
+        body:
+            - NotNull: ~
+            - Length:
+                  min: 350
+                  max: 2024
+                  minMessage: 'Your text of post must be at least {{ limit }} characters long'
+                  maxMessage: 'Your text of post  cannot be longer than {{ limit }} characters'
+        status:
+            - NotNull: ~

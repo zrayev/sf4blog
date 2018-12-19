@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Blog</h1>
+    {% if posts is defined %}
+        <div class="posts">
+            <div class="row">
+                {% include 'layouts/_catalog-grid.html.twig' with {'posts' : posts} only %}
+            </div>
+        </div>
+    {% else %}
+        <p class="text-center">{{ message }}</p>
+    {% endif %}
+{% endblock %}

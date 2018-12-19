@@ -1,0 +1,11 @@
+<article class="article item pb-4">
+    <h3 class="text-center">
+        {% filter upper %}
+            {{- post.title -}}
+        {% endfilter %}
+    </h3>
+    <p class="lead">{{- post.description -}}</p>
+    <span class="published float-right text-secondary">{{ post.createdAt.format('Y/m/d') }}</span>
+    <a href="{{- path('post_show', {slug: post.slug}) -}}" class="btn btn-primary btn-sm active" role="button">Show</a>
+    <a href="{{- path('post_edit', {slug: post.slug}) -}}" class="btn btn-secondary btn-sm active" role="button">Edit</a>
+</article>

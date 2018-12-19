@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+  Create author
+{% endblock %}
+{% block body %}
+  <h1 class="text-center">Create author</h1>
+  {{ parent() }}
+  {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class':'author-form'}}) }}
+  {{ form_widget(form) }}
+  {{ form_end(form) }}
+{% endblock %}
