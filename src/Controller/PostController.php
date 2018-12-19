@@ -4,19 +4,24 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends AbstractController
 {
-    public function index(Request $request)
+    /**
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     *
+     * @return Response
+     */
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $status = Post::STATUS_PUBLISH;
-
         $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(Post::class)->findAllPublishArticles($status)
-        ;
+        $posts = $em->getRepository(Post::class)->findAllPublishArticles($status);
 
         if (!$posts) {
             return $this->render('post/index.html.twig', [
@@ -24,12 +29,7 @@ class PostController extends AbstractController
             ]);
         }
 
-        $paginator  = $this->get('knp_paginator');
-        $blogPosts = $paginator->paginate(
-            $posts,
-            1,
-            10
-        );
+        $blogPosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 9);
 
         return $this->render('post/index.html.twig', [
             'posts' => $blogPosts,
