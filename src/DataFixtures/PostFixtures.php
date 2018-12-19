@@ -16,7 +16,7 @@ class PostFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
-        for ($i = 0; $i < 5; ++$i) {
+        for ($i = 0; $i < 100; ++$i) {
             $post = new Post();
             $post->setTitle($faker->sentence($nbWords = 5, $variableNbWords = true));
             $post->setDescription($faker->realText($maxNbChars = 120, $indexSize = 2));

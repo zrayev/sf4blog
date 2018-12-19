@@ -10,13 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends AbstractController
 {
-    public function index()
+    public function index(Request $request)
     {
         $status = Post::STATUS_PUBLISH;
 
-        $posts = $this->getDoctrine()
-            ->getRepository(Post::class)
-            ->findAllPublishArticles($status)
+        $em = $this->getDoctrine()->getManager();
+        $posts = $em->getRepository(Post::class)->findAllPublishArticles($status)
         ;
 
         if (!$posts) {
@@ -25,8 +24,15 @@ class PostController extends AbstractController
             ]);
         }
 
+        $paginator  = $this->get('knp_paginator');
+        $blogPosts = $paginator->paginate(
+            $posts,
+            1,
+            10
+        );
+
         return $this->render('post/index.html.twig', [
-            'posts' => $posts,
+            'posts' => $blogPosts,
         ]);
     }
 

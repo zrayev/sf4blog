@@ -10,6 +10,9 @@
                 {% include 'layouts/_catalog-grid.html.twig' with {'posts' : posts} only %}
             </div>
         </div>
+        <div class="navigation">
+          {{ knp_pagination_render(posts) }}
+        </div>
     {% else %}
         <p class="text-center">{{ message }}</p>
     {% endif %}
