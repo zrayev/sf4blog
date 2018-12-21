@@ -57,7 +57,7 @@ class PostController extends AbstractController
                 'Your post  with title - ' . $post->getTitle() . ' were saved!'
             );
 
-            return $this->redirectToRoute('blog_new');
+            return $this->redirectToRoute('blog');
         }
 
         return $this->render('post/new.html.twig', [

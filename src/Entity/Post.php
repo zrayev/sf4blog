@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use App\Entity\Author;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
@@ -83,6 +84,15 @@ class Post
      * @ORM\Column(type="datetime")
      */
     private $modifiedAt;
+
+    /**
+     * @var Author $modifiedBy
+     *
+     * @Gedmo\Blameable(on="change", field={"title", "body"})
+     * @ORM\ManyToOne(targetEntity="Author")
+     * @ORM\JoinColumn(name="modified_by", referencedColumnName="id")
+     */
+    private $modifiedBy;
 
     public function __construct()
     {
@@ -333,5 +343,13 @@ class Post
         $this->modifiedAt = $modifiedAt;
 
         return $this;
+    }
+
+    /**
+     * @return Author
+     */
+    public function getModifiedBy(): Author
+    {
+        return $this->modifiedBy;
     }
 }

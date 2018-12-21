@@ -4,10 +4,11 @@ namespace App\DataFixtures;
 
 use App\Entity\Post;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
 
-class PostFixtures extends Fixture
+class PostFixtures extends Fixture implements OrderedFixtureInterface
 {
     /**
      * @param ObjectManager $manager
@@ -24,9 +25,16 @@ class PostFixtures extends Fixture
             $post->setStatus(random_int(0, 2));
             $post->setAuthor($this->getReference('author'));
             $post->setCategory($this->getReference('category'));
+            $post->addTag($this->getReference('tag'));
+
             $manager->persist($post);
         }
 
         $manager->flush();
+    }
+
+    public function getOrder()
+    {
+        return 50;
     }
 }
