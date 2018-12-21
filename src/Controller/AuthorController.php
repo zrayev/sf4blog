@@ -24,8 +24,8 @@ class AuthorController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $em = $this->getDoctrine()->getManager();
         $author = new Author();
+        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(AuthorType::class, $author);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

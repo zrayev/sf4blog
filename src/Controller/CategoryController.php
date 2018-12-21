@@ -24,8 +24,8 @@ class CategoryController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $em = $this->getDoctrine()->getManager();
         $category = new Category();
+        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

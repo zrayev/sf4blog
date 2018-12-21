@@ -17,8 +17,8 @@ class CommentController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $em = $this->getDoctrine()->getManager();
         $comment = new Comment();
+        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

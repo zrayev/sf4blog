@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostType;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -43,8 +45,8 @@ class PostController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $em = $this->getDoctrine()->getManager();
         $post = new Post();
+        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -64,41 +66,27 @@ class PostController extends AbstractController
     }
 
     /**
-     * @param $slug
+     * @param Post $post
+     * @ParamConverter("post", class="App:Post")
      *
      * @return Response
      */
-    public function show($slug): Response
+    public function show(Post $post): Response
     {
-        $post = $this->getDoctrine()
-            ->getRepository(Post::class)
-            ->findOneBy(['slug' => $slug])
-        ;
-
-        if (!$post) {
-            throw $this->createNotFoundException(
-                'No article found for slug: ' . $slug
-            );
-        }
-
         return $this->render('post/show.html.twig', [
             'post' => $post,
         ]);
     }
 
-    public function edit($slug, Request $request)
+    /**
+     * @param Request $request
+     * @param Post $post
+     * @ParamConverter("post", class="App:Post")
+     *
+     * @return RedirectResponse|Response
+     */
+    public function edit(Request $request, Post $post)
     {
-        $post = $this->getDoctrine()
-            ->getRepository(Post::class)
-            ->findOneBy(['slug' => $slug])
-        ;
-
-        if (!$post) {
-            throw $this->createNotFoundException(
-                'No article found for slug: ' . $slug
-            );
-        }
-
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(PostType::class, $post);
         if ($request->getMethod() === 'POST') {
