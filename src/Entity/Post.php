@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use App\Entity\Author;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
@@ -86,7 +85,7 @@ class Post
     private $modifiedAt;
 
     /**
-     * @var Author $modifiedBy
+     * @var Author
      *
      * @Gedmo\Blameable(on="change", field={"title", "body"})
      * @ORM\ManyToOne(targetEntity="Author")
