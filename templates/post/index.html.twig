@@ -2,7 +2,7 @@
 
 {% block title %}Blog{% endblock %}
 
-{% block body %}
+{% block content %}
     <h1 class="text-center">Blog</h1>
     {% if posts is defined %}
         <div class="posts">
@@ -10,7 +10,7 @@
                 {% include 'layouts/_catalog-grid.html.twig' with {'posts' : posts} only %}
             </div>
         </div>
-        <div class="navigation">
+        <div class="navigation pagination justify-content-center mb-4">
           {{ knp_pagination_render(posts) }}
         </div>
     {% else %}
