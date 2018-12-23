@@ -8,7 +8,8 @@
         </h2>
         <p class="card-text">{{- post.description -}}</p>
         <a href="{{- path('post_show', {slug: post.slug}) -}}" class="btn btn-primary btn-sm active" role="button">Show</a>
-        <a href="{{- path('post_edit', {slug: post.slug}) -}}" class="btn btn-secondary btn-sm active" role="button">Edit</a>
+        <a href="{{- path('post_edit', {slug: post.slug}) -}}" class="btn btn-secondary btn-sm" role="button">Edit</a>
+        <a href="{{- path('post_delete', {slug: post.slug}) -}}" class="btn btn-secondary btn-sm" role="button">Delete</a>
     </div>
     <div class="card-footer text-muted">
         Posted on {{ post.createdAt|date('Y-m-d') }} by <a href="#">{{ post.author.name }}</a> <br>

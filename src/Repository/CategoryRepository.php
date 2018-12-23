@@ -18,4 +18,12 @@ class CategoryRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Category::class);
     }
+
+    public function getCategories()
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ;
+    }
 }

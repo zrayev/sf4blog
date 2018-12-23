@@ -4,16 +4,30 @@ namespace App\Controller;
 
 use App\Entity\Author;
 use App\Form\AuthorType;
+use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthorController extends AbstractController
 {
-    public function index()
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        $authors = $em->getRepository(Author::class)->getAuthors();
+
+        if (!$authors) {
+            return $this->render('tag/index.html.twig', [
+                'message' => 'Authors not found.',
+            ]);
+        }
+
+        $paginateAuthors = $paginator->paginate($authors, $request->query->getInt('page', 1), 10);
+
         return $this->render('author/index.html.twig', [
-            'controller_name' => 'AuthorController',
+            'authors' => $paginateAuthors,
         ]);
     }
 
@@ -41,6 +55,32 @@ class AuthorController extends AbstractController
 
         return $this->render('author/new.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Author $author
+     * @ParamConverter("author", class="App:Author")
+     *
+     * @return RedirectResponse|Response
+     */
+    public function edit(Request $request, Author $author)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(AuthorType::class, $author);
+        if ($request->getMethod() === 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em->flush();
+
+                return $this->redirectToRoute('authors');
+            }
+        }
+
+        return $this->render('author/edit.html.twig', [
+            'form' => $form->createView(),
+            'author' => $author,
         ]);
     }
 }

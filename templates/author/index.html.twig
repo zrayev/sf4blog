@@ -1,0 +1,24 @@
+{% extends 'admin-index.html.twig' %}
+{% block title %}
+    Authors
+{% endblock %}
+{% block contentName %}
+    Authors
+    <a href="{{- path('author_new') -}}" class="btn btn-secondary btn-sm active" role="button">new</a>
+{% endblock %}
+
+{% block items %}
+    {% for key,item in authors %}
+        <tr>
+            <td>{{ key + 1 }}</td>
+            <td>{{ item.name }}</td>
+            <td>
+                <a href="{{- path('author_edit', {id: item.id}) -}}" class="btn btn-secondary btn-sm active" role="button">edit</a>
+            </td>
+        <tr>
+    {% endfor %}
+{% endblock %}
+
+{% block pagination %}
+    {{ knp_pagination_render(authors) }}
+{% endblock %}

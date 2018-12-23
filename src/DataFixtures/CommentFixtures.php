@@ -19,12 +19,14 @@ class CommentFixtures extends Fixture implements OrderedFixtureInterface
         $faker = Factory::create();
         for ($i = 0; $i < 20; ++$i) {
             $comment = new Comment();
-            $comment->setTitle($faker->name);
+            $comment->setTitle($faker->sentence($nbWords = 3, $variableNbWords = true));
             $comment->setBody($faker->realText($maxNbChars = 200, $indexSize = 2));
+            $comment->setAuthorName($faker->firstName);
             $manager->persist($comment);
         }
 
         $manager->flush();
+        $this->addReference('comment', $comment);
     }
 
     public function getOrder()

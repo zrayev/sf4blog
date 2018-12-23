@@ -1,0 +1,16 @@
+{% extends 'admin-index.html.twig' %}
+{% block title %}
+    Tags
+{% endblock %}
+{% block contentName %}
+    Tags
+    <a href="{{- path('tag_new') -}}" class="btn btn-secondary btn-sm active" role="button">new</a>
+{% endblock %}
+
+{% block items %}
+    {% include 'layouts/_table.html.twig' with {'items' : tags, 'page' : 'tag_edit'} only %}
+{% endblock %}
+
+{% block pagination %}
+    {{ knp_pagination_render(tags) }}
+{% endblock %}

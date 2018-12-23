@@ -1,0 +1,16 @@
+{% extends 'admin-index.html.twig' %}
+{% block title %}
+    Categories
+{% endblock %}
+{% block contentName %}
+    Categories
+    <a href="{{- path('category_new') -}}" class="btn btn-secondary btn-sm active" role="button">new</a>
+{% endblock %}
+
+{% block items %}
+    {% include 'layouts/_table.html.twig' with {'items' : categories, 'page' : 'category_edit'} only %}
+{% endblock %}
+
+{% block pagination %}
+    {{ knp_pagination_render(categories) }}
+{% endblock %}

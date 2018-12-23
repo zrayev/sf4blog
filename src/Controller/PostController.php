@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Post;
+use App\Form\CommentType;
 use App\Form\PostType;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -102,5 +104,69 @@ class PostController extends AbstractController
             'form' => $form->createView(),
             'post' => $post,
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @ParamConverter("post", options={"mapping" : {"postSlug" : "slug"}})
+     * @param Post $post
+     * @return Response
+     */
+    public function commentNew(Request $request, Post $post): Response
+    {
+        $comment = new Comment();
+        $post->addComment($comment);
+
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+            $this->addFlash(
+                'notice',
+                'Your comment with title - ' . $comment->getTitle() . ' were saved!'
+            );
+
+            return $this->redirectToRoute('post_show', [
+                'slug' => $post->getSlug(), ]);
+        }
+
+        return $this->render('comment/new.html.twig', [
+            'post' => $post,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    public function commentForm(Post $post): Response
+    {
+        $form = $this->createForm(CommentType::class);
+
+        return $this->render('comment/new.html.twig', [
+            'post' => $post,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @param Post $post
+     * @ParamConverter("post", class="App:Post")
+     *
+     * @return Response
+     */
+    public function delete(Post $post): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $post->getTags()->clear();
+        $post->getComments()->clear();
+        $em->remove($post);
+        $em->flush();
+        $this->addFlash(
+            'notice',
+            'Your post deleted!'
+        );
+
+        return $this->redirectToRoute('blog');
     }
 }

@@ -55,7 +55,7 @@ class Post
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post", orphanRemoval=true, cascade={"persist"})
      */
     private $comments;
 
@@ -234,17 +234,26 @@ class Post
      */
     public function addComment(Comment $comment): self
     {
-        $this->comments[] = $comment;
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setPost($this);
+        }
 
         return $this;
     }
 
     /**
      * @param Comment $comment
+     *
+     * @return Post
      */
-    public function removeComment(Comment $comment): void
+    public function removeComment(Comment $comment): self
     {
-        $this->comments->removeElement($comment);
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+        }
+
+        return $this;
     }
 
     /**

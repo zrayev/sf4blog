@@ -1,11 +1,6 @@
-{% extends 'base.html.twig' %}
-{% block title %}
-  Create comment
-{% endblock %}
-{% block content %}
-  <h1 class="text-center">Create comment</h1>
-  {{ parent() }}
-  {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class':'comment-form'}}) }}
-  {{ form_widget(form) }}
-  {{ form_end(form) }}
-{% endblock %}
+<h4>Leave comment</h4>
+{{ form_start(form, {method: 'POST',
+    action: path('comment_new', {'postSlug': post.slug})},
+    {'attr': {'novalidate': 'novalidate', 'class':'comment-form'}}) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}

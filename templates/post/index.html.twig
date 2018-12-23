@@ -3,7 +3,9 @@
 {% block title %}Blog{% endblock %}
 
 {% block content %}
-    <h1 class="text-center">Blog</h1>
+    <h1 class="text-center">Blog
+        <a href="{{- path('post_new') -}}" class="btn btn-secondary btn-sm active" role="button">new post</a>
+    </h1>
     {% if posts is defined %}
         <div class="posts">
             <div class="row">
