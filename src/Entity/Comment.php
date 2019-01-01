@@ -34,6 +34,11 @@ class Comment
     private $post;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $authorName;
+
+    /**
      * @var DateTime
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
@@ -151,6 +156,26 @@ class Comment
     public function setModifiedAt(DateTime $modifiedAt): self
     {
         $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthorName(): ?string
+    {
+        return $this->authorName;
+    }
+
+    /**
+     * @param string $authorName
+     *
+     * @return Comment
+     */
+    public function setAuthorName(string $authorName): self
+    {
+        $this->authorName = $authorName;
 
         return $this;
     }

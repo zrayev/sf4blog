@@ -14,13 +14,21 @@ post_show:
     path: /post/{slug}
     controller: App\Controller\PostController::show
 
+post_delete:
+    path: /post/{slug}/delete
+    controller: App\Controller\PostController::delete
+
 author_new:
     path: /author/new
     controller: App\Controller\AuthorController::new
 
-author_show:
-    path: /author/{slug}
-    controller: App\Controller\AuthorController::index
+author_edit:
+    path: /author/edit/{id}
+    controller: App\Controller\AuthorController::edit
+
+authors:
+    path: /authors
+    controller: App\Controller\AuthorController:index
 
 post_edit:
     path: /post/edit/{slug}
@@ -30,17 +38,21 @@ category_new:
     path: /category/new
     controller: App\Controller\CategoryController::new
 
+category_edit:
+    path: /category/edit/{slug}
+    controller: App\Controller\CategoryController::edit
+
+categories:
+    path: /categories
+    controller: App\Controller\CategoryController::index
+
 category_show:
     path: /category/{slug}
     controller: App\Controller\CategoryController::index
 
 comment_new:
-    path: /comment/new
-    controller: App\Controller\CommentController::new
-
-comment_show:
-    path: /comment/{slug}
-    controller: App\Controller\CommentController::index
+    path: /comment/{postSlug}/new
+    controller: App\Controller\PostController::commentNew
 
 tag_new:
     path: /tag/new
@@ -49,3 +61,11 @@ tag_new:
 tag_show:
     path: /tag/{slug}
     controller: App\Controller\TagController::index
+
+tags:
+    path: /tags
+    controller: App\Controller\TagController::index
+
+tag_edit:
+    path: /tag/edit/{slug}
+    controller: App\Controller\TagController::edit

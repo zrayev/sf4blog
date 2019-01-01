@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+{% endblock %}
+{% block content %}
+    <h1 class="text-center">
+        {% block contentName %}
+        {% endblock %}
+    </h1>
+    <div class="items">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            {% block items %}
+            {% endblock %}
+        </table>
+        <div class="navigation pagination justify-content-center mb-4">
+            {% block pagination %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

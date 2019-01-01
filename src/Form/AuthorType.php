@@ -15,7 +15,7 @@ class AuthorType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('save', SubmitType::class, ['label' => 'Create Author', 'attr' => ['class' => 'btn btn-default pull-right']])
+            ->add('save', SubmitType::class, ['label' => 'Save', 'attr' => ['class' => 'btn btn-default pull-right']])
         ;
     }
 

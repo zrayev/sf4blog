@@ -55,7 +55,7 @@ class Post
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post", orphanRemoval=true)
      */
     private $comments;
 
@@ -66,7 +66,7 @@ class Post
     private $slug;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="posts")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="posts", cascade={"persist", "remove"})
      */
     private $tags;
 
@@ -83,6 +83,15 @@ class Post
      * @ORM\Column(type="datetime")
      */
     private $modifiedAt;
+
+    /**
+     * @var Author
+     *
+     * @Gedmo\Blameable(on="change", field={"title", "body"})
+     * @ORM\ManyToOne(targetEntity="Author")
+     * @ORM\JoinColumn(name="modified_by", referencedColumnName="id")
+     */
+    private $modifiedBy;
 
     public function __construct()
     {
@@ -225,17 +234,26 @@ class Post
      */
     public function addComment(Comment $comment): self
     {
-        $this->comments[] = $comment;
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setPost($this);
+        }
 
         return $this;
     }
 
     /**
      * @param Comment $comment
+     *
+     * @return Post
      */
-    public function removeComment(Comment $comment): void
+    public function removeComment(Comment $comment): self
     {
-        $this->comments->removeElement($comment);
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+        }
+
+        return $this;
     }
 
     /**
@@ -333,5 +351,13 @@ class Post
         $this->modifiedAt = $modifiedAt;
 
         return $this;
+    }
+
+    /**
+     * @return Author
+     */
+    public function getModifiedBy(): Author
+    {
+        return $this->modifiedBy;
     }
 }

@@ -103,7 +103,6 @@ class Tag
      */
     public function addPost(Post $post): self
     {
-        $post->addTag($this);
         $this->posts[] = $post;
 
         return $this;

@@ -15,7 +15,7 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('title', TextType::class)
-            ->add('save', SubmitType::class, ['label' => 'Create Category', 'attr' => ['class' => 'btn btn-default pull-right']])
+            ->add('save', SubmitType::class, ['label' => 'Save', 'attr' => ['class' => 'btn btn-default pull-right']])
         ;
     }
 

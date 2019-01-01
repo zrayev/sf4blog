@@ -33,7 +33,7 @@ class Author
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="author", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="author")
      */
     private $posts;
 

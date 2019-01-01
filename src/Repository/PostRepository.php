@@ -30,9 +30,7 @@ class PostRepository extends ServiceEntityRepository
             ->andWhere('p.status = :val')
             ->setParameter('val', $status)
             ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
         ;
     }
 }
