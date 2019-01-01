@@ -8,15 +8,19 @@
 {% endblock %}
 
 {% block items %}
-    {% for key,item in authors %}
+    {% if authors|length == 0 %}
+    <p class="text-center">Authors not found.</p>
+    {% else %}
+    {% for author in authors %}
         <tr>
-            <td>{{ key + 1 }}</td>
-            <td>{{ item.name }}</td>
+            <td>{{ loop.index }}</td>
+            <td>{{ author.name }}</td>
             <td>
-                <a href="{{- path('author_edit', {id: item.id}) -}}" class="btn btn-secondary btn-sm active" role="button">edit</a>
+                <a href="{{- path('author_edit', {id: author.id}) -}}" class="btn btn-secondary btn-sm active" role="button">edit</a>
             </td>
         <tr>
     {% endfor %}
+    {% endif %}
 {% endblock %}
 
 {% block pagination %}

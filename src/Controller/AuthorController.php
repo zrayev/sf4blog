@@ -16,14 +16,7 @@ class AuthorController extends AbstractController
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $authors = $em->getRepository(Author::class)->getAuthors();
-
-        if (!$authors) {
-            return $this->render('tag/index.html.twig', [
-                'message' => 'Authors not found.',
-            ]);
-        }
-
+        $authors = $em->getRepository(Author::class)->findAll();
         $paginateAuthors = $paginator->paginate($authors, $request->query->getInt('page', 1), 10);
 
         return $this->render('author/index.html.twig', [
@@ -69,13 +62,11 @@ class AuthorController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(AuthorType::class, $author);
-        if ($request->getMethod() === 'POST') {
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                $em->flush();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
 
-                return $this->redirectToRoute('authors');
-            }
+            return $this->redirectToRoute('authors');
         }
 
         return $this->render('author/edit.html.twig', [

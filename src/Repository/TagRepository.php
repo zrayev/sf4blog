@@ -18,12 +18,4 @@ class TagRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Tag::class);
     }
-
-    public function getTags()
-    {
-        return $this->createQueryBuilder('p')
-            ->orderBy('p.id', 'ASC')
-            ->getQuery()
-        ;
-    }
 }

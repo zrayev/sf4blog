@@ -16,14 +16,7 @@ class CategoryController extends AbstractController
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $categories = $em->getRepository(Category::class)->getCategories();
-
-        if (!$categories) {
-            return $this->render('category/index.html.twig', [
-                'message' => 'Categories not found. You can will create new category.',
-            ]);
-        }
-
+        $categories = $em->getRepository(Category::class)->findAll();
         $paginateCategories = $paginator->paginate($categories, $request->query->getInt('page', 1), 10);
 
         return $this->render('category/index.html.twig', [
@@ -69,13 +62,11 @@ class CategoryController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(CategoryType::class, $category);
-        if ($request->getMethod() === 'POST') {
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                $em->flush();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
 
-                return $this->redirectToRoute('categories');
-            }
+            return $this->redirectToRoute('categories');
         }
 
         return $this->render('category/edit.html.twig', [

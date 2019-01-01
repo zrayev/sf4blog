@@ -16,14 +16,7 @@ class TagController extends AbstractController
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $tags = $em->getRepository(Tag::class)->getTags();
-
-        if (!$tags) {
-            return $this->render('tag/index.html.twig', [
-                'message' => 'Tags not found. You can will create new tag.',
-            ]);
-        }
-
+        $tags = $em->getRepository(Tag::class)->findAll();
         $paginateTags = $paginator->paginate($tags, $request->query->getInt('page', 1), 10);
 
         return $this->render('tag/index.html.twig', [
@@ -69,13 +62,11 @@ class TagController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(TagType::class, $tag);
-        if ($request->getMethod() === 'POST') {
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                $em->flush();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
 
-                return $this->redirectToRoute('tags');
-            }
+            return $this->redirectToRoute('tags');
         }
 
         return $this->render('tag/edit.html.twig', [

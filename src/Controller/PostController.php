@@ -26,13 +26,6 @@ class PostController extends AbstractController
         $status = Post::STATUS_PUBLISH;
         $em = $this->getDoctrine()->getManager();
         $posts = $em->getRepository(Post::class)->findAllPublishArticles($status);
-
-        if (!$posts) {
-            return $this->render('post/index.html.twig', [
-                'message' => 'Articles not found. You can will create new article.',
-            ]);
-        }
-
         $blogPosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 9);
 
         return $this->render('post/index.html.twig', [
@@ -91,13 +84,11 @@ class PostController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(PostType::class, $post);
-        if ($request->getMethod() === 'POST') {
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                $em->flush();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
 
-                return $this->redirectToRoute('blog');
-            }
+            return $this->redirectToRoute('blog');
         }
 
         return $this->render('post/edit.html.twig', [

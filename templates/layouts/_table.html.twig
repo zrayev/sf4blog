@@ -1,6 +1,6 @@
-{% for key,item in items %}
+{% for item in items %}
     <tr>
-        <td>{{ key + 1 }}</td>
+        <td>{{ loop.index }}</td>
         <td>{{ item.title }}</td>
         <td>
             <a href="{{- path(page, {slug: item.slug}) -}}" class="btn btn-secondary btn-sm active" role="button">edit</a>

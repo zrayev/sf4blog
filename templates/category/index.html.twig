@@ -8,7 +8,11 @@
 {% endblock %}
 
 {% block items %}
+    {% if categories|length == 0 %}
+        <p class="text-center">Categories not found. You can will create new category.</p>
+    {% else %}
     {% include 'layouts/_table.html.twig' with {'items' : categories, 'page' : 'category_edit'} only %}
+    {% endif %}
 {% endblock %}
 
 {% block pagination %}
