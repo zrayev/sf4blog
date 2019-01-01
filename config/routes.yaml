@@ -1,6 +1,6 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+    path: /
+    controller: App\Controller\PostController::index
 
 blog:
     path: /blog
@@ -69,3 +69,10 @@ tags:
 tag_edit:
     path: /tag/edit/{slug}
     controller: App\Controller\TagController::edit
+
+logout:
+    path: /logout
+
+login:
+    path: /login
+    controller: App\Controller\SecurityController::login

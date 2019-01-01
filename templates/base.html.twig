@@ -18,6 +18,18 @@
   </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
         {{ knp_menu_render('nav', {'currentClass': 'active'}) }}
+        <ul class="nav navbar-nav navbar-right">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <li class="mr-4 text-light">{{ app.user.username }} </li>
+                <li>
+                    <a href="{{ path('logout') }}" class="text-light">Logout</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{ path('login') }}" class="text-light">Login</a>
+                </li>
+            {% endif %}
+        </ul>
     </div>
   </div>
   </nav>
