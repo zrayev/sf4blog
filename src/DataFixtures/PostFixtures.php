@@ -23,7 +23,7 @@ class PostFixtures extends Fixture implements OrderedFixtureInterface
             $post->setDescription($faker->realText($maxNbChars = 120, $indexSize = 2));
             $post->setBody($faker->realText($maxNbChars = 1600, $indexSize = 2));
             $post->setStatus(random_int(0, 2));
-            $post->setAuthor($this->getReference('author'));
+            $post->setAuthor($this->getReference('user.admin'));
             $post->setCategory($this->getReference('category'));
             $post->addTag($this->getReference('tag'));
             $post->addComment($this->getReference('comment'));

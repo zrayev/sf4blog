@@ -30,7 +30,6 @@ class Builder
         $menu->addChild('Posts', ['route' => 'blog']);
         $menu->addChild('Categories', ['route' => 'categories']);
         $menu->addChild('Tags', ['route' => 'tags']);
-        $menu->addChild('Authors', ['route' => 'authors']);
 
         foreach ($menu as $child) {
             $child->setLinkAttribute('class', 'nav-link')

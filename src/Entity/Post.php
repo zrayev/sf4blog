@@ -45,7 +45,7 @@ class Post
     private $status;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Author", inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
      */
     private $author;
 
@@ -85,10 +85,10 @@ class Post
     private $modifiedAt;
 
     /**
-     * @var Author
+     * @var User
      *
      * @Gedmo\Blameable(on="change", field={"title", "body"})
-     * @ORM\ManyToOne(targetEntity="Author")
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="modified_by", referencedColumnName="id")
      */
     private $modifiedBy;
@@ -188,19 +188,19 @@ class Post
     }
 
     /**
-     * @return Author
+     * @return User
      */
-    public function getAuthor(): ?Author
+    public function getAuthor(): ?User
     {
         return $this->author;
     }
 
     /**
-     * @param Author $author
+     * @param User $author
      *
      * @return Post
      */
-    public function setAuthor(Author $author): self
+    public function setAuthor(User $author): self
     {
         $this->author = $author;
 

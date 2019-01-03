@@ -6,7 +6,7 @@
             {% block left %}
                 <h1 class="text-center pb-4"> {{ post.title }} </h1>
                 <p> {{ post.body }} </p>
-                Posted on {{ post.createdAt|date('Y-m-d') }} by <a href="#">{{ post.author.name }}</a> <br>
+                Posted on {{ post.createdAt|date('Y-m-d') }} by <a href="#">{{ post.author.username }}</a> <br>
                 Category: {{ post.category.title }} <br>
                 Tags:
                 {% for tag in post.tags %}

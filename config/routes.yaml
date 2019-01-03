@@ -18,18 +18,6 @@ post_delete:
     path: /post/{slug}/delete
     controller: App\Controller\PostController::delete
 
-author_new:
-    path: /author/new
-    controller: App\Controller\AuthorController::new
-
-author_edit:
-    path: /author/edit/{id}
-    controller: App\Controller\AuthorController::edit
-
-authors:
-    path: /authors
-    controller: App\Controller\AuthorController:index
-
 post_edit:
     path: /post/edit/{slug}
     controller: App\Controller\PostController::edit
@@ -73,6 +61,6 @@ tag_edit:
 logout:
     path: /logout
 
-login:
+app_login:
     path: /login
     controller: App\Controller\SecurityController::login
