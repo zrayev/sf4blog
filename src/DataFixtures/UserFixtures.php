@@ -55,6 +55,23 @@ class UserFixtures extends Fixture
         $this->addReference('user.superadmin', $user);
         unset($user);
 
+        $user = new User();
+        $user->setUsername('user');
+        $user->setFirstName('John');
+        $user->setLastName('Doe');
+        $user->setEmail('user@example.com');
+        $user->setRoles(['ROLE_USER']);
+        $user->setEnabled(true);
+        $user->setPassword($this->passwordEncoder->encodePassword(
+            $user,
+            $testPassword
+        ));
+
+        $manager->persist($user);
+        $manager->flush();
+        $this->addReference('user', $user);
+        unset($user);
+
         $faker = Factory::create();
         for ($i = 0; $i < 5; ++$i) {
             $user = new User();

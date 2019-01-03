@@ -40,6 +40,7 @@ class PostController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $post = new Post();
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(PostType::class, $post);
@@ -82,6 +83,15 @@ class PostController extends AbstractController
      */
     public function edit(Request $request, Post $post)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if ($post->getAuthor() !== $this->getUser()) {
+            $this->addFlash(
+                'notice',
+                'You don\'t have permission for this operation!'
+            );
+
+            return $this->redirectToRoute('blog');
+        }
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
@@ -148,6 +158,15 @@ class PostController extends AbstractController
      */
     public function delete(Post $post): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if ($post->getAuthor() !== $this->getUser()) {
+            $this->addFlash(
+                'notice',
+                'You don\'t have permission for this operation!'
+            );
+
+            return $this->redirectToRoute('blog');
+        }
         $em = $this->getDoctrine()->getManager();
         $post->getTags()->clear();
         $post->getComments()->clear();

@@ -22,7 +22,7 @@
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 <li class="mr-4 text-light">{{ app.user.username }} </li>
                 <li>
-                    <a href="{{ path('app_logout') }}" class="text-light">Logout</a>
+                    <a href="{{ path('logout') }}" class="text-light">Logout</a>
                 </li>
             {% else %}
                 <li>

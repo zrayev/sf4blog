@@ -354,9 +354,9 @@ class Post
     }
 
     /**
-     * @return Author
+     * @return User
      */
-    public function getModifiedBy(): Author
+    public function getModifiedBy(): User
     {
         return $this->modifiedBy;
     }
