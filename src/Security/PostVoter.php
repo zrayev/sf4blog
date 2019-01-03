@@ -48,7 +48,7 @@ class PostVoter extends Voter
             return false;
         }
 
-        // ROLE_SUPER_ADMIN can all posts
+        // ROLE_SUPER_ADMIN can edit all posts
         if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
             return true;
         }
