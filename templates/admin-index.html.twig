@@ -12,7 +12,9 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Actions</th>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <th scope="col">Actions</th>
+                    {% endif %}
                 </tr>
             </thead>
             {% block items %}

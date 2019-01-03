@@ -4,7 +4,9 @@
 {% endblock %}
 {% block contentName %}
     Categories
-    <a href="{{- path('category_new') -}}" class="btn btn-secondary btn-sm active" role="button">new</a>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a href="{{- path('category_new') -}}" class="btn btn-secondary btn-sm active" role="button">new</a>
+    {% endif %}
 {% endblock %}
 
 {% block items %}

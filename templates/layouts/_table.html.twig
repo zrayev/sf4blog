@@ -2,8 +2,10 @@
     <tr>
         <td>{{ loop.index }}</td>
         <td>{{ item.title }}</td>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <td>
             <a href="{{- path(page, {slug: item.slug}) -}}" class="btn btn-secondary btn-sm active" role="button">edit</a>
         </td>
+        {% endif %}
     <tr>
 {% endfor %}
