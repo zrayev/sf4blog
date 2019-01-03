@@ -58,7 +58,7 @@ tag_edit:
     path: /tag/edit/{slug}
     controller: App\Controller\TagController::edit
 
-logout:
+app_logout:
     path: /logout
 
 app_login:
