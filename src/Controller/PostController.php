@@ -83,15 +83,7 @@ class PostController extends AbstractController
      */
     public function edit(Request $request, Post $post)
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        if ($post->getAuthor() !== $this->getUser()) {
-            $this->addFlash(
-                'notice',
-                'You don\'t have permission for this operation!'
-            );
-
-            return $this->redirectToRoute('blog');
-        }
+        $this->denyAccessUnlessGranted('edit', $post);
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
