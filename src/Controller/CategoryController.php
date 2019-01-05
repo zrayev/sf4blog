@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CategoryController extends AbstractController
 {
@@ -26,10 +27,11 @@ class CategoryController extends AbstractController
 
     /**
      * @param Request $request
+     * @param TranslatorInterface $translator
      *
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, TranslatorInterface $translator): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $category = new Category();
@@ -41,7 +43,7 @@ class CategoryController extends AbstractController
             $em->flush();
             $this->addFlash(
                 'notice',
-                'Your category with title - ' . $category->getTitle() . ' were saved!'
+                $translator->trans('Your category with title') . ' - ' . $category->getTitle() . $translator->trans('were saved') . '!'
             );
 
             return $this->redirectToRoute('category_new');

@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TagController extends AbstractController
 {
@@ -26,10 +27,11 @@ class TagController extends AbstractController
 
     /**
      * @param Request $request
+     * @param TranslatorInterface $translator
      *
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, TranslatorInterface $translator): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $tag = new Tag();
@@ -41,7 +43,7 @@ class TagController extends AbstractController
             $em->flush();
             $this->addFlash(
                 'notice',
-                'Your tag  with title - ' . $tag->getTitle() . ' were saved!'
+                $translator->trans('Your tag  with title') . ' - ' . $tag->getTitle() . $translator->trans('were saved') . '!'
             );
 
             return $this->redirectToRoute('tag_new');

@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 {% block title %}
-    Edit post
+    {{ 'Edit post'|trans }}
 {% endblock %}
 {% block content %}
-    <h1 class="text-center">Edit post</h1>
+    <h1 class="text-center">{{ 'Edit post'|trans }}</h1>
     {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class':'post-form'}}) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}

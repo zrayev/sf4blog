@@ -1,0 +1,30 @@
+Actions: Операції
+Tags: Теги
+new: створити
+'Tags not found': 'Теги не знайдені'
+'You can will create new tag': 'Ви можете створити новий тег'
+'Edit tag': 'Редагувати тег'
+'Create tag': 'Створити тег'
+'Log in': Логін
+Password: пароль
+Blog: Блог
+'new post': 'новий пост'
+'Posts not found': 'Постів не знайдено'
+'You can will create new post': 'Ви можете створити новий пост'
+'Edit post': 'Редагувати пост'
+'Create post': 'Сворити пост'
+'Posted on': Опубліковано
+by: автором
+Category: Категорія
+Comments: Коментарі
+Show: Перегляд
+Edit: Редагувати
+Delete: Видалити
+edit: редагувати
+'Leave comment': 'Залишити коментар'
+Categories: Категорії
+'Categories not found': 'Категорій не знайдено'
+'You can will create new category': 'Ви можете створити нову категорію'
+'Edit category': 'Редагувати категорію'
+'Create category': 'Створити категорію'
+Name: Назва

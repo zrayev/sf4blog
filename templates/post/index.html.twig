@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Blog{% endblock %}
+{% block title %}{{ 'Blog'|trans }}{% endblock %}
 
 {% block content %}
-    <h1 class="text-center">Blog
+    <h1 class="text-center">{{ 'Blog'|trans }}
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <a href="{{- path('post_new') -}}" class="btn btn-secondary btn-sm active" role="button">new post</a>
+            <a href="{{- path('post_new') -}}" class="btn btn-secondary btn-sm active" role="button">{{ 'new post'|trans }}</a>
         {% endif %}
     </h1>
     {% if posts|length == 0 %}
-        <p class="text-center">Posts not found. You can will create new post.</p>
+        <p class="text-center">{{ 'Posts not found'|trans }}. {{ 'You can will create new post'|trans }}.</p>
     {% else %}
         <div class="posts">
             <div class="row">

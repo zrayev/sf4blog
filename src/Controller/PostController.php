@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PostController extends AbstractController
 {
@@ -35,10 +36,11 @@ class PostController extends AbstractController
 
     /**
      * @param Request $request
+     * @param TranslatorInterface $translator
      *
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, TranslatorInterface $translator): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $post = new Post();
@@ -50,7 +52,7 @@ class PostController extends AbstractController
             $em->flush();
             $this->addFlash(
                 'notice',
-                'Your post  with title - ' . $post->getTitle() . ' were saved!'
+                $translator->trans('Your post  with title') . ' - ' . $post->getTitle() . $translator->trans('were saved') . '!'
             );
 
             return $this->redirectToRoute('blog');
@@ -101,11 +103,13 @@ class PostController extends AbstractController
 
     /**
      * @param Request $request
-     * @ParamConverter("post", options={"mapping" : {"postSlug" : "slug"}})
      * @param Post $post
+     * @param TranslatorInterface $translator
+     *
      * @return Response
+     * @ParamConverter("post", options={"mapping" : {"postSlug" : "slug"}})
      */
-    public function commentNew(Request $request, Post $post): Response
+    public function commentNew(Request $request, Post $post, TranslatorInterface $translator): Response
     {
         $comment = new Comment();
         $post->addComment($comment);
@@ -119,7 +123,7 @@ class PostController extends AbstractController
             $em->flush();
             $this->addFlash(
                 'notice',
-                'Your comment with title - ' . $comment->getTitle() . ' were saved!'
+                $translator->trans('Your comment with title') . ' - ' . $comment->getTitle() . $translator->trans('were saved') . '!'
             );
 
             return $this->redirectToRoute('post_show', [
@@ -144,11 +148,12 @@ class PostController extends AbstractController
 
     /**
      * @param Post $post
-     * @ParamConverter("post", class="App:Post")
+     * @param TranslatorInterface $translator
      *
      * @return Response
+     * @ParamConverter("post", class="App:Post")
      */
-    public function delete(Post $post): Response
+    public function delete(Post $post, TranslatorInterface $translator): Response
     {
         $this->denyAccessUnlessGranted('delete', $post);
         $em = $this->getDoctrine()->getManager();
@@ -158,7 +163,7 @@ class PostController extends AbstractController
         $em->flush();
         $this->addFlash(
             'notice',
-            'Your post deleted!'
+            $translator->trans('Your post deleted') . '!'
         );
 
         return $this->redirectToRoute('blog');

@@ -6,16 +6,16 @@
             {% block left %}
                 <h1 class="text-center pb-4"> {{ post.title }} </h1>
                 <p> {{ post.body }} </p>
-                Posted on {{ post.createdAt|date('Y-m-d') }} by <a href="#">{{ post.author.username }}</a> <br>
-                Category: {{ post.category.title }} <br>
-                Tags:
+                {{ 'Posted on'|trans }} {{ post.createdAt|date('Y-m-d') }} {{ 'by'|trans }} <a href="#">{{ post.author.username }}</a> <br>
+                {{ 'Category'|trans }}: {{ post.category.title }} <br>
+                {{ 'Tags'|trans }}:
                 {% for tag in post.tags %}
                     <a href="{{- path('tag_show', {slug: tag.slug}) -}}" class="btn btn-outline-primary btn-sm">{{ tag.title }}</a>
                 {% endfor %}
 
                 {{ render(controller('App\\Controller\\PostController::commentForm', {'id': post.id})) }}
                 {% if post.comments|length > 0 %}
-                    <h4>Comments: </h4>
+                    <h4>{{ 'Comments'|trans }}: </h4>
                 {% endif %}
                 {% for comment in post.comments %}
                     <p>commented <b>{{ comment.authorName }}</b> at {{ comment.createdAt | date("Y-m-d") }}</p>
