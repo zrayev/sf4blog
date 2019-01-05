@@ -35,5 +35,5 @@ notification.comment_created: 'Коментар "%title%" успішно ств�
 notification.post_created: 'Статтю "%title%" успішно створено!'
 notification.post_edited: 'Статтю "%title%" успішно збережено!'
 notification.post_deleted: 'Ваш пост успішно видалено!'
-'Posted on %createdAt% by %username%': 'Posted on %createdAt% by %username%'
+'Posted on %createdAt% by %username%': 'Створено %createdAt% автор %username%'
 '{1} Comment|]1,Inf[ Comments': '{1} Коментарій|]1,Inf[ Коментарі'
