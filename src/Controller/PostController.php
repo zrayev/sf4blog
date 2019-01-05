@@ -16,6 +16,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PostController extends AbstractController
 {
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /**
      * @param Request $request
      * @param PaginatorInterface $paginator
@@ -36,11 +43,10 @@ class PostController extends AbstractController
 
     /**
      * @param Request $request
-     * @param TranslatorInterface $translator
      *
      * @return Response
      */
-    public function new(Request $request, TranslatorInterface $translator): Response
+    public function new(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $post = new Post();
@@ -52,7 +58,9 @@ class PostController extends AbstractController
             $em->flush();
             $this->addFlash(
                 'notice',
-                $translator->trans('Your post  with title') . ' - ' . $post->getTitle() . $translator->trans('were saved') . '!'
+                $this->translator->trans('notification.post_created', [
+                    '%title%' => $post->getTitle(),
+                ])
             );
 
             return $this->redirectToRoute('blog');
@@ -91,6 +99,12 @@ class PostController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
+            $this->addFlash(
+                'notice',
+                $this->translator->trans('notification.post_edited', [
+                    '%title%' => $post->getTitle(),
+                ])
+            );
 
             return $this->redirectToRoute('blog');
         }
@@ -104,12 +118,11 @@ class PostController extends AbstractController
     /**
      * @param Request $request
      * @param Post $post
-     * @param TranslatorInterface $translator
      *
      * @return Response
      * @ParamConverter("post", options={"mapping" : {"postSlug" : "slug"}})
      */
-    public function commentNew(Request $request, Post $post, TranslatorInterface $translator): Response
+    public function commentNew(Request $request, Post $post): Response
     {
         $comment = new Comment();
         $post->addComment($comment);
@@ -123,7 +136,9 @@ class PostController extends AbstractController
             $em->flush();
             $this->addFlash(
                 'notice',
-                $translator->trans('Your comment with title') . ' - ' . $comment->getTitle() . $translator->trans('were saved') . '!'
+                $this->translator->trans('notification.comment_created', [
+                    '%title%' => $comment->getTitle(),
+                ])
             );
 
             return $this->redirectToRoute('post_show', [
@@ -163,7 +178,7 @@ class PostController extends AbstractController
         $em->flush();
         $this->addFlash(
             'notice',
-            $translator->trans('Your post deleted') . '!'
+            $this->translator->trans('notification.post_deleted')
         );
 
         return $this->redirectToRoute('blog');

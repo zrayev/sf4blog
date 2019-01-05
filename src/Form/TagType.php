@@ -14,8 +14,10 @@ class TagType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class)
-            ->add('save', SubmitType::class, ['label' => 'Save', 'attr' => ['class' => 'btn btn-default pull-right']])
+            ->add('title', TextType::class, [
+                'label' => 'label.title',
+            ])
+            ->add('save', SubmitType::class, ['label' => 'label.save', 'attr' => ['class' => 'btn btn-default pull-right']])
         ;
     }
 
@@ -23,6 +25,7 @@ class TagType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Tag::class,
+            'translation_domain' => 'forms',
         ]);
     }
 }

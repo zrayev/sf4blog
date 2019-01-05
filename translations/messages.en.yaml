@@ -1,0 +1,39 @@
+notification.tag_created: 'Your tag with title "%title%" were created!'
+notification.tag_edited: 'Your tag with title "%title%" were saved!'
+notification.category_created: 'Your category with title "%title%" were created!'
+notification.category_edited: 'Your category with title "%title%" were saved!'
+notification.comment_created: 'Your comment  with title "%title%" were created!'
+notification.post_created: 'Your post  with title "%title%" were created!'
+notification.post_edited: 'Your post  with title "%title%" were saved!'
+notification.post_deleted: 'Your post deleted!'
+Logout: Logout
+Login: Login
+Name: Name
+Actions: Actions
+Tags: Tags
+new: new
+'Tags not found': 'Tags not found'
+'You can will create new tag': 'You can will create new tag'
+'Edit tag': 'Edit tag'
+'Create tag': 'Create tag'
+Blog: Blog
+'new post': 'new post'
+'Posts not found': 'Posts not found'
+'You can will create new post': 'You can will create new post'
+'Edit post': 'Edit post'
+'Create post': 'Create post'
+'Posted on': 'Posted on'
+by: by
+Category: Category
+Comments: Comments
+Show: Show
+Edit: Edit
+Delete: Delete
+edit: edit
+'Leave comment': 'Leave comment'
+Categories: Categories
+'Categories not found': 'Categories not found'
+'You can will create new category': 'You can will create new category'
+'Edit category': 'Edit category'
+'Create category': 'Create category'
+Posts: Posts

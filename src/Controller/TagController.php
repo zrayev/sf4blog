@@ -14,6 +14,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TagController extends AbstractController
 {
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $em = $this->getDoctrine()->getManager();
@@ -27,11 +34,10 @@ class TagController extends AbstractController
 
     /**
      * @param Request $request
-     * @param TranslatorInterface $translator
      *
      * @return Response
      */
-    public function new(Request $request, TranslatorInterface $translator): Response
+    public function new(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $tag = new Tag();
@@ -43,7 +49,9 @@ class TagController extends AbstractController
             $em->flush();
             $this->addFlash(
                 'notice',
-                $translator->trans('Your tag  with title') . ' - ' . $tag->getTitle() . $translator->trans('were saved') . '!'
+                $this->translator->trans('notification.tag_created', [
+                    '%title%' => $tag->getTitle(),
+                ])
             );
 
             return $this->redirectToRoute('tag_new');
@@ -69,6 +77,12 @@ class TagController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
+            $this->addFlash(
+                'notice',
+                $this->translator->trans('notification.tag_edited', [
+                    '%title%' => $tag->getTitle(),
+                ])
+            );
 
             return $this->redirectToRoute('tags');
         }

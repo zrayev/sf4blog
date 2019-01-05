@@ -21,12 +21,20 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class)
-            ->add('description', TextareaType::class)
-            ->add('body', TextareaType::class)
+            ->add('title', TextType::class, [
+                'label' => 'label.title',
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'label.description',
+            ])
+            ->add('body', TextareaType::class, [
+                'label' => 'label.body',
+            ])
             ->add('status', PostWorkflowType::class, [
-                'placeholder' => 'Choose a article status option', ])
+                'label' => 'label.status',
+                'placeholder' => 'placeholder.status', ])
             ->add('author', EntityType::class, [
+                'label' => 'label.authorName',
                 'class' => User::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
@@ -36,11 +44,13 @@ class PostType extends AbstractType
                 'required' => true,
             ])
             ->add('category', EntityType::class, [
+                'label' => 'label.category',
                 'class' => Category::class,
                 'choice_label' => 'title',
                 'required' => true,
             ])
             ->add('tags', EntityType::class, [
+                'label' => 'label.tags',
                 'class' => Tag::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
@@ -51,7 +61,7 @@ class PostType extends AbstractType
                 'expanded' => true,
                 'required' => true,
             ])
-            ->add('save', SubmitType::class, ['label' => 'Save', 'attr' => ['class' => 'btn btn-default pull-right']])
+            ->add('save', SubmitType::class, ['label' => 'label.save', 'attr' => ['class' => 'btn btn-default pull-right']])
         ;
     }
 
@@ -59,6 +69,7 @@ class PostType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Post::class,
+            'translation_domain' => 'forms',
         ]);
     }
 }

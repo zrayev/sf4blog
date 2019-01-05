@@ -5,8 +5,6 @@ new: створити
 'You can will create new tag': 'Ви можете створити новий тег'
 'Edit tag': 'Редагувати тег'
 'Create tag': 'Створити тег'
-'Log in': Логін
-Password: пароль
 Blog: Блог
 'new post': 'новий пост'
 'Posts not found': 'Постів не знайдено'
@@ -28,3 +26,14 @@ Categories: Категорії
 'Edit category': 'Редагувати категорію'
 'Create category': 'Створити категорію'
 Name: Назва
+Logout: Вихід
+Login: Логін
+Posts: Статті
+notification.tag_created: 'Тег "%title%" успішно створено!'
+notification.tag_edited: 'Тег "%title%" успішно збережено!'
+notification.category_created: 'Категорію "%title%" успішно створено!'
+notification.category_edited: 'Категорію "%title%" успішно збережено!'
+notification.comment_created: 'Коментар "%title%" успішно створено!'
+notification.post_created: 'Статтю "%title%" успішно створено!'
+notification.post_edited: 'Статтю "%title%" успішно збережено!'
+notification.post_deleted: 'Ваш пост успішно видалено!'
