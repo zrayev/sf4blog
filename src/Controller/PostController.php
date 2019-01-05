@@ -150,15 +150,7 @@ class PostController extends AbstractController
      */
     public function delete(Post $post): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        if ($post->getAuthor() !== $this->getUser()) {
-            $this->addFlash(
-                'notice',
-                'You don\'t have permission for this operation!'
-            );
-
-            return $this->redirectToRoute('blog');
-        }
+        $this->denyAccessUnlessGranted('delete', $post);
         $em = $this->getDoctrine()->getManager();
         $post->getTags()->clear();
         $post->getComments()->clear();
