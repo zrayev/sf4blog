@@ -11,8 +11,6 @@ Blog: Блог
 'You can will create new post': 'Ви можете створити новий пост'
 'Edit post': 'Редагувати пост'
 'Create post': 'Сворити пост'
-'Posted on': Опубліковано
-by: автором
 Category: Категорія
 Comments: Коментарі
 Show: Перегляд
@@ -37,3 +35,5 @@ notification.comment_created: 'Коментар "%title%" успішно ств�
 notification.post_created: 'Статтю "%title%" успішно створено!'
 notification.post_edited: 'Статтю "%title%" успішно збережено!'
 notification.post_deleted: 'Ваш пост успішно видалено!'
+'Posted on %createdAt% by %username%': 'Posted on %createdAt% by %username%'
+'{1} Comment|]1,Inf[ Comments': '{1} Коментарій|]1,Inf[ Коментарі'

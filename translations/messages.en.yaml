@@ -22,8 +22,6 @@ Blog: Blog
 'You can will create new post': 'You can will create new post'
 'Edit post': 'Edit post'
 'Create post': 'Create post'
-'Posted on': 'Posted on'
-by: by
 Category: Category
 Comments: Comments
 Show: Show
@@ -37,3 +35,5 @@ Categories: Categories
 'Edit category': 'Edit category'
 'Create category': 'Create category'
 Posts: Posts
+'Posted on %createdAt% by %username%': '__Posted on %createdAt% by %username%'
+'{1} Comment|]1,Inf[ Comments': '{1} Comment|]1,Inf[ Comments'

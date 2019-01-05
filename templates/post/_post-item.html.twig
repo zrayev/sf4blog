@@ -13,7 +13,7 @@
         {% endif %}
     </div>
     <div class="card-footer text-muted">
-        {{ 'Posted on'|trans }} {{ post.createdAt|date('Y-m-d') }} {{ 'by'|trans }} <a href="#">{{ post.author.username }}</a> <br>
+        {% trans with {'%createdAt%': post.createdAt|date('Y-m-d'), '%username%': post.author.username} %}Posted on %createdAt% by %username%{% endtrans %} <br>
         {{ 'Category'|trans }}: {{ post.category.title }} <br>
         {{ 'Tags'|trans }}:
           {% for tag in post.tags %}
