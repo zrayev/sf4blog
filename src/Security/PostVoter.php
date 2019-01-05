@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\Security;
 class PostVoter extends Voter
 {
     public const EDIT = 'edit';
+    public const DELETE = 'delete';
     private $security;
 
     public function __construct(Security $security)
@@ -21,7 +22,7 @@ class PostVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        if (!\in_array($attribute, [self::EDIT], true)) {
+        if (!\in_array($attribute, [self::EDIT, self::DELETE], true)) {
             return false;
         }
 
@@ -59,10 +60,19 @@ class PostVoter extends Voter
             return $this->canEdit($post, $user);
         }
 
+        if ($attribute === self::DELETE) {
+            return $this->canDelete($post, $user);
+        }
+
         throw new LogicException('This code should not be reached!');
     }
 
     private function canEdit(Post $post, User $user): bool
+    {
+        return $user === $post->getAuthor();
+    }
+
+    private function canDelete(Post $post, User $user): bool
     {
         return $user === $post->getAuthor();
     }
