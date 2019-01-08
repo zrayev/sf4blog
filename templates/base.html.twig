@@ -18,6 +18,22 @@
   </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
         {{ knp_menu_render('nav', {'currentClass': 'active'}) }}
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{ path('index', {'_locale':'en'}) }}" class="btn">EN</a></li>
+            <li><a href="{{ path('index', {'_locale':'uk'}) }}" class="btn">UA</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <li class="mr-4 text-light">{{ app.user.username }} </li>
+                <li>
+                    <a href="{{ path('logout') }}" class="text-light">{{ 'Logout'|trans }}</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{ path('app_login') }}" class="text-light">{{ 'Login'|trans }}</a>
+                </li>
+            {% endif %}
+        </ul>
     </div>
   </div>
   </nav>

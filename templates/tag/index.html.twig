@@ -1,15 +1,17 @@
 {% extends 'admin-index.html.twig' %}
 {% block title %}
-    Tags
+    {{ 'Tags'|trans }}
 {% endblock %}
 {% block contentName %}
-    Tags
-    <a href="{{- path('tag_new') -}}" class="btn btn-secondary btn-sm active" role="button">new</a>
+    {{ 'Tags'|trans }}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a href="{{- path('tag_new') -}}" class="btn btn-secondary btn-sm active" role="button">{{ 'new'|trans }}</a>
+    {% endif %}
 {% endblock %}
 
 {% block items %}
     {% if tags|length == 0 %}
-        <p class="text-center">Tags not found. You can will create new tag.</p>
+        <p class="text-center">{{ 'Tags not found'|trans }}. {{ 'You can will create new tag'|trans }}.</p>
     {% else %}
     {% include 'layouts/_table.html.twig' with {'items' : tags, 'page' : 'tag_edit'} only %}
     {% endif %}

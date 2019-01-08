@@ -1,0 +1,9 @@
+label.title: Заголовок
+label.save: Зберегти
+label.description: Опис
+label.body: Текст
+label.authorName: Автор
+label.status: Статус
+label.category: Категорія
+label.tags: Теги
+placeholder.status: 'Оберіть статус'

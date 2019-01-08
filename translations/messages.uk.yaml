@@ -1,0 +1,39 @@
+Actions: Операції
+Tags: Теги
+new: створити
+'Tags not found': 'Теги не знайдені'
+'You can will create new tag': 'Ви можете створити новий тег'
+'Edit tag': 'Редагувати тег'
+'Create tag': 'Створити тег'
+Blog: Блог
+'new post': 'новий пост'
+'Posts not found': 'Постів не знайдено'
+'You can will create new post': 'Ви можете створити новий пост'
+'Edit post': 'Редагувати пост'
+'Create post': 'Сворити пост'
+Category: Категорія
+Comments: Коментарі
+Show: Перегляд
+Edit: Редагувати
+Delete: Видалити
+edit: редагувати
+'Leave comment': 'Залишити коментар'
+Categories: Категорії
+'Categories not found': 'Категорій не знайдено'
+'You can will create new category': 'Ви можете створити нову категорію'
+'Edit category': 'Редагувати категорію'
+'Create category': 'Створити категорію'
+Name: Назва
+Logout: Вихід
+Login: Логін
+Posts: Статті
+notification.tag_created: 'Тег "%title%" успішно створено!'
+notification.tag_edited: 'Тег "%title%" успішно збережено!'
+notification.category_created: 'Категорію "%title%" успішно створено!'
+notification.category_edited: 'Категорію "%title%" успішно збережено!'
+notification.comment_created: 'Коментар "%title%" успішно створено!'
+notification.post_created: 'Статтю "%title%" успішно створено!'
+notification.post_edited: 'Статтю "%title%" успішно збережено!'
+notification.post_deleted: 'Ваш пост успішно видалено!'
+'Posted on %createdAt% by %username%': 'Створено %createdAt% автор %username%'
+'{1} Comment|]1,Inf[ Comments': '{1} Коментарій|]1,Inf[ Коментарі'

@@ -27,10 +27,9 @@ class Builder
     {
         $menu = $this->factory->createItem('root');
         $menu->setChildrenAttribute('class', 'navbar-nav mr-auto');
-        $menu->addChild('Blog', ['route' => 'blog']);
+        $menu->addChild('Posts', ['route' => 'blog']);
         $menu->addChild('Categories', ['route' => 'categories']);
         $menu->addChild('Tags', ['route' => 'tags']);
-        $menu->addChild('Authors', ['route' => 'authors']);
 
         foreach ($menu as $child) {
             $child->setLinkAttribute('class', 'nav-link')
