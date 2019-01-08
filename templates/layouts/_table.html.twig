@@ -4,7 +4,7 @@
         <td>{{ item.title }}</td>
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <td>
-            <a href="{{- path(page, {slug: item.slug}) -}}" class="btn btn-secondary btn-sm active" role="button">edit</a>
+            <a href="{{- path(page, {slug: item.slug}) -}}" class="btn btn-secondary btn-sm active" role="button">{{ 'edit'|trans }}</a>
         </td>
         {% endif %}
     <tr>

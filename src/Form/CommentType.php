@@ -15,10 +15,16 @@ class CommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class)
-            ->add('body', TextareaType::class)
-            ->add('authorName', TextType::class)
-            ->add('save', SubmitType::class, ['label' => 'Save', 'attr' => ['class' => 'btn btn-default pull-right']])
+            ->add('title', TextType::class, [
+                'label' => 'label.title',
+            ])
+            ->add('body', TextareaType::class, [
+                'label' => 'label.body',
+            ])
+            ->add('authorName', TextType::class, [
+                'label' => 'label.authorName',
+            ])
+            ->add('save', SubmitType::class, ['label' => 'label.save', 'attr' => ['class' => 'btn btn-default pull-right']])
         ;
     }
 
@@ -26,6 +32,7 @@ class CommentType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Comment::class,
+            'translation_domain' => 'forms',
         ]);
     }
 }

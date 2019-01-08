@@ -10,9 +10,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TagController extends AbstractController
 {
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $em = $this->getDoctrine()->getManager();
@@ -41,7 +49,9 @@ class TagController extends AbstractController
             $em->flush();
             $this->addFlash(
                 'notice',
-                'Your tag  with title - ' . $tag->getTitle() . ' were saved!'
+                $this->translator->trans('notification.tag_created', [
+                    '%title%' => $tag->getTitle(),
+                ])
             );
 
             return $this->redirectToRoute('tag_new');
@@ -67,6 +77,12 @@ class TagController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
+            $this->addFlash(
+                'notice',
+                $this->translator->trans('notification.tag_edited', [
+                    '%title%' => $tag->getTitle(),
+                ])
+            );
 
             return $this->redirectToRoute('tags');
         }

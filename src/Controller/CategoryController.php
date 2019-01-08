@@ -10,9 +10,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CategoryController extends AbstractController
 {
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $em = $this->getDoctrine()->getManager();
@@ -41,7 +49,9 @@ class CategoryController extends AbstractController
             $em->flush();
             $this->addFlash(
                 'notice',
-                'Your category with title - ' . $category->getTitle() . ' were saved!'
+                $this->translator->trans('notification.category_created', [
+                    '%title%' => $category->getTitle(),
+                ])
             );
 
             return $this->redirectToRoute('category_new');
@@ -67,6 +77,12 @@ class CategoryController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
+            $this->addFlash(
+                'notice',
+                $this->translator->trans('notification.category_edited', [
+                    '%title%' => $category->getTitle(),
+                ])
+            );
 
             return $this->redirectToRoute('categories');
         }

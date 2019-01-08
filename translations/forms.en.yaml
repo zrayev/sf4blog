@@ -1,0 +1,9 @@
+label.title: Title
+label.save: Save
+label.description: Description
+label.body: Body
+label.authorName: Author
+label.status: Status
+label.category: Category
+label.tags: Tags
+placeholder.status: 'Choose a article status option'

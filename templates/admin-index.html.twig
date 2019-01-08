@@ -11,9 +11,9 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Name</th>
+                    <th scope="col">{{ 'Name'|trans }}</th>
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ 'Actions'|trans }}</th>
                     {% endif %}
                 </tr>
             </thead>
