@@ -1,0 +1,21 @@
+App\Entity\Comment:
+    properties:
+        title:
+            - NotNull: ~
+            - Length:
+                max: 160
+            - Type:
+                type: string
+        body:
+            - NotNull: ~
+            - Length:
+                max: 1024
+            - Type:
+                type: string
+
+        authorName:
+            -   NotNull: ~
+            -   Length:
+                    max: 64
+            -   Type:
+                    type: string

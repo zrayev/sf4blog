@@ -1,0 +1,8 @@
+{% for key,post in posts|batch(3) %}
+    {% for key,column in post %}
+        <div class="w-100">
+            {% include 'post/_post-item.html.twig' with {'post' : column} only %}
+        </div>
+    {% endfor %}
+    <div class="w-100"></div>
+{% endfor %}

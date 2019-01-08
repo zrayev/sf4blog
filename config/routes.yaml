@@ -1,3 +1,95 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+    path: /{_locale}
+    controller: App\Controller\PostController::index
+    defaults:   { _locale: en }
+    requirements:
+        _locale:  en|uk
+
+blog:
+    path: /{_locale}/blog
+    controller: App\Controller\PostController::index
+    requirements:
+        _locale:  en|uk
+
+post_new:
+    path: /{_locale}/post/new
+    controller: App\Controller\PostController::new
+    requirements:
+        _locale:  en|uk
+
+post_show:
+    path: /{_locale}/post/{slug}
+    controller: App\Controller\PostController::show
+
+post_delete:
+    path: /{_locale}/post/{slug}/delete
+    controller: App\Controller\PostController::delete
+    requirements:
+        _locale:  en|uk
+
+post_edit:
+    path: /{_locale}/post/edit/{slug}
+    controller: App\Controller\PostController::edit
+    requirements:
+        _locale:  en|uk
+
+category_new:
+    path: /{_locale}/category/new
+    controller: App\Controller\CategoryController::new
+    requirements:
+        _locale:  en|uk
+
+category_edit:
+    path: /{_locale}/category/edit/{slug}
+    controller: App\Controller\CategoryController::edit
+    requirements:
+        _locale:  en|uk
+
+categories:
+    path: /{_locale}/categories
+    controller: App\Controller\CategoryController::index
+    requirements:
+        _locale:  en|uk
+
+category_show:
+    path: /{_locale}/category/{slug}
+    controller: App\Controller\CategoryController::index
+    requirements:
+        _locale:  en|uk
+
+comment_new:
+    path: /{_locale}/comment/{postSlug}/new
+    controller: App\Controller\PostController::commentNew
+    requirements:
+        _locale:  en|uk
+
+tag_new:
+    path: /{_locale}/tag/new
+    controller: App\Controller\TagController::new
+    requirements:
+        _locale:  en|uk
+
+tag_show:
+    path: /{_locale}/tag/{slug}
+    controller: App\Controller\TagController::index
+    requirements:
+        _locale:  en|uk
+
+tags:
+    path: /{_locale}/tags
+    controller: App\Controller\TagController::index
+    requirements:
+        _locale:  en|uk
+
+tag_edit:
+    path: /{_locale}/tag/edit/{slug}
+    controller: App\Controller\TagController::edit
+    requirements:
+        _locale:  en|uk
+
+logout:
+    path: /logout
+
+app_login:
+    path: /login
+    controller: App\Controller\SecurityController::login
