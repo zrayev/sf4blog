@@ -6,13 +6,13 @@ use App\Entity\Tag;
 use App\Form\TagType;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class TagController extends AbstractController
+class TagController extends Controller
 {
     private $translator;
 
@@ -23,6 +23,9 @@ class TagController extends AbstractController
 
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'index');
+        $breadcrumbs->addItem('Tags', $this->get('router')->generate('tags'));
         $em = $this->getDoctrine()->getManager();
         $tags = $em->getRepository(Tag::class)->findAll();
         $paginateTags = $paginator->paginate($tags, $request->query->getInt('page', 1), 10);
@@ -39,6 +42,9 @@ class TagController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
+        $breadcrumbs->addItem('Tags', $this->get('router')->generate('tags'));
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $tag = new Tag();
         $em = $this->getDoctrine()->getManager();
@@ -71,6 +77,10 @@ class TagController extends AbstractController
      */
     public function edit(Request $request, Tag $tag)
     {
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
+        $breadcrumbs->addItem('Tags', $this->get('router')->generate('tags'));
+        $breadcrumbs->addItem($tag->getTitle());
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(TagType::class, $tag);
