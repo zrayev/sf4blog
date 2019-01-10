@@ -24,7 +24,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <li class="mr-4 text-light">{{ app.user.username }} </li>
+                <li class="mr-4 text-light">{{ app.user.username }} / {{ mgilet_notification_count(app.user) }} </li>
                 <li>
                     <a href="{{ path('logout') }}" class="text-light">{{ 'Logout'|trans }}</a>
                 </li>
@@ -46,6 +46,16 @@
         </div>
       {% endfor %}
     {% endblock %}
+    {{ wo_render_breadcrumbs() }}
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <ul class="notifications">
+            <li><details>
+                    <summary>Show notifications</summary>
+                    {{ mgilet_notification_render(app.user, { 'template': '@theme/layouts/_notifications.html.twig'}) }}
+                </details>
+            </li>
+        </ul>
+    {% endif %}
     {% block content %}
     {% endblock %}
     </div>

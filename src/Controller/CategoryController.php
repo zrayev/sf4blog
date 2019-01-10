@@ -6,13 +6,13 @@ use App\Entity\Category;
 use App\Form\CategoryType;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CategoryController extends AbstractController
+class CategoryController extends Controller
 {
     private $translator;
 
@@ -23,6 +23,9 @@ class CategoryController extends AbstractController
 
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'index');
+        $breadcrumbs->addItem('Categories', $this->get('router')->generate('categories'));
         $em = $this->getDoctrine()->getManager();
         $categories = $em->getRepository(Category::class)->findAll();
         $paginateCategories = $paginator->paginate($categories, $request->query->getInt('page', 1), 10);
@@ -39,6 +42,9 @@ class CategoryController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
+        $breadcrumbs->addItem('Categories', $this->get('router')->generate('categories'));
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $category = new Category();
         $em = $this->getDoctrine()->getManager();
@@ -71,6 +77,10 @@ class CategoryController extends AbstractController
      */
     public function edit(Request $request, Category $category)
     {
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
+        $breadcrumbs->addItem('Categories', $this->get('router')->generate('categories'));
+        $breadcrumbs->addItem($category->getTitle());
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(CategoryType::class, $category);

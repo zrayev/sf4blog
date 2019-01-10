@@ -8,13 +8,13 @@ use App\Form\CommentType;
 use App\Form\PostType;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class PostController extends AbstractController
+class PostController extends Controller
 {
     private $translator;
 
@@ -31,6 +31,8 @@ class PostController extends AbstractController
      */
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'index');
         $status = Post::STATUS_PUBLISH;
         $em = $this->getDoctrine()->getManager();
         $posts = $em->getRepository(Post::class)->findAllPublishArticles($status);
@@ -44,10 +46,13 @@ class PostController extends AbstractController
     /**
      * @param Request $request
      *
+     * @throws \Doctrine\ORM\OptimisticLockException
      * @return Response
      */
     public function new(Request $request): Response
     {
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $post = new Post();
         $em = $this->getDoctrine()->getManager();
@@ -62,6 +67,11 @@ class PostController extends AbstractController
                     '%title%' => $post->getTitle(),
                 ])
             );
+            $url = $this->generateUrl(
+                'post_show',
+                ['slug' => $post->getSlug()]
+            );
+            $this->sendNotification($post->getTitle(), $url);
 
             return $this->redirectToRoute('blog');
         }
@@ -79,6 +89,10 @@ class PostController extends AbstractController
      */
     public function show(Post $post): Response
     {
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
+        $breadcrumbs->addItem($post->getTitle());
+
         return $this->render('post/show.html.twig', [
             'post' => $post,
         ]);
@@ -93,6 +107,9 @@ class PostController extends AbstractController
      */
     public function edit(Request $request, Post $post)
     {
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
+        $breadcrumbs->addItem($post->getTitle());
         $this->denyAccessUnlessGranted('edit', $post);
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(PostType::class, $post);
@@ -170,6 +187,9 @@ class PostController extends AbstractController
      */
     public function delete(Post $post, TranslatorInterface $translator): Response
     {
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
+        $breadcrumbs->addItem($post->getTitle());
         $this->denyAccessUnlessGranted('delete', $post);
         $em = $this->getDoctrine()->getManager();
         $post->getTags()->clear();
@@ -182,5 +202,24 @@ class PostController extends AbstractController
         );
 
         return $this->redirectToRoute('blog');
+    }
+
+    /**
+     * @param $message
+     * @param $url
+     * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @return RedirectResponse
+     */
+    public function sendNotification($message, $url): RedirectResponse
+    {
+        $manager = $this->get('mgilet.notification');
+        $notif = $manager->createNotification('New post');
+        $notif->setMessage($message);
+        $notif->setLink($url);
+
+        $manager->addNotification([$this->getUser()], $notif, true);
+
+        return $this->redirectToRoute('index');
     }
 }
