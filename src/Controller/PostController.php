@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Post;
+use App\Entity\User;
 use App\Form\CommentType;
 use App\Form\PostType;
 use Knp\Component\Pager\PaginatorInterface;
@@ -217,8 +218,14 @@ class PostController extends Controller
         $notif = $manager->createNotification('New post');
         $notif->setMessage($message);
         $notif->setLink($url);
-
-        $manager->addNotification([$this->getUser()], $notif, true);
+        $em = $this->getDoctrine()->getManager();
+        $currentUser = $this->getUser();
+        $users = $em->getRepository(User::class)->findAll();
+        foreach ($users as $user) {
+            if ($currentUser->getId() !== $user->getId()) {
+                $manager->addNotification([$user], $notif, true);
+            }
+        }
 
         return $this->redirectToRoute('index');
     }
