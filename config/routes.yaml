@@ -93,3 +93,11 @@ logout:
 app_login:
     path: /login
     controller: App\Controller\SecurityController::login
+
+mgilet_notification:
+    resource: "@MgiletNotificationBundle/Controller/"
+    prefix: /notifications
+
+send_notification:
+    path: /send-notification
+    controller: App\Controller\PostController::sendNotification

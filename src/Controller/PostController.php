@@ -46,6 +46,7 @@ class PostController extends Controller
     /**
      * @param Request $request
      *
+     * @throws \Doctrine\ORM\OptimisticLockException
      * @return Response
      */
     public function new(Request $request): Response
@@ -66,6 +67,11 @@ class PostController extends Controller
                     '%title%' => $post->getTitle(),
                 ])
             );
+            $url = $this->generateUrl(
+                'post_show',
+                ['slug' => $post->getSlug()]
+            );
+            $this->sendNotification($post->getTitle(), $url);
 
             return $this->redirectToRoute('blog');
         }
@@ -196,5 +202,24 @@ class PostController extends Controller
         );
 
         return $this->redirectToRoute('blog');
+    }
+
+    /**
+     * @param $message
+     * @param $url
+     * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @return RedirectResponse
+     */
+    public function sendNotification($message, $url): RedirectResponse
+    {
+        $manager = $this->get('mgilet.notification');
+        $notif = $manager->createNotification('New post');
+        $notif->setMessage($message);
+        $notif->setLink($url);
+
+        $manager->addNotification([$this->getUser()], $notif, true);
+
+        return $this->redirectToRoute('index');
     }
 }

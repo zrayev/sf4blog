@@ -1,0 +1,5 @@
+<ol>
+{% for item in notificationList %}
+    <li>{{ item.notification.subject }} - <a href="{{ item.notification.link  }}"> {{ item.notification.message }} </a> </li>
+{% endfor %}
+</ol>
