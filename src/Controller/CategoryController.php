@@ -111,8 +111,8 @@ class CategoryController extends Controller
      * @param Category $category
      * @ParamConverter("category", options={"mapping" : {"categorySlug" : "slug"}})
      *
-     * @return Response
      * @throws NonUniqueResultException
+     * @return Response
      */
     public function getCategoryPosts(Request $request, PaginatorInterface $paginator, Category $category): Response
     {

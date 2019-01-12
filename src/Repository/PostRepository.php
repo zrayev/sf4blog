@@ -2,10 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query;
-use App\Entity\Category;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -53,9 +54,8 @@ class PostRepository extends ServiceEntityRepository
 
     /**
      * @param Category $category
+     * @throws NonUniqueResultException
      * @return mixed
-     *
-     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getCategoryPostsCount(Category $category)
     {
