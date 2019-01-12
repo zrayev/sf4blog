@@ -32,7 +32,7 @@ class PostRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->andWhere('p.status = :val')
             ->setParameter('val', $status)
-            ->orderBy('p.id', 'ASC')
+            ->orderBy('p.id', 'DESC')
             ->getQuery()
         ;
     }
@@ -47,7 +47,7 @@ class PostRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->andWhere('p.category = :val')
             ->setParameter('val', $category->getId())
-            ->orderBy('p.id', 'ASC')
+            ->orderBy('p.id', 'DESC')
             ->getQuery()
             ;
     }

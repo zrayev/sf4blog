@@ -1,6 +1,9 @@
 <h4>{{ 'Leave comment'|trans }}</h4>
-{{ form_start(form, {method: 'POST',
-    action: path('comment_new', {'postSlug': post.slug})},
-    {'attr': {'novalidate': 'novalidate', 'class':'comment-form'}}) }}
+{{ form_start(form, {
+    method: 'POST',
+    action: path('comment_new', {'postSlug': post.slug}),
+    'attr': {'novalidate': 'novalidate', 'class':'post-form'} })
+
+}}
 {{ form_widget(form) }}
 {{ form_end(form) }}

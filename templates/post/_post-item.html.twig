@@ -5,7 +5,7 @@
                 {{- post.title -}}
             {% endfilter %}
         </h2>
-        <p class="card-text">{{- post.description -}}</p>
+        <p class="card-text">{{- post.description|raw -}}</p>
         <a href="{{- path('post_show', {slug: post.slug}) -}}" class="btn btn-primary btn-sm active" role="button">{{ 'Show'|trans }}</a>
     </div>
     <div class="card-footer text-muted">
