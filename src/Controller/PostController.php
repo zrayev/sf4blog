@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Post;
+use App\Entity\User;
 use App\Form\CommentType;
 use App\Form\PostType;
 use Knp\Component\Pager\PaginatorInterface;
@@ -43,6 +44,20 @@ class PostController extends Controller
         ]);
     }
 
+    public function adminIndex(Request $request, PaginatorInterface $paginator): Response
+    {
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addRouteItem('Home', 'index');
+        $breadcrumbs->addItem('Posts', $this->get('router')->generate('posts'));
+        $em = $this->getDoctrine()->getManager();
+        $posts = $em->getRepository(Post::class)->findAll();
+        $paginatePosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 10);
+
+        return $this->render('post/posts.html.twig', [
+            'posts' => $paginatePosts,
+        ]);
+    }
+
     /**
      * @param Request $request
      *
@@ -55,6 +70,7 @@ class PostController extends Controller
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $post = new Post();
+        $post->setAuthor($this->getUser());
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
@@ -201,7 +217,7 @@ class PostController extends Controller
             $this->translator->trans('notification.post_deleted')
         );
 
-        return $this->redirectToRoute('blog');
+        return $this->redirectToRoute('posts');
     }
 
     /**
@@ -217,8 +233,14 @@ class PostController extends Controller
         $notif = $manager->createNotification('New post');
         $notif->setMessage($message);
         $notif->setLink($url);
-
-        $manager->addNotification([$this->getUser()], $notif, true);
+        $em = $this->getDoctrine()->getManager();
+        $currentUser = $this->getUser();
+        $users = $em->getRepository(User::class)->findAll();
+        foreach ($users as $user) {
+            if ($currentUser->getId() !== $user->getId()) {
+                $manager->addNotification([$user], $notif, true);
+            }
+        }
 
         return $this->redirectToRoute('index');
     }

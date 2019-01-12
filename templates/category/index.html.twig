@@ -13,7 +13,7 @@
     {% if categories|length == 0 %}
         <p class="text-center">{{ 'Categories not found'|trans }}. {{ 'You can will create new category'|trans }}.</p>
     {% else %}
-    {% include 'layouts/_table.html.twig' with {'items' : categories, 'page' : 'category_edit'} only %}
+    {% include 'layouts/_table.html.twig' with {'items' : categories, 'edit_path' : 'category_edit'} only %}
     {% endif %}
 {% endblock %}
 

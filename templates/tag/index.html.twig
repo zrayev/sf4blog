@@ -13,7 +13,7 @@
     {% if tags|length == 0 %}
         <p class="text-center">{{ 'Tags not found'|trans }}. {{ 'You can will create new tag'|trans }}.</p>
     {% else %}
-    {% include 'layouts/_table.html.twig' with {'items' : tags, 'page' : 'tag_edit'} only %}
+    {% include 'layouts/_table.html.twig' with {'items' : tags, 'edit_path' : 'tag_edit'} only %}
     {% endif %}
 {% endblock %}
 

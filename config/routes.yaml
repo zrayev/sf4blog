@@ -5,6 +5,12 @@ index:
     requirements:
         _locale:  en|uk
 
+posts:
+    path: /{_locale}/posts
+    controller: App\Controller\PostController::adminIndex
+    requirements:
+        _locale:  en|uk
+
 blog:
     path: /{_locale}/blog
     controller: App\Controller\PostController::index
@@ -30,6 +36,12 @@ post_delete:
 post_edit:
     path: /{_locale}/post/edit/{slug}
     controller: App\Controller\PostController::edit
+    requirements:
+        _locale:  en|uk
+
+category_posts:
+    path: /{_locale}/{categorySlug}/posts
+    controller: App\Controller\CategoryController::getCategoryPosts
     requirements:
         _locale:  en|uk
 

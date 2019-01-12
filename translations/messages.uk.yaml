@@ -37,3 +37,7 @@ notification.post_edited: 'Статтю "%title%" успішно збереже�
 notification.post_deleted: 'Ваш пост успішно видалено!'
 'Posted on %createdAt% by %username%': 'Створено %createdAt% автор %username%'
 '{1} Comment|]1,Inf[ Comments': '{1} Коментарій|]1,Inf[ Коментарі'
+'{1} Tag|]1,Inf[ Tags': '{1} Тег|]1,Inf[ Теги'
+delete: видалити
+show: перегляд
+'Commented %createdAt% at %username%': '__Commented %createdAt% at %username%'

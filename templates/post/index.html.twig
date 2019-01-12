@@ -4,8 +4,8 @@
 
 {% block content %}
     <h1 class="text-center">{{ 'Blog'|trans }}
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <a href="{{- path('post_new') -}}" class="btn btn-secondary btn-sm active" role="button">{{ 'new post'|trans }}</a>
+        {% if app.request.attributes.get('_route') == 'category_posts' %}
+            {{ postsCount }}
         {% endif %}
     </h1>
     {% if posts|length == 0 %}

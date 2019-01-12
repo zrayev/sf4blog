@@ -1,0 +1,22 @@
+{% extends 'admin-index.html.twig' %}
+{% block title %}
+    {{ 'Posts'|trans }}
+{% endblock %}
+{% block contentName %}
+    {{ 'Posts'|trans }}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a href="{{- path('post_new') -}}" class="btn btn-secondary btn-sm active" role="button">{{ 'new'|trans }}</a>
+    {% endif %}
+{% endblock %}
+
+{% block items %}
+    {% if posts|length == 0 %}
+        <p class="text-center">{{ 'Posts not found'|trans }}. {{ 'You can will create new post'|trans }}.</p>
+    {% else %}
+        {% include 'layouts/_table.html.twig' with {'items' : posts, 'edit_path' : 'post_edit', 'delete_path' : 'post_delete', 'show_path' : 'post_show'} only %}
+    {% endif %}
+{% endblock %}
+
+{% block pagination %}
+    {{ knp_pagination_render(posts) }}
+{% endblock %}

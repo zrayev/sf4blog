@@ -12,10 +12,3 @@ App\Entity\Comment:
                 max: 1024
             - Type:
                 type: string
-
-        authorName:
-            -   NotNull: ~
-            -   Length:
-                    max: 64
-            -   Type:
-                    type: string
