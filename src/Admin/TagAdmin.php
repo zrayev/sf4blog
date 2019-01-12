@@ -8,7 +8,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class CategoryAdmin extends AbstractAdmin
+class TagAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -21,7 +21,7 @@ class CategoryAdmin extends AbstractAdmin
         $datagridMapper
             ->add('id')
             ->add('title')
-            ->add('createdAt');
+           ->add('createdAt');
     }
 
     protected function configureListFields(ListMapper $listMapper)

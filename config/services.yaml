@@ -43,3 +43,21 @@ services:
         public:     false
         tags:
             - { name: security.voter }
+
+    admin.post:
+        class: App\Admin\PostAdmin
+        arguments: [~, App\Entity\Post, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Post }
+
+    admin.category:
+        class: App\Admin\CategoryAdmin
+        arguments: [~, App\Entity\Category, ~]
+        tags:
+        - { name: sonata.admin, manager_type: orm, label: Category }
+
+    admin.tag:
+        class: App\Admin\TagAdmin
+        arguments: [~, App\Entity\Tag, ~]
+        tags:
+        - { name: sonata.admin, manager_type: orm, label: Tag }
