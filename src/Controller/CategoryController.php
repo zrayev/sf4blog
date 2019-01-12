@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\Post;
 use App\Form\CategoryType;
+use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -100,6 +102,32 @@ class CategoryController extends Controller
         return $this->render('category/edit.html.twig', [
             'form' => $form->createView(),
             'category' => $category,
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @param Category $category
+     * @ParamConverter("category", options={"mapping" : {"categorySlug" : "slug"}})
+     *
+     * @return Response
+     * @throws NonUniqueResultException
+     */
+    public function getCategoryPosts(Request $request, PaginatorInterface $paginator, Category $category): Response
+    {
+        $breadcrumbs = $this->get('white_october_breadcrumbs');
+        $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
+        $breadcrumbs->addItem($category->getTitle());
+
+        $em = $this->getDoctrine()->getManager();
+        $posts = $em->getRepository(Post::class)->findPostsForCategory($category);
+        $count = $em->getRepository(Post::class)->getCategoryPostsCount($category);
+        $pagenatedPosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 9);
+
+        return $this->render('post/index.html.twig', [
+            'posts' => $pagenatedPosts,
+            'postsCount' => $count,
         ]);
     }
 }

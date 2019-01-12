@@ -13,7 +13,7 @@
     {% if posts|length == 0 %}
         <p class="text-center">{{ 'Posts not found'|trans }}. {{ 'You can will create new post'|trans }}.</p>
     {% else %}
-        {% include 'layouts/_table.html.twig' with {'items' : posts, 'edit_path' : 'post_edit', 'delete_path' : 'post_delete'} only %}
+        {% include 'layouts/_table.html.twig' with {'items' : posts, 'edit_path' : 'post_edit', 'delete_path' : 'post_delete', 'show_path' : 'post_show'} only %}
     {% endif %}
 {% endblock %}
 

@@ -39,6 +39,12 @@ post_edit:
     requirements:
         _locale:  en|uk
 
+category_posts:
+    path: /{_locale}/{categorySlug}/posts
+    controller: App\Controller\CategoryController::getCategoryPosts
+    requirements:
+        _locale:  en|uk
+
 category_new:
     path: /{_locale}/category/new
     controller: App\Controller\CategoryController::new

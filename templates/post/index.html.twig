@@ -3,7 +3,11 @@
 {% block title %}{{ 'Blog'|trans }}{% endblock %}
 
 {% block content %}
-    <h1 class="text-center">{{ 'Blog'|trans }}</h1>
+    <h1 class="text-center">{{ 'Blog'|trans }}
+        {% if app.request.attributes.get('_route') == 'category_posts' %}
+            {{ postsCount }}
+        {% endif %}
+    </h1>
     {% if posts|length == 0 %}
         <p class="text-center">{{ 'Posts not found'|trans }}. {{ 'You can will create new post'|trans }}.</p>
     {% else %}

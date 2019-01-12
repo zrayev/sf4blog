@@ -37,3 +37,6 @@ Categories: Categories
 Posts: Posts
 'Posted on %createdAt% by %username%': 'Posted on %createdAt% by %username%'
 '{1} Comment|]1,Inf[ Comments': '{1} Comment|]1,Inf[ Comments'
+'{1} Tag|]1,Inf[ Tags': '{1} Tag|]1,Inf[ Tags'
+delete: delete
+
