@@ -39,6 +39,9 @@ Posts: Posts
 '{1} Comment|]1,Inf[ Comments': '{1} Comment|]1,Inf[ Comments'
 '{1} Tag|]1,Inf[ Tags': '{1} Tag|]1,Inf[ Tags'
 delete: delete
-'Commented <b>%createdAt%</b> at %username%': '__Commented <b>%createdAt%</b> at %username%'
-show: __show
-'Commented %createdAt% at %authorName%': 'Коментар залишено %createdAt% від %authorName%'
+show: show
+'Commented %createdAt% at %username%': 'Commented %createdAt% at %username%'
+'enter a few words': 'enter a few words'
+Search: Search
+'Search Results': 'Search Results'
+'Commented %createdAt% at %authorName%': 'Commented %createdAt% at %authorName%'

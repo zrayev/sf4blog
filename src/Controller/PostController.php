@@ -244,4 +244,22 @@ class PostController extends Controller
 
         return $this->redirectToRoute('index');
     }
+
+    /**
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     *
+     * @return Response
+     */
+    public function search(Request $request, PaginatorInterface $paginator): Response
+    {
+        $title = $request->get('title');
+        $em = $this->getDoctrine()->getManager();
+        $posts = $em->getRepository(Post::class)->findByTitle($title);
+        $paginatePosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 10);
+
+        return $this->render('post/search.html.twig', [
+            'posts' => $paginatePosts,
+        ]);
+    }
 }
