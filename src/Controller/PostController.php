@@ -50,7 +50,7 @@ class PostController extends Controller
         $breadcrumbs->addRouteItem('Home', 'index');
         $breadcrumbs->addItem('Posts', $this->get('router')->generate('posts'));
         $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(Post::class)->findAll();
+        $posts = $em->getRepository(Post::class)->findBy([], ['id' => 'DESC']);
         $paginatePosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 10);
 
         return $this->render('post/posts.html.twig', [
