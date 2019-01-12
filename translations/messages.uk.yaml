@@ -40,3 +40,4 @@ notification.post_deleted: 'Ваш пост успішно видалено!'
 '{1} Tag|]1,Inf[ Tags': '{1} Тег|]1,Inf[ Теги'
 delete: видалити
 show: перегляд
+'Commented %createdAt% at %username%': '__Commented %createdAt% at %username%'

@@ -33,16 +33,6 @@ class PostType extends AbstractType
             ->add('status', PostWorkflowType::class, [
                 'label' => 'label.status',
                 'placeholder' => 'placeholder.status', ])
-            ->add('author', EntityType::class, [
-                'label' => 'label.authorName',
-                'class' => User::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.username', 'ASC');
-                },
-                'choice_label' => 'username',
-                'required' => true,
-            ])
             ->add('category', EntityType::class, [
                 'label' => 'label.category',
                 'class' => Category::class,

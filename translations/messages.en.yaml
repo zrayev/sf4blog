@@ -39,4 +39,6 @@ Posts: Posts
 '{1} Comment|]1,Inf[ Comments': '{1} Comment|]1,Inf[ Comments'
 '{1} Tag|]1,Inf[ Tags': '{1} Tag|]1,Inf[ Tags'
 delete: delete
-
+'Commented <b>%createdAt%</b> at %username%': '__Commented <b>%createdAt%</b> at %username%'
+show: __show
+'Commented %createdAt% at %authorName%': 'Коментар залишено %createdAt% від %authorName%'

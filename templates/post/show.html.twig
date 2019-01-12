@@ -24,7 +24,7 @@
                     </h4>
                 {% endif %}
                 {% for comment in post.comments %}
-                    <p>commented <b>{{ comment.authorName }}</b> at {{ comment.createdAt | date("Y-m-d") }}</p>
+                    {% trans with {'%createdAt%': comment.createdAt|date('Y-m-d'), '%authorName%': comment.authorName} %}Commented %createdAt% at %authorName%{% endtrans %} <br>
                     <p>{{ comment.body }}</p>
                     <hr>
                 {% endfor %}

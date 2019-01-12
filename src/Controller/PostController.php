@@ -70,6 +70,7 @@ class PostController extends Controller
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $post = new Post();
+        $post->setAuthor($this->getUser());
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
