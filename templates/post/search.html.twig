@@ -3,8 +3,9 @@
     {{ 'Posts'|trans }}
 {% endblock %}
 {% block content %}
-    {% if posts|length == 0 %}
-    <h1 class="text-center">{{ 'Search Results'|trans }}</h1>
+    {% if posts|length > 0 %}
+    <h1 class="text-center">{{ 'Search Results'|trans }} - <span class="post-count">{{ count }}</span>
+    </h1>
     <div class="posts">
         <div class="row">
             {% include 'layouts/_catalog-grid.html.twig' with {'posts' : posts} only %}

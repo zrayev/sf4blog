@@ -7,6 +7,7 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Form\CommentType;
 use App\Form\PostType;
+use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -249,6 +250,7 @@ class PostController extends Controller
      * @param Request $request
      * @param PaginatorInterface $paginator
      *
+     * @throws NonUniqueResultException
      * @return Response
      */
     public function search(Request $request, PaginatorInterface $paginator): Response
@@ -256,10 +258,12 @@ class PostController extends Controller
         $title = $request->get('title');
         $em = $this->getDoctrine()->getManager();
         $posts = $em->getRepository(Post::class)->findByTitle($title);
+        $count = $em->getRepository(Post::class)->findByTitleCount($title);
         $paginatePosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 10);
 
         return $this->render('post/search.html.twig', [
             'posts' => $paginatePosts,
+            'count' => $count,
         ]);
     }
 }

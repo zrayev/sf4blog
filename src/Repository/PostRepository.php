@@ -55,6 +55,7 @@ class PostRepository extends ServiceEntityRepository
     /**
      * @param Category $category
      * @throws NonUniqueResultException
+     *
      * @return mixed
      */
     public function getCategoryPostsCount(Category $category)
@@ -80,6 +81,23 @@ class PostRepository extends ServiceEntityRepository
             ->where('p.title LIKE :title')
             ->setParameter(':title', "%$title%")
             ->getQuery()
+            ;
+    }
+
+    /**
+     * @param $title
+     *
+     * @throws NonUniqueResultException
+     * @return mixed
+     */
+    public function findByTitleCount($title)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('count(p.id)')
+            ->where('p.title LIKE :title')
+            ->setParameter(':title', "%$title%")
+            ->getQuery()
+            ->getSingleScalarResult()
             ;
     }
 }
