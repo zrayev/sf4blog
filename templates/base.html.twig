@@ -18,6 +18,10 @@
   </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
         {{ knp_menu_render('nav', {'currentClass': 'active'}) }}
+        <form class="form-inline my-2 my-lg-0" role="search" action="{{ path('post_search') }}">
+            <input class="form-control mr-sm-2" name="title" type="text" placeholder="{{ 'enter a few words'|trans }}" aria-label="{{ 'enter a few words'|trans }}">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">{{ 'Search'|trans }}</button>
+        </form>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="{{ path('index', {'_locale':'en'}) }}" class="btn">EN</a></li>
             <li><a href="{{ path('index', {'_locale':'uk'}) }}" class="btn">UA</a></li>

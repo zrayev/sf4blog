@@ -39,6 +39,10 @@ post_edit:
     requirements:
         _locale:  en|uk
 
+post_search:
+    path: /{_locale}/search/post
+    controller: App\Controller\PostController::search
+
 category_posts:
     path: /{_locale}/{categorySlug}/posts
     controller: App\Controller\CategoryController::getCategoryPosts
