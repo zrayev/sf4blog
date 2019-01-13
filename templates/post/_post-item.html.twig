@@ -9,7 +9,7 @@
         <a href="{{- path('post_show', {slug: post.slug}) -}}" class="btn btn-primary btn-sm active" role="button">{{ 'Show'|trans }}</a>
     </div>
     <div class="card-footer text-muted">
-        {% trans with {'%createdAt%': post.createdAt'', '%username%': post.author.username} %}Posted on %createdAt% by %username%{% endtrans %} <br>
+        {% trans with {'%createdAt%': post.createdAt|date('Y-m-d'), '%username%': post.author.username} %}Posted on %createdAt% by %username%{% endtrans %} <br>
         {{ 'Category'|trans }}: <a href="{{- path('category_posts', {categorySlug:  post.category.slug}) -}}">{{  post.category.title }}</a><br>
         {% transchoice post.tags|length %}
             {1} Tag|]1,Inf[ Tags
