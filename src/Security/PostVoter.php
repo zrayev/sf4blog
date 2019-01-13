@@ -15,9 +15,10 @@ class PostVoter extends Voter
     public const DELETE = 'delete';
     private $authorizationChecker;
 
-     public function __construct(AuthorizationCheckerInterface $authorizationChecker) {
-          $this->authorizationChecker = $authorizationChecker;
-     }
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
+    {
+        $this->authorizationChecker = $authorizationChecker;
+    }
 
     protected function supports($attribute, $subject)
     {

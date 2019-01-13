@@ -36,7 +36,7 @@ class PostController extends Controller
         $breadcrumbs->addRouteItem('Home', 'index');
         $status = Post::STATUS_PUBLISH;
         $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(Post::class)->findAllPublishArticlesQuery($status);
+        $posts = $em->getRepository(Post::class)->findAllPublishPostsQuery($status);
         $blogPosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 9);
 
         return $this->render('post/index.html.twig', [
@@ -50,7 +50,7 @@ class PostController extends Controller
         $breadcrumbs->addRouteItem('Home', 'index');
         $breadcrumbs->addItem('Posts', $this->get('router')->generate('posts'));
         $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(Post::class)->findAllArticlesQuery();
+        $posts = $em->getRepository(Post::class)->findAllQuery();
         $paginatePosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 10);
 
         return $this->render('post/posts.html.twig', [

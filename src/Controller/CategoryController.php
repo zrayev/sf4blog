@@ -28,7 +28,7 @@ class CategoryController extends Controller
         $breadcrumbs->addRouteItem('Home', 'index');
         $breadcrumbs->addItem('Categories', $this->get('router')->generate('categories'));
         $em = $this->getDoctrine()->getManager();
-        $categories = $em->getRepository(Category::class)->findAllCategoriesQuery();
+        $categories = $em->getRepository(Category::class)->findAllQuery();
         $paginateCategories = $paginator->paginate($categories, $request->query->getInt('page', 1), 10);
 
         return $this->render('category/index.html.twig', [

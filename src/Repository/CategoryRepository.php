@@ -23,7 +23,7 @@ class CategoryRepository extends ServiceEntityRepository
     /**
      * @return Query
      */
-    public function findAllCategoriesQuery(): Query
+    public function findAllQuery(): Query
     {
         return $this->createQueryBuilder('c')
             ->orderBy('c.id', 'DESC')

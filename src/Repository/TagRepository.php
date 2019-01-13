@@ -23,7 +23,7 @@ class TagRepository extends ServiceEntityRepository
     /**
      * @return Query
      */
-    public function findAllTagsQuery(): Query
+    public function findAllQuery(): Query
     {
         return $this->createQueryBuilder('t')
             ->orderBy('t.id', 'DESC')

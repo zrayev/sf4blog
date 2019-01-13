@@ -26,7 +26,7 @@ class PostRepository extends ServiceEntityRepository
      *
      * @return Query
      */
-    public function findAllPublishArticlesQuery($status): Query
+    public function findAllPublishPostsQuery($status): Query
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.status = :status')
@@ -39,7 +39,7 @@ class PostRepository extends ServiceEntityRepository
     /**
      * @return Query
      */
-    public function findAllArticlesQuery(): Query
+    public function findAllQuery(): Query
     {
         return $this->createQueryBuilder('p')
             ->orderBy('p.id', 'DESC')
