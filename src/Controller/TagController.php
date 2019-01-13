@@ -27,7 +27,7 @@ class TagController extends Controller
         $breadcrumbs->addRouteItem('Home', 'index');
         $breadcrumbs->addItem('Tags', $this->get('router')->generate('tags'));
         $em = $this->getDoctrine()->getManager();
-        $tags = $em->getRepository(Tag::class)->findAll();
+        $tags = $em->getRepository(Tag::class)->findAllQuery();
         $paginateTags = $paginator->paginate($tags, $request->query->getInt('page', 1), 10);
 
         return $this->render('tag/index.html.twig', [
