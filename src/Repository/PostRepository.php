@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Category;
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -25,16 +24,27 @@ class PostRepository extends ServiceEntityRepository
     /**
      * @param $status
      *
-     * @return mixed
+     * @return Query
      */
-    public function findAllPublishArticles($status)
+    public function findAllPublishArticlesQuery($status): Query
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.status = :val')
-            ->setParameter('val', $status)
+            ->andWhere('p.status = :status')
+            ->setParameter('status', $status)
             ->orderBy('p.id', 'DESC')
             ->getQuery()
         ;
+    }
+
+    /**
+     * @return Query
+     */
+    public function findAllArticlesQuery(): Query
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC')
+            ->getQuery()
+            ;
     }
 
     /**
@@ -42,31 +52,13 @@ class PostRepository extends ServiceEntityRepository
      *
      * @return Query
      */
-    public function findPostsForCategory(Category $category): Query
+    public function findPostsForCategoryQuery(Category $category): Query
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.category = :val')
-            ->setParameter('val', $category->getId())
+            ->andWhere('p.category = :category')
+            ->setParameter('category', $category)
             ->orderBy('p.id', 'DESC')
             ->getQuery()
-            ;
-    }
-
-    /**
-     * @param Category $category
-     * @throws NonUniqueResultException
-     *
-     * @return mixed
-     */
-    public function getCategoryPostsCount(Category $category)
-    {
-        return $this->createQueryBuilder('p')
-            ->select('count(p.id)')
-            ->andWhere('p.category = :val')
-            ->setParameter('val', $category->getId())
-            ->orderBy('p.id', 'ASC')
-            ->getQuery()
-            ->getSingleScalarResult()
             ;
     }
 
@@ -75,29 +67,12 @@ class PostRepository extends ServiceEntityRepository
      *
      * @return Query
      */
-    public function findByTitle($title): Query
+    public function findByTitleQuery($title): Query
     {
         return $this->createQueryBuilder('p')
             ->where('p.title LIKE :title')
             ->setParameter(':title', "%$title%")
             ->getQuery()
-            ;
-    }
-
-    /**
-     * @param $title
-     *
-     * @throws NonUniqueResultException
-     * @return mixed
-     */
-    public function findByTitleCount($title)
-    {
-        return $this->createQueryBuilder('p')
-            ->select('count(p.id)')
-            ->where('p.title LIKE :title')
-            ->setParameter(':title', "%$title%")
-            ->getQuery()
-            ->getSingleScalarResult()
             ;
     }
 }

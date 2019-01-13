@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Entity\Post;
 use App\Form\CategoryType;
-use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -29,7 +28,7 @@ class CategoryController extends Controller
         $breadcrumbs->addRouteItem('Home', 'index');
         $breadcrumbs->addItem('Categories', $this->get('router')->generate('categories'));
         $em = $this->getDoctrine()->getManager();
-        $categories = $em->getRepository(Category::class)->findAll();
+        $categories = $em->getRepository(Category::class)->findAllCategoriesQuery();
         $paginateCategories = $paginator->paginate($categories, $request->query->getInt('page', 1), 10);
 
         return $this->render('category/index.html.twig', [
@@ -111,7 +110,6 @@ class CategoryController extends Controller
      * @param Category $category
      * @ParamConverter("category", options={"mapping" : {"categorySlug" : "slug"}})
      *
-     * @throws NonUniqueResultException
      * @return Response
      */
     public function getCategoryPosts(Request $request, PaginatorInterface $paginator, Category $category): Response
@@ -121,13 +119,11 @@ class CategoryController extends Controller
         $breadcrumbs->addItem($category->getTitle());
 
         $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(Post::class)->findPostsForCategory($category);
-        $count = $em->getRepository(Post::class)->getCategoryPostsCount($category);
-        $pagenatedPosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 9);
+        $posts = $em->getRepository(Post::class)->findPostsForCategoryQuery($category);
+        $paginatedPosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 9);
 
         return $this->render('post/index.html.twig', [
-            'posts' => $pagenatedPosts,
-            'postsCount' => $count,
+            'posts' => $paginatedPosts,
         ]);
     }
 }

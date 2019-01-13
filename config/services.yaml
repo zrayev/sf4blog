@@ -37,9 +37,3 @@ services:
         arguments: ["@request_stack"]
         tags:
             - { name: knp_menu.menu, alias: nav }
-
-    security.access.post_voter:
-        class:      App\Security\PostVoter
-        public:     false
-        tags:
-            - { name: security.voter }
