@@ -16,6 +16,15 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PostAdmin extends AbstractAdmin
 {
+    /**
+     * @param $object
+     */
+    public function prePersist($object)
+    {
+        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $object->setAuthor($user);
+    }
+
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
