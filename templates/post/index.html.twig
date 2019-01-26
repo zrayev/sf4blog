@@ -4,9 +4,7 @@
 
 {% block content %}
     <h1 class="text-center">{{ 'Blog'|trans }}
-        {% if app.request.attributes.get('_route') == 'category_posts' %}
-            {{ postsCount }}
-        {% endif %}
+        {{ posts.getTotalItemCount }}
     </h1>
     {% if posts|length == 0 %}
         <p class="text-center">{{ 'Posts not found'|trans }}. {{ 'You can will create new post'|trans }}.</p>

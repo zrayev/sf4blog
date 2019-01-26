@@ -7,7 +7,6 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Form\CommentType;
 use App\Form\PostType;
-use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -37,7 +36,7 @@ class PostController extends Controller
         $breadcrumbs->addRouteItem('Home', 'index');
         $status = Post::STATUS_PUBLISH;
         $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(Post::class)->findAllPublishArticles($status);
+        $posts = $em->getRepository(Post::class)->findAllPublishPostsQuery($status);
         $blogPosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 9);
 
         return $this->render('post/index.html.twig', [
@@ -51,7 +50,7 @@ class PostController extends Controller
         $breadcrumbs->addRouteItem('Home', 'index');
         $breadcrumbs->addItem('Posts', $this->get('router')->generate('posts'));
         $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(Post::class)->findBy([], ['id' => 'DESC']);
+        $posts = $em->getRepository(Post::class)->findAllQuery();
         $paginatePosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 10);
 
         return $this->render('post/posts.html.twig', [
@@ -250,20 +249,17 @@ class PostController extends Controller
      * @param Request $request
      * @param PaginatorInterface $paginator
      *
-     * @throws NonUniqueResultException
      * @return Response
      */
     public function search(Request $request, PaginatorInterface $paginator): Response
     {
         $title = $request->get('title');
         $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(Post::class)->findByTitle($title);
-        $count = $em->getRepository(Post::class)->findByTitleCount($title);
+        $posts = $em->getRepository(Post::class)->findByTitleQuery($title);
         $paginatePosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 10);
 
         return $this->render('post/search.html.twig', [
             'posts' => $paginatePosts,
-            'count' => $count,
         ]);
     }
 }
