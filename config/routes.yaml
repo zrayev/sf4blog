@@ -117,3 +117,8 @@ mgilet_notification:
 send_notification:
     path: /send-notification
     controller: App\Controller\PostController::sendNotification
+
+_sonata_admin:
+    resource: .
+    type: sonata_admin
+    prefix: /admin

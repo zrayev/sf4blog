@@ -49,6 +49,14 @@ class Tag
     }
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->title;
+    }
+
+    /**
      * @return int
      */
     public function getId(): ?int
