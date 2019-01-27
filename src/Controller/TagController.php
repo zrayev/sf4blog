@@ -81,7 +81,7 @@ class TagController extends AbstractController
      *
      * @return RedirectResponse|Response
      * @ParamConverter("tag", class="App:Tag")
-     */, Breadcrumbs $breadcrumbs
+     */
     public function edit(Request $request, Tag $tag, Breadcrumbs $breadcrumbs)
     {
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
