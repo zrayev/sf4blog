@@ -27,6 +27,10 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    app.notification_sender:
+        class: App\Service\NotificationSender
+        arguments: ['@doctrine.orm.entity_manager', '@templating', ' @router']
+
     app.menu_builder:
         class: App\Menu\Builder
         arguments: ["@knp_menu.factory"]

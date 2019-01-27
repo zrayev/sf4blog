@@ -1,0 +1,11 @@
+Hi {{ name }}!
+<br>
+You're can read new article:
+<br>
+{% if post is defined %}
+    {{ post.title }}
+{% endif %}
+<br>
+Read on blog: {{ url }}
+<br>
+Best regards!
