@@ -3,28 +3,37 @@
 namespace App\Controller;
 
 use App\Entity\Category;
-use App\Entity\Post;
 use App\Form\CategoryType;
+use App\Service\Pagination;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
-class CategoryController extends Controller
+class CategoryController extends AbstractController
 {
     private $translator;
+    private $pagination;
 
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, Pagination $pagination)
     {
         $this->translator = $translator;
+        $this->pagination = $pagination;
     }
 
-    public function index(Request $request, PaginatorInterface $paginator): Response
+    /**
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @param Breadcrumbs $breadcrumbs
+     *
+     * @return Response
+     */
+    public function index(Request $request, PaginatorInterface $paginator, Breadcrumbs $breadcrumbs): Response
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'index');
         $breadcrumbs->addItem('Categories', $this->get('router')->generate('categories'));
         $em = $this->getDoctrine()->getManager();
@@ -38,12 +47,12 @@ class CategoryController extends Controller
 
     /**
      * @param Request $request
+     * @param Breadcrumbs $breadcrumbs
      *
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Breadcrumbs $breadcrumbs): Response
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $breadcrumbs->addItem('Categories', $this->get('router')->generate('categories'));
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -72,13 +81,13 @@ class CategoryController extends Controller
     /**
      * @param Request $request
      * @param Category $category
-     * @ParamConverter("category", class="App:Category")
+     * @param Breadcrumbs $breadcrumbs
      *
      * @return RedirectResponse|Response
+     * @ParamConverter("category", class="App:Category")
      */
-    public function edit(Request $request, Category $category)
+    public function edit(Request $request, Category $category, Breadcrumbs $breadcrumbs)
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $breadcrumbs->addItem('Categories', $this->get('router')->generate('categories'));
         $breadcrumbs->addItem($category->getTitle());
@@ -106,21 +115,18 @@ class CategoryController extends Controller
 
     /**
      * @param Request $request
-     * @param PaginatorInterface $paginator
+     * @param $count
      * @param Category $category
-     * @ParamConverter("category", options={"mapping" : {"categorySlug" : "slug"}})
+     * @param Breadcrumbs $breadcrumbs
      *
      * @return Response
+     * @ParamConverter("category", options={"mapping" : {"categorySlug" : "slug"}})
      */
-    public function getCategoryPosts(Request $request, PaginatorInterface $paginator, Category $category): Response
+    public function getCategoryPosts(Request $request, $count, Category $category, Breadcrumbs $breadcrumbs): Response
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $breadcrumbs->addItem($category->getTitle());
-
-        $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(Post::class)->findPostsForCategoryQuery($category);
-        $paginatedPosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 9);
+        $paginatedPosts = $this->pagination->paginationPostsForCategoryQuery($request, $category, $count);
 
         return $this->render('post/index.html.twig', [
             'posts' => $paginatedPosts,

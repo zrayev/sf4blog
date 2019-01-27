@@ -16,6 +16,14 @@ class NotificationSender
     private $router;
     private $mailer;
 
+    /**
+     * NotificationSender constructor.
+     * @param EntityManagerInterface $em
+     * @param EngineInterface $templating
+     * @param RouterInterface $router
+     *
+     * @param \Swift_Mailer $mailer
+     */
     public function __construct(EntityManagerInterface $em, EngineInterface $templating, RouterInterface $router, \Swift_Mailer $mailer)
     {
         $this->em = $em;

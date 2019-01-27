@@ -7,46 +7,58 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Form\CommentType;
 use App\Form\PostType;
+use App\Service\Pagination;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
-class PostController extends Controller
+class PostController extends AbstractController
 {
     private $translator;
+    private $pagination;
 
-    public function __construct(TranslatorInterface $translator)
+    /**
+     * PostController constructor.
+     * @param TranslatorInterface $translator
+     * @param Pagination $pagination
+     */
+    public function __construct(TranslatorInterface $translator, Pagination $pagination)
     {
         $this->translator = $translator;
+        $this->pagination = $pagination;
     }
 
     /**
      * @param Request $request
-     * @param PaginatorInterface $paginator
+     * @param $count
+     * @param Breadcrumbs $breadcrumbs
      *
      * @return Response
      */
-    public function index(Request $request, PaginatorInterface $paginator): Response
+    public function index(Request $request, $count, Breadcrumbs $breadcrumbs): Response
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'index');
-        $status = Post::STATUS_PUBLISH;
-        $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(Post::class)->findAllPublishPostsQuery($status);
-        $blogPosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 9);
+        $blogPosts = $this->pagination->paginationBlogIndexQuery($request, $count);
 
         return $this->render('post/index.html.twig', [
             'posts' => $blogPosts,
         ]);
     }
 
-    public function adminIndex(Request $request, PaginatorInterface $paginator): Response
+    /**
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @param Breadcrumbs $breadcrumbs
+     *
+     * @return Response
+     */
+    public function adminIndex(Request $request, PaginatorInterface $paginator, Breadcrumbs $breadcrumbs): Response
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'index');
         $breadcrumbs->addItem('Posts', $this->get('router')->generate('posts'));
         $em = $this->getDoctrine()->getManager();
@@ -60,13 +72,13 @@ class PostController extends Controller
 
     /**
      * @param Request $request
+     * @param Breadcrumbs $breadcrumbs
      *
      * @throws \Doctrine\ORM\OptimisticLockException
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Breadcrumbs $breadcrumbs): Response
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $post = new Post();
@@ -99,13 +111,13 @@ class PostController extends Controller
 
     /**
      * @param Post $post
-     * @ParamConverter("post", class="App:Post")
+     * @param Breadcrumbs $breadcrumbs
      *
      * @return Response
+     * @ParamConverter("post", class="App:Post")
      */
-    public function show(Post $post): Response
+    public function show(Post $post, Breadcrumbs $breadcrumbs): Response
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $breadcrumbs->addItem($post->getTitle());
 
@@ -117,13 +129,13 @@ class PostController extends Controller
     /**
      * @param Request $request
      * @param Post $post
-     * @ParamConverter("post", class="App:Post")
+     * @param Breadcrumbs $breadcrumbs
      *
      * @return RedirectResponse|Response
+     * @ParamConverter("post", class="App:Post")
      */
-    public function edit(Request $request, Post $post)
+    public function edit(Request $request, Post $post, Breadcrumbs $breadcrumbs)
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $breadcrumbs->addItem($post->getTitle());
         $this->denyAccessUnlessGranted('edit', $post);
@@ -197,13 +209,13 @@ class PostController extends Controller
     /**
      * @param Post $post
      * @param TranslatorInterface $translator
+     * @param Breadcrumbs $breadcrumbs
      *
      * @return Response
      * @ParamConverter("post", class="App:Post")
      */
-    public function delete(Post $post, TranslatorInterface $translator): Response
+    public function delete(Post $post, TranslatorInterface $translator, Breadcrumbs $breadcrumbs): Response
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $breadcrumbs->addItem($post->getTitle());
         $this->denyAccessUnlessGranted('delete', $post);
@@ -223,7 +235,7 @@ class PostController extends Controller
     /**
      * @param $message
      * @param $url
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\OptimisticLockException, Breadcrumbs $breadcrumbs
      *
      * @return RedirectResponse
      */
@@ -247,16 +259,13 @@ class PostController extends Controller
 
     /**
      * @param Request $request
-     * @param PaginatorInterface $paginator
+     * @param $count
      *
      * @return Response
      */
-    public function search(Request $request, PaginatorInterface $paginator): Response
+    public function search(Request $request, $count): Response
     {
-        $title = $request->get('title');
-        $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(Post::class)->findByTitleQuery($title);
-        $paginatePosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 10);
+        $paginatePosts = $this->pagination->paginationSearchQuery($request, $count);
 
         return $this->render('post/search.html.twig', [
             'posts' => $paginatePosts,
