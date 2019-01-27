@@ -47,9 +47,8 @@ class TagController extends AbstractController
      *
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Breadcrumbs $breadcrumbs): Response
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $breadcrumbs->addItem('Tags', $this->get('router')->generate('tags'));
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -78,13 +77,13 @@ class TagController extends AbstractController
     /**
      * @param Request $request
      * @param Tag $tag
-     * @ParamConverter("tag", class="App:Tag")
+     * @param Breadcrumbs $breadcrumbs
      *
      * @return RedirectResponse|Response
-     */
-    public function edit(Request $request, Tag $tag)
+     * @ParamConverter("tag", class="App:Tag")
+     */, Breadcrumbs $breadcrumbs
+    public function edit(Request $request, Tag $tag, Breadcrumbs $breadcrumbs)
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $breadcrumbs->addItem('Tags', $this->get('router')->generate('tags'));
         $breadcrumbs->addItem($tag->getTitle());

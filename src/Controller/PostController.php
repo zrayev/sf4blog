@@ -49,7 +49,7 @@ class PostController extends AbstractController
      * @param Request $request
      * @param PaginatorInterface $paginator
      * @param Breadcrumbs $breadcrumbs
-     * 
+     *
      * @return Response
      */
     public function adminIndex(Request $request, PaginatorInterface $paginator, Breadcrumbs $breadcrumbs): Response
@@ -69,8 +69,8 @@ class PostController extends AbstractController
      * @param Request $request
      * @param Breadcrumbs $breadcrumbs
      *
-     * @return Response
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @return Response
      */
     public function new(Request $request, Breadcrumbs $breadcrumbs): Response
     {
@@ -106,13 +106,13 @@ class PostController extends AbstractController
 
     /**
      * @param Post $post
-     * @ParamConverter("post", class="App:Post")
+     * @param Breadcrumbs $breadcrumbs
      *
      * @return Response
+     * @ParamConverter("post", class="App:Post")
      */
-    public function show(Post $post): Response
+    public function show(Post $post, Breadcrumbs $breadcrumbs): Response
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $breadcrumbs->addItem($post->getTitle());
 
@@ -124,13 +124,13 @@ class PostController extends AbstractController
     /**
      * @param Request $request
      * @param Post $post
-     * @ParamConverter("post", class="App:Post")
+     * @param Breadcrumbs $breadcrumbs
      *
      * @return RedirectResponse|Response
+     * @ParamConverter("post", class="App:Post")
      */
-    public function edit(Request $request, Post $post)
+    public function edit(Request $request, Post $post, Breadcrumbs $breadcrumbs)
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $breadcrumbs->addItem($post->getTitle());
         $this->denyAccessUnlessGranted('edit', $post);
@@ -204,13 +204,13 @@ class PostController extends AbstractController
     /**
      * @param Post $post
      * @param TranslatorInterface $translator
+     * @param Breadcrumbs $breadcrumbs
      *
      * @return Response
      * @ParamConverter("post", class="App:Post")
      */
-    public function delete(Post $post, TranslatorInterface $translator): Response
+    public function delete(Post $post, TranslatorInterface $translator, Breadcrumbs $breadcrumbs): Response
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $breadcrumbs->addItem($post->getTitle());
         $this->denyAccessUnlessGranted('delete', $post);
@@ -230,7 +230,7 @@ class PostController extends AbstractController
     /**
      * @param $message
      * @param $url
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\OptimisticLockException, Breadcrumbs $breadcrumbs
      *
      * @return RedirectResponse
      */

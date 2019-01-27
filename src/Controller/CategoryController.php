@@ -45,12 +45,12 @@ class CategoryController extends AbstractController
 
     /**
      * @param Request $request
+     * @param Breadcrumbs $breadcrumbs
      *
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Breadcrumbs $breadcrumbs): Response
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $breadcrumbs->addItem('Categories', $this->get('router')->generate('categories'));
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -79,13 +79,13 @@ class CategoryController extends AbstractController
     /**
      * @param Request $request
      * @param Category $category
-     * @ParamConverter("category", class="App:Category")
+     * @param Breadcrumbs $breadcrumbs
      *
      * @return RedirectResponse|Response
+     * @ParamConverter("category", class="App:Category")
      */
-    public function edit(Request $request, Category $category)
+    public function edit(Request $request, Category $category, Breadcrumbs $breadcrumbs)
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $breadcrumbs->addItem('Categories', $this->get('router')->generate('categories'));
         $breadcrumbs->addItem($category->getTitle());
@@ -115,13 +115,13 @@ class CategoryController extends AbstractController
      * @param Request $request
      * @param PaginatorInterface $paginator
      * @param Category $category
-     * @ParamConverter("category", options={"mapping" : {"categorySlug" : "slug"}})
+     * @param Breadcrumbs $breadcrumbs
      *
      * @return Response
+     * @ParamConverter("category", options={"mapping" : {"categorySlug" : "slug"}})
      */
-    public function getCategoryPosts(Request $request, PaginatorInterface $paginator, Category $category): Response
+    public function getCategoryPosts(Request $request, PaginatorInterface $paginator, Category $category, Breadcrumbs $breadcrumbs): Response
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $breadcrumbs->addItem($category->getTitle());
 
