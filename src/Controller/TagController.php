@@ -44,6 +44,7 @@ class TagController extends AbstractController
 
     /**
      * @param Request $request
+     * @param Breadcrumbs $breadcrumbs
      *
      * @return Response
      */

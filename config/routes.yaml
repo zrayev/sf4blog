@@ -1,7 +1,7 @@
 index:
-    path: /{_locale}
+    path: /{_locale}/{count<\d+>}
     controller: App\Controller\PostController::index
-    defaults:   { _locale: en }
+    defaults:   { _locale: en, count: 10 }
     requirements:
         _locale:  en|uk
 
@@ -12,8 +12,9 @@ posts:
         _locale:  en|uk
 
 blog:
-    path: /{_locale}/blog
+    path: /{_locale}/blog/{count<\d+>}
     controller: App\Controller\PostController::index
+    defaults:   { count: 10 }
     requirements:
         _locale:  en|uk
 
@@ -40,12 +41,14 @@ post_edit:
         _locale:  en|uk
 
 post_search:
-    path: /{_locale}/search/post
+    path: /{_locale}/search/post/{count<\d+>}
     controller: App\Controller\PostController::search
+    defaults:   { count: 10 }
 
 category_posts:
-    path: /{_locale}/{categorySlug}/posts
+    path: /{_locale}/{categorySlug}/posts/{count<\d+>}
     controller: App\Controller\CategoryController::getCategoryPosts
+    defaults:   { count: 10 }
     requirements:
         _locale:  en|uk
 

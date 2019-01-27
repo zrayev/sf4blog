@@ -7,6 +7,7 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Form\CommentType;
 use App\Form\PostType;
+use App\Service\Pagination;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,26 +20,30 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 class PostController extends AbstractController
 {
     private $translator;
+    private $pagination;
 
-    public function __construct(TranslatorInterface $translator)
+    /**
+     * PostController constructor.
+     * @param TranslatorInterface $translator
+     * @param Pagination $pagination
+     */
+    public function __construct(TranslatorInterface $translator, Pagination $pagination)
     {
         $this->translator = $translator;
+        $this->pagination = $pagination;
     }
 
     /**
      * @param Request $request
-     * @param PaginatorInterface $paginator
+     * @param $count
      * @param Breadcrumbs $breadcrumbs
      *
      * @return Response
      */
-    public function index(Request $request, PaginatorInterface $paginator, Breadcrumbs $breadcrumbs): Response
+    public function index(Request $request, $count, Breadcrumbs $breadcrumbs): Response
     {
         $breadcrumbs->addRouteItem('Home', 'index');
-        $status = Post::STATUS_PUBLISH;
-        $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(Post::class)->findAllPublishPostsQuery($status);
-        $blogPosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 9);
+        $blogPosts = $this->pagination->paginationBlogIndexQuery($request, $count);
 
         return $this->render('post/index.html.twig', [
             'posts' => $blogPosts,
@@ -254,16 +259,13 @@ class PostController extends AbstractController
 
     /**
      * @param Request $request
-     * @param PaginatorInterface $paginator
+     * @param $count
      *
      * @return Response
      */
-    public function search(Request $request, PaginatorInterface $paginator): Response
+    public function search(Request $request, $count): Response
     {
-        $title = $request->get('title');
-        $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(Post::class)->findByTitleQuery($title);
-        $paginatePosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 10);
+        $paginatePosts = $this->pagination->paginationSearchQuery($request, $count);
 
         return $this->render('post/search.html.twig', [
             'posts' => $paginatePosts,

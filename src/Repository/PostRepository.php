@@ -22,15 +22,13 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $status
-     *
      * @return Query
      */
-    public function findAllPublishPostsQuery($status): Query
+    public function findAllPublishPostsQuery(): Query
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.status = :status')
-            ->setParameter('status', $status)
+            ->setParameter('status', Post::STATUS_PUBLISH)
             ->orderBy('p.id', 'DESC')
             ->getQuery()
         ;

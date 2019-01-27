@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Category;
-use App\Entity\Post;
 use App\Form\CategoryType;
+use App\Service\Pagination;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,10 +17,12 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 class CategoryController extends AbstractController
 {
     private $translator;
+    private $pagination;
 
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, Pagination $pagination)
     {
         $this->translator = $translator;
+        $this->pagination = $pagination;
     }
 
     /**
@@ -113,21 +115,18 @@ class CategoryController extends AbstractController
 
     /**
      * @param Request $request
-     * @param PaginatorInterface $paginator
+     * @param $count
      * @param Category $category
      * @param Breadcrumbs $breadcrumbs
      *
      * @return Response
      * @ParamConverter("category", options={"mapping" : {"categorySlug" : "slug"}})
      */
-    public function getCategoryPosts(Request $request, PaginatorInterface $paginator, Category $category, Breadcrumbs $breadcrumbs): Response
+    public function getCategoryPosts(Request $request, $count, Category $category, Breadcrumbs $breadcrumbs): Response
     {
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $breadcrumbs->addItem($category->getTitle());
-
-        $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(Post::class)->findPostsForCategoryQuery($category);
-        $paginatedPosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 9);
+        $paginatedPosts = $this->pagination->paginationPostsForCategoryQuery($request, $category, $count);
 
         return $this->render('post/index.html.twig', [
             'posts' => $paginatedPosts,
