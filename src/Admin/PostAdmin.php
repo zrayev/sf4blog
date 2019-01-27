@@ -54,7 +54,6 @@ class PostAdmin extends AbstractAdmin
      */
     public function postUpdate($post)
     {
-        $d = true;
         $user = $this->tokenStorage->getToken()->getUser();
         if ($post->getStatus() === Post::STATUS_PUBLISH) {
             $this->notificationSender->sendNotification($post, $user);

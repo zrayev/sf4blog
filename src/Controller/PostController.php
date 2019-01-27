@@ -9,13 +9,14 @@ use App\Form\CommentType;
 use App\Form\PostType;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
-class PostController extends Controller
+class PostController extends AbstractController
 {
     private $translator;
 
@@ -27,12 +28,12 @@ class PostController extends Controller
     /**
      * @param Request $request
      * @param PaginatorInterface $paginator
+     * @param Breadcrumbs $breadcrumbs
      *
      * @return Response
      */
-    public function index(Request $request, PaginatorInterface $paginator): Response
+    public function index(Request $request, PaginatorInterface $paginator, Breadcrumbs $breadcrumbs): Response
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'index');
         $status = Post::STATUS_PUBLISH;
         $em = $this->getDoctrine()->getManager();
@@ -44,9 +45,15 @@ class PostController extends Controller
         ]);
     }
 
-    public function adminIndex(Request $request, PaginatorInterface $paginator): Response
+    /**
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @param Breadcrumbs $breadcrumbs
+     * 
+     * @return Response
+     */
+    public function adminIndex(Request $request, PaginatorInterface $paginator, Breadcrumbs $breadcrumbs): Response
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'index');
         $breadcrumbs->addItem('Posts', $this->get('router')->generate('posts'));
         $em = $this->getDoctrine()->getManager();
@@ -60,13 +67,13 @@ class PostController extends Controller
 
     /**
      * @param Request $request
+     * @param Breadcrumbs $breadcrumbs
      *
-     * @throws \Doctrine\ORM\OptimisticLockException
      * @return Response
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Breadcrumbs $breadcrumbs): Response
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $post = new Post();

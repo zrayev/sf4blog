@@ -7,13 +7,14 @@ use App\Entity\Post;
 use App\Form\CategoryType;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
-class CategoryController extends Controller
+class CategoryController extends AbstractController
 {
     private $translator;
 
@@ -22,9 +23,15 @@ class CategoryController extends Controller
         $this->translator = $translator;
     }
 
-    public function index(Request $request, PaginatorInterface $paginator): Response
+    /**
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @param Breadcrumbs $breadcrumbs
+     *
+     * @return Response
+     */
+    public function index(Request $request, PaginatorInterface $paginator, Breadcrumbs $breadcrumbs): Response
     {
-        $breadcrumbs = $this->get('white_october_breadcrumbs');
         $breadcrumbs->addRouteItem('Home', 'index');
         $breadcrumbs->addItem('Categories', $this->get('router')->generate('categories'));
         $em = $this->getDoctrine()->getManager();
