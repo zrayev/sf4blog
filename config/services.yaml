@@ -29,6 +29,7 @@ services:
 
     app.notification_sender:
         class: App\Service\NotificationSender
+        lazy:  true
         arguments: ['@doctrine.orm.entity_manager', '@templating', ' @router']
 
     app.menu_builder:
