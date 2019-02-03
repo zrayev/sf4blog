@@ -29,15 +29,9 @@
         <ul class="nav navbar-nav navbar-right">
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 <li class="mr-4 text-light">{{ app.user.username }} / {{ mgilet_notification_count(app.user) }} </li>
-                <li>
-                    <a href="{{ path('logout') }}" class="text-light">{{ 'Logout'|trans }}</a>
-                </li>
-            {% else %}
-                <li>
-                    <a href="{{ path('app_login') }}" class="text-light">{{ 'Login'|trans }}</a>
-                </li>
             {% endif %}
         </ul>
+        {{ knp_menu_render('user_nav', {'currentClass': 'active'}) }}
     </div>
   </div>
   </nav>
