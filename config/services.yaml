@@ -57,9 +57,9 @@ services:
 
     admin.category:
         class: App\Admin\CategoryAdmin
-        arguments: [~, App\Entity\Category, ~]
+        arguments: [~, App\Entity\Category, RedCodeTreeBundle:TreeAdmin , 'title']
         tags:
-        - { name: sonata.admin, manager_type: orm, label: Category }
+        - { name: sonata.admin, manager_type: orm, group: default, label: Category }
 
     admin.tag:
         class: App\Admin\TagAdmin
