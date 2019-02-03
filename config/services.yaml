@@ -38,10 +38,16 @@ services:
 
     app.main_menu:
         class: Knp\Menu\MenuItem
-        factory: ["@app.menu_builder", MyMenu]
+        factory: ["@app.menu_builder", MainMenu]
         arguments: ["@request_stack"]
         tags:
             - { name: knp_menu.menu, alias: nav }
+    app.user_menu:
+        class: Knp\Menu\MenuItem
+        factory: ["@app.menu_builder", UserMenu]
+        arguments: ["@request_stack"]
+        tags:
+            - { name: knp_menu.menu, alias: user_nav }
 
     security.access.post_voter:
         class:      App\Security\PostVoter
@@ -57,9 +63,9 @@ services:
 
     admin.category:
         class: App\Admin\CategoryAdmin
-        arguments: [~, App\Entity\Category, ~]
+        arguments: [~, App\Entity\Category, RedCodeTreeBundle:TreeAdmin , 'title']
         tags:
-        - { name: sonata.admin, manager_type: orm, label: Category }
+        - { name: sonata.admin, manager_type: orm, group: default, label: Category }
 
     admin.tag:
         class: App\Admin\TagAdmin

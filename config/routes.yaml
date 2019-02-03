@@ -11,13 +11,6 @@ posts:
     requirements:
         _locale:  en|uk
 
-blog:
-    path: /{_locale}/blog/{count<\d+>}
-    controller: App\Controller\PostController::index
-    defaults:   { count: 10 }
-    requirements:
-        _locale:  en|uk
-
 post_new:
     path: /{_locale}/post/new
     controller: App\Controller\PostController::new
@@ -125,3 +118,7 @@ _sonata_admin:
     resource: .
     type: sonata_admin
     prefix: /admin
+
+redcode_tree:
+    resource: "@RedCodeTreeBundle/Resources/config/routing.yml"
+    prefix:   /admin

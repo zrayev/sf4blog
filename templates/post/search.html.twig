@@ -14,6 +14,9 @@
     <div class="navigation pagination justify-content-center mb-4">
         {{ knp_pagination_render(posts) }}
     </div>
+    <a href="{{ path('post_search', { 'count': 10, 'title': app.request.get('title') }) }}">10</a>
+    <a href="{{ path('post_search', { 'count': 25, 'title': app.request.get('title') }) }}">25</a>
+    <a href="{{ path('post_search', { 'count': 50, 'title': app.request.get('title') }) }}">50</a>
     {% else %}
         <p class="text-center">{{ 'Posts not found'|trans }}. {{ 'You can will create new post'|trans }}.</p>
     {% endif %}
