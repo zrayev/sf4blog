@@ -17,5 +17,8 @@
         <div class="navigation pagination justify-content-center mb-4">
           {{ knp_pagination_render(posts) }}
         </div>
+        <a href="{{ path('index', { 'count': 10 }) }}">10</a>
+        <a href="{{ path('index', { 'count': 25 }) }}">25</a>
+        <a href="{{ path('index', { 'count': 50 }) }}">50</a>
     {% endif %}
 {% endblock %}
