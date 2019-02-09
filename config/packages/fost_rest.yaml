@@ -1,0 +1,5 @@
+fos_rest:
+    format_listener:
+        rules:
+            prefer_extension: false
+            fallback_format: json

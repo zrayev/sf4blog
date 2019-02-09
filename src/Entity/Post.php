@@ -84,15 +84,6 @@ class Post
      */
     private $modifiedAt;
 
-    /**
-     * @var User
-     *
-     * @Gedmo\Blameable(on="change", field={"title", "body"})
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="modified_by", referencedColumnName="id")
-     */
-    private $modifiedBy;
-
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -359,13 +350,5 @@ class Post
         $this->modifiedAt = $modifiedAt;
 
         return $this;
-    }
-
-    /**
-     * @return User
-     */
-    public function getModifiedBy(): User
-    {
-        return $this->modifiedBy;
     }
 }
