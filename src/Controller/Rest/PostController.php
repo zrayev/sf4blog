@@ -9,28 +9,32 @@ use FOS\RestBundle\Controller\Annotations as FOSRest;
 use HttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class PostController extends AbstractFOSRestController
 {
     private $em;
+    private $serializer;
 
     /**
      * PostController constructor.
      * @param EntityManagerInterface $em
+     * @param SerializerInterface $serializer
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, SerializerInterface $serializer)
     {
         $this->em = $em;
+        $this->serializer = $serializer;
     }
 
     /**
      * @FOSRest\Get("/post/{id}")
      * @param mixed $id
+     *
+     * @throws \HttpException
+     * @return Response
      */
-    public function getPost($id)
+    public function getPost($id): Response
     {
         if (!$id) {
             throw new HttpException(400, 'Invalid id');
@@ -47,7 +51,7 @@ class PostController extends AbstractFOSRestController
     /**
      * @FOSRest\Get("/posts")
      */
-    public function getPosts()
+    public function getPosts(): Response
     {
         $posts = $this->em->getRepository(Post::class)->findAll();
 
@@ -61,10 +65,9 @@ class PostController extends AbstractFOSRestController
      */
     protected function createApiResponse($data): Response
     {
-        $encoder = new JsonEncoder();
-        $normalizer = new ObjectNormalizer();
-        $serializer = new Serializer([$normalizer], [$encoder]);
-        $jsonData = $serializer->serialize($data, 'json');
+        $jsonData = $this->serializer->serialize(
+            ['data' => $data], 'json', ['groups' => ['rest'],
+        ]);
 
         return new JsonResponse(
             $jsonData,
