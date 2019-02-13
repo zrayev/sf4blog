@@ -7,6 +7,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as FOSRest;
 use HttpException;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -28,11 +31,20 @@ class PostController extends AbstractFOSRestController
     }
 
     /**
+     * Return post by ID.
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return Post by ID",
+     *     @Model(type=Post::class, groups={"rest"})
+     * )
+     * @SWG\Tag(name="posts")
+     * @Security(name="Post")
+     *
      * @FOSRest\Get("/post/{id}")
      * @param mixed $id
-     *
      * @throws \HttpException
-     * @return Response
+     * @return response
      */
     public function getPost($id): Response
     {
@@ -49,6 +61,16 @@ class PostController extends AbstractFOSRestController
     }
 
     /**
+     * Return all posts.
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return all posts",
+     *     @Model(type=Post::class, groups={"rest"})
+     * )
+     * @SWG\Tag(name="posts")
+     * @Security(name="Post")
+     *
      * @FOSRest\Get("/posts")
      */
     public function getPosts(): Response

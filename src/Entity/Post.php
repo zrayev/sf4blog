@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -23,30 +24,35 @@ class Post
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @Groups("rest")
+     * @SWG\Property(description="The unique identifier of the post.")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("rest")
+     * @SWG\Property(description="The title of the post.")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
      * @Groups("rest")
+     * @SWG\Property(description="The description of the post.")
      */
     private $description;
 
     /**
      * @ORM\Column(type="text")
      * @Groups("rest")
+     * @SWG\Property(description="The content of the post.")
      */
     private $body;
 
     /**
      * @ORM\Column(type="smallint")
      * @Groups("rest")
+     * @SWG\Property(description="Post status.")
      */
     private $status;
 
@@ -69,6 +75,7 @@ class Post
      * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(type="string", length=255)
      * @Groups("rest")
+     * @SWG\Property(description="The slug of the post.")
      */
     private $slug;
 
@@ -82,6 +89,7 @@ class Post
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      * @Groups("rest")
+     * @SWG\Property(description="Posting data.")
      */
     private $createdAt;
 
@@ -90,6 +98,7 @@ class Post
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      * @Groups("rest")
+     * @SWG\Property(description="Modifying data.")
      */
     private $modifiedAt;
 
