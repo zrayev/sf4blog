@@ -1,12 +1,49 @@
 nelmio_api_doc:
     models: { use_jms: false }
     documentation:
-        host: localhost/api
-        schemes: [http, https]
         info:
             title: Blog API
             description: This is an awesome app!
             version: 1.0.0
+
+        securityDefinitions:
+            Bearer:
+                type: apiKey
+                description: 'Value: Bearer {jwt}'
+                default: 'Bearer Token'
+                name: Authorization
+                in: header
+            security:
+                -   Bearer: []
+        paths:
+            /api/login:
+                post:
+                    tags:
+                        - Login
+                    description: Login into the api.
+                    produces:
+                        - application/json
+                    parameters:
+                        -   name: user
+                            description: User to login
+                            in: body
+                            required: true
+                            schema:
+                                type: object
+                                properties:
+                                    username:
+                                        type: string
+                                    password:
+                                        type: string
+                    responses:
+                        '200':
+                            description: Login successful
+                            schema:
+                                type: object
+                                properties:
+                                    token:
+                                        type: string
+
     areas:
         default:
-            path_patterns: [ ^/api ]
+            path_patterns: [ ^/api/ ]

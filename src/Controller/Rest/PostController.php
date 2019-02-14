@@ -40,7 +40,7 @@ class PostController extends AbstractFOSRestController
      *     @Model(type=Post::class, groups={"rest"})
      * )
      * @SWG\Tag(name="posts")
-     * @Security(name="Post")
+     * @Security(name="Bearer")
      *
      * @FOSRest\Get("/post/{id}")
      * @param mixed $id
@@ -70,7 +70,7 @@ class PostController extends AbstractFOSRestController
      *     @Model(type=Post::class, groups={"rest"})
      * )
      * @SWG\Tag(name="posts")
-     * @Security(name="Post")
+     * @Security(name="Bearer")
      *
      * @FOSRest\Get(path="/posts", name="api_posts_collection")
      * @param Request $request
