@@ -72,3 +72,8 @@ services:
         arguments: [~, App\Entity\Tag, ~]
         tags:
         - { name: sonata.admin, manager_type: orm, label: Tag }
+
+    app.pagintaion:
+        class: App\Service\PaginationFactory
+        autowire: true
+        public: true

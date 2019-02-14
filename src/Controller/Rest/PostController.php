@@ -3,6 +3,7 @@
 namespace App\Controller\Rest;
 
 use App\Entity\Post;
+use App\Service\PaginationFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as FOSRest;
@@ -11,6 +12,7 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -18,16 +20,19 @@ class PostController extends AbstractFOSRestController
 {
     private $em;
     private $serializer;
+    private $paginationFactory;
 
     /**
      * PostController constructor.
      * @param EntityManagerInterface $em
      * @param SerializerInterface $serializer
+     * @param PaginationFactory $paginationFactory
      */
-    public function __construct(EntityManagerInterface $em, SerializerInterface $serializer)
+    public function __construct(EntityManagerInterface $em, SerializerInterface $serializer, PaginationFactory $paginationFactory)
     {
         $this->em = $em;
         $this->serializer = $serializer;
+        $this->paginationFactory = $paginationFactory;
     }
 
     /**
@@ -71,21 +76,26 @@ class PostController extends AbstractFOSRestController
      * @SWG\Tag(name="posts")
      * @Security(name="Post")
      *
-     * @FOSRest\Get("/posts")
+     * @FOSRest\Get(path="/posts", name="api_posts_collection")
+     * @param Request $request
+     * @return Response
      */
-    public function getPosts(): Response
+    public function getPosts(Request $request): Response
     {
-        $posts = $this->em->getRepository(Post::class)->findAll();
+        $qb = $this->em->getRepository(Post::class)->findAllQuery();
 
-        return $this->createApiResponse($posts);
+        $paginatedCollection = $this->paginationFactory->createCollection($qb, $request, 'api_posts_collection');
+
+        return $this->createApiResponse($paginatedCollection);
     }
 
     /**
      * @param $data
+     * @param int $statusCode
      *
      * @return Response
      */
-    protected function createApiResponse($data): Response
+    protected function createApiResponse($data, $statusCode = 200): Response
     {
         $jsonData = $this->serializer->serialize(
             ['data' => $data], 'json', ['groups' => ['rest'],
@@ -93,8 +103,10 @@ class PostController extends AbstractFOSRestController
 
         return new JsonResponse(
             $jsonData,
-            200,
-            [],
+            $statusCode,
+            [
+                'Content-Type' => 'application/json',
+            ],
             true
         );
     }
