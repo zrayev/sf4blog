@@ -7,6 +7,7 @@
         "ext-http": "*",
         "ext-iconv": "*",
         "friendsofsymfony/rest-bundle": "^2.5",
+        "jms/serializer": "^2.1",
         "knplabs/knp-menu-bundle": "^2.2",
         "knplabs/knp-paginator-bundle": "^2.8",
         "lexik/jwt-authentication-bundle": "^2.6",

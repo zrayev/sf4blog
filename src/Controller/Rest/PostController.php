@@ -8,30 +8,26 @@ use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as FOSRest;
 use HttpException;
+use JMS\Serializer\SerializerBuilder;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Swagger\Annotations as SWG;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class PostController extends AbstractFOSRestController
 {
     private $em;
-    private $serializer;
     private $paginationFactory;
 
     /**
      * PostController constructor.
      * @param EntityManagerInterface $em
-     * @param SerializerInterface $serializer
      * @param PaginationFactory $paginationFactory
      */
-    public function __construct(EntityManagerInterface $em, SerializerInterface $serializer, PaginationFactory $paginationFactory)
+    public function __construct(EntityManagerInterface $em, PaginationFactory $paginationFactory)
     {
         $this->em = $em;
-        $this->serializer = $serializer;
         $this->paginationFactory = $paginationFactory;
     }
 
@@ -90,24 +86,36 @@ class PostController extends AbstractFOSRestController
     }
 
     /**
+     * Centralise Response creation for our controllers.
+     *
      * @param $data
      * @param int $statusCode
      *
      * @return Response
      */
-    protected function createApiResponse($data, $statusCode = 200): Response
+    protected function createApiResponse($data, $statusCode = 200)
     {
-        $jsonData = $this->serializer->serialize(
-            ['data' => $data], 'json', ['groups' => ['rest'],
-        ]);
+        $json = $this->serialize($data);
 
-        return new JsonResponse(
-            $jsonData,
-            $statusCode,
-            [
+        return new Response(
+            $json, $statusCode, [
                 'Content-Type' => 'application/json',
-            ],
-            true
+            ]
         );
+    }
+
+    /**
+     * Use JMS Serialiser to serialize objects.
+     *
+     * @param mixed $data
+     * @param mixed $format
+     *
+     * @return string
+     */
+    protected function serialize($data, $format = 'json')
+    {
+        $serializer = SerializerBuilder::create()->build();
+
+        return $serializer->serialize($data, $format);
     }
 }
