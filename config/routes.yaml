@@ -135,7 +135,7 @@ app.swagger:
 
 api:
     path: /api
-    controller: App\Controller\SecurityController::api
+    controller: App\Controller\Api\SecurityController::api
 
 api_login_check:
     path:     /api/login

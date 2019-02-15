@@ -34,6 +34,3 @@ framework:
         #app: cache.adapter.apcu
 
     validation: { enabled: true }
-
-    serializer:
-        enabled: true

@@ -23,35 +23,35 @@ class Post
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("rest")
+     * @Groups({"post:show"})
      * @SWG\Property(description="The unique identifier of the post.")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("rest")
+     * @Groups({"post:show", "post:edit"})
      * @SWG\Property(description="The title of the post.")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups("rest")
+     * @Groups({"post:show", "post:edit"})
      * @SWG\Property(description="The description of the post.")
      */
     private $description;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups("rest")
+     * @Groups({"post:show", "post:edit"})
      * @SWG\Property(description="The content of the post.")
      */
     private $body;
 
     /**
      * @ORM\Column(type="smallint")
-     * @Groups("rest")
+     * @Groups({"post:show", "post:edit"})
      * @SWG\Property(description="Post status.")
      */
     private $status;
@@ -74,7 +74,7 @@ class Post
     /**
      * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(type="string", length=255)
-     * @Groups("rest")
+     * @Groups({"post:show"})
      * @SWG\Property(description="The slug of the post.")
      */
     private $slug;
@@ -88,7 +88,7 @@ class Post
      * @var \DateTime
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
-     * @Groups("rest")
+     * @Groups({"post:show"})
      * @SWG\Property(description="Posting data.")
      */
     private $createdAt;
@@ -97,7 +97,7 @@ class Post
      * @var \DateTime
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
-     * @Groups("rest")
+     * @Groups({"post:show"})
      * @SWG\Property(description="Modifying data.")
      */
     private $modifiedAt;

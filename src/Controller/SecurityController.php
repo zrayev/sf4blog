@@ -20,12 +20,4 @@ class SecurityController extends AbstractController
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
-
-    /**
-     * @return Response
-     */
-    public function api(): Response
-    {
-        return new Response(sprintf('Logged in as %s', $this->getUser()->getUsername()));
-    }
 }

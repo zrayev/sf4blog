@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Rest;
+namespace App\Controller\Api;
 
 use App\Entity\Post;
 use App\Service\PaginationFactory;
@@ -11,6 +11,7 @@ use HttpException;
 use JMS\Serializer\SerializerBuilder;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,37 +38,35 @@ class PostController extends AbstractFOSRestController
      * @SWG\Response(
      *     response=200,
      *     description="Return Post by ID",
-     *     @Model(type=Post::class, groups={"rest"})
+     *     @Model(type=Post::class, groups={"post:show"})
      * )
-     * @SWG\Tag(name="posts")
+     * @SWG\Tag(name="post")
      * @Security(name="Bearer")
      *
      * @FOSRest\Get("/post/{id}")
-     * @param mixed $id
-     * @throws \HttpException
+     * @param Post $post
+     * @throws HttpException
      * @return response
+     * @ParamConverter("post", class="App:Post")
      */
-    public function getPost($id): Response
+    public function getPost(Post $post): Response
     {
-        if (!$id) {
-            throw new HttpException(400, 'Invalid id');
-        }
-        $post = $this->em->getRepository(Post::class)->find($id);
+        $postData = $this->em->getRepository(Post::class)->find($post->getId());
 
-        if (!$post) {
-            throw new HttpException(400, 'Invalid data');
+        if (!$postData) {
+            throw new HttpException(400, 'Posts not found');
         }
 
-        return $this->createApiResponse(['post' => $post]);
+        return $this->createApiResponse(['post' => $postData]);
     }
 
     /**
-     * Return all posts.
+     * Return list of paginated posts.
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return all posts",
-     *     @Model(type=Post::class, groups={"rest"})
+     *     description="Return list of paginated posts",
+     *     @Model(type=Post::class, groups={"post:show"})
      * )
      * @SWG\Tag(name="posts")
      * @Security(name="Bearer")
