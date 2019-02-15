@@ -13,7 +13,5 @@ class SecurityController extends AbstractController
     public function api(): Response
     {
         return new Response(sprintf('Logged in as %s', $this->getUser()->getUsername()));
-
+    }
 }
-
-
