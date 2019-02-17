@@ -58,7 +58,7 @@ class PostController extends AbstractFOSRestController
             throw new HttpException(400, 'Post not found');
         }
 
-        return $this->createApiResponse(['post' => $post], ['groups' => 'post:show']);
+        return $this->createApiResponse(['data' => $post], ['groups' => 'post:show']);
     }
 
     /**
@@ -67,7 +67,11 @@ class PostController extends AbstractFOSRestController
      * @SWG\Response(
      *     response=200,
      *     description="Return list of paginatedCollection posts",
-     *     @Model(type=Post::class, groups={"post:show"})
+     *     @SWG\Schema(type="object",
+     *         @SWG\Property(property="items", type="array", @SWG\Items(ref=@Model(type=Post::class, groups={"post:show"}))),
+     *         @SWG\Property(property="total", type="integer"),
+     *         @SWG\Property(property="count", type="integer"),
+     *     )
      * )
      * @SWG\Parameter(
      *     name="page",
@@ -94,7 +98,7 @@ class PostController extends AbstractFOSRestController
 
         $paginatedCollection = $this->paginationFactory->createCollection($qb, $request, 'api_posts_collection');
 
-        return $this->createApiResponse(['posts' => $paginatedCollection], ['groups' => 'post:show']);
+        return $this->createApiResponse($paginatedCollection, ['groups' => ['paginatedCollection:show', 'post:show']]);
     }
 
     /**
@@ -152,7 +156,7 @@ class PostController extends AbstractFOSRestController
             throw new HttpException(400, 'Comments not found');
         }
 
-        return $this->createApiResponse(['comments' => $comments], ['groups' => 'comment:show']);
+        return $this->createApiResponse(['data' => $comments], ['groups' => 'comment:show']);
     }
 
     /**
@@ -177,7 +181,7 @@ class PostController extends AbstractFOSRestController
             throw new HttpException(400, 'Tags not found');
         }
 
-        return $this->createApiResponse(['tags' => $tags], ['groups' => 'tag:show']);
+        return $this->createApiResponse(['data' => $tags], ['groups' => 'tag:show']);
     }
 
     /**
@@ -202,7 +206,7 @@ class PostController extends AbstractFOSRestController
             throw new HttpException(400, 'Author not found');
         }
 
-        return $this->createApiResponse(['author' => $author], ['groups' => 'author:show']);
+        return $this->createApiResponse(['data' => $author], ['groups' => 'author:show']);
     }
 
     /**
@@ -212,7 +216,7 @@ class PostController extends AbstractFOSRestController
      *
      * @return Response
      */
-    protected function createApiResponse($data, $context, $statusCode = 200): Response
+    protected function createApiResponse($data, $context = [], $statusCode = 200): Response
     {
         $json = $this->serialize($data, $context);
 

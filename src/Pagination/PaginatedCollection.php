@@ -2,12 +2,28 @@
 
 namespace App\Pagination;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
+
 class PaginatedCollection
 {
-    private $items;
-    private $total;
-    private $count;
-    private $_links = [];
+    /**
+     * @Groups({"paginatedCollection:show"})
+     */
+    public $items;
+    /**
+     * @Groups({"paginatedCollection:show"})
+     */
+    public $total;
+    /**
+     * @Groups({"paginatedCollection:show"})
+     */
+    public $count;
+    /**
+     * @Groups({"paginatedCollection:show"})
+     * @SerializedName("_links")
+     */
+    public $links = [];
 
     public function __construct(array $items, $totalItems)
     {
@@ -16,8 +32,12 @@ class PaginatedCollection
         $this->count = \count($items);
     }
 
-    public function addLink($ref, $url)
+    /**
+     * @param $ref
+     * @param $url
+     */
+    public function addLink($ref, $url): void
     {
-        $this->_links[$ref] = $url;
+        $this->links[$ref] = $url;
     }
 }
