@@ -95,12 +95,87 @@ class PostController extends AbstractFOSRestController
     }
 
     /**
+     * Return List Comments.
+     *
+     * @FOSRest\Get(path="/comments/{post}", name="api_post_comments")
+     * @SWG\Response(
+     *     response=200,
+     *     description="Success"
+     * ),
+     * @SWG\Tag(name="posts")
+     * @Security(name="Bearer")
+     * @param Post $post
+     * @throws HttpException
+     * @return Response
+     * @ParamConverter("post", class="App:Post")
+     */
+    public function getComments(Post $post): Response
+    {
+        $comments = $post->getComments();
+        if (!$comments) {
+            throw new HttpException(400, 'Comments not found');
+        }
+
+        return $this->createApiResponse(['comments' => $comments]);
+    }
+
+    /**
+     * Return List Tags.
+     *
+     * @FOSRest\Get(path="/tags/{post}", name="api_post_tags")
+     * @SWG\Response(
+     *     response=200,
+     *     description="Success"
+     * ),
+     * @SWG\Tag(name="posts")
+     * @Security(name="Bearer")
+     * @param Post $post
+     * @throws HttpException
+     * @return Response
+     * @ParamConverter("post", class="App:Post")
+     */
+    public function getTags(Post $post): Response
+    {
+        $tags = $post->getTags();
+        if (!$tags) {
+            throw new HttpException(400, 'Tags not found');
+        }
+
+        return $this->createApiResponse(['tags' => $tags]);
+    }
+
+    /**
+     * Return Post Author.
+     *
+     * @FOSRest\Get(path="/author/{post}", name="api_post_author")
+     * @SWG\Response(
+     *     response=200,
+     *     description="Success"
+     * ),
+     * @SWG\Tag(name="posts")
+     * @Security(name="Bearer")
+     * @param Post $post
+     * @throws HttpException
+     * @return Response
+     * @ParamConverter("post", class="App:Post")
+     */
+    public function getAuthor(Post $post): Response
+    {
+        $author = $post->getAuthor();
+        if (!$author) {
+            throw new HttpException(400, 'Author not found');
+        }
+
+        return $this->createApiResponse(['author' => $author]);
+    }
+
+    /**
      * @param $data
      * @param int $statusCode
      *
      * @return Response
      */
-    protected function createApiResponse($data, $statusCode = 200)
+    protected function createApiResponse($data, $statusCode = 200): Response
     {
         $json = $this->serialize($data);
 
@@ -112,14 +187,14 @@ class PostController extends AbstractFOSRestController
     }
 
     /**
-     * Use JMS Serialiser to serialize objects.
+     * Use JMS Serializer to serialize objects.
      *
      * @param mixed $data
      * @param mixed $format
      *
      * @return string
      */
-    protected function serialize($data, $format = 'json')
+    protected function serialize($data, $format = 'json'): string
     {
         $serializer = SerializerBuilder::create()->build();
 
