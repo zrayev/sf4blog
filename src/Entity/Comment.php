@@ -5,6 +5,7 @@ namespace App\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
@@ -15,16 +16,19 @@ class Comment
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"comment:show"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"comment:show"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"comment:show"})
      */
     private $body;
 
@@ -35,6 +39,7 @@ class Comment
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"comment:show"})
      */
     private $authorName;
 

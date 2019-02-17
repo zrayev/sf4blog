@@ -8,28 +8,31 @@ use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as FOSRest;
 use HttpException;
-use JMS\Serializer\SerializerBuilder;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class PostController extends AbstractFOSRestController
 {
     private $em;
     private $paginationFactory;
+    private $serializer;
 
     /**
      * PostController constructor.
      * @param EntityManagerInterface $em
      * @param PaginationFactory $paginationFactory
+     * @param SerializerInterface $serializer
      */
-    public function __construct(EntityManagerInterface $em, PaginationFactory $paginationFactory)
+    public function __construct(EntityManagerInterface $em, PaginationFactory $paginationFactory, SerializerInterface $serializer)
     {
         $this->em = $em;
         $this->paginationFactory = $paginationFactory;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -55,7 +58,7 @@ class PostController extends AbstractFOSRestController
             throw new HttpException(400, 'Post not found');
         }
 
-        return $this->createApiResponse(['post' => $post]);
+        return $this->createApiResponse(['post' => $post], ['groups' => 'post:show']);
     }
 
     /**
@@ -91,7 +94,40 @@ class PostController extends AbstractFOSRestController
 
         $paginatedCollection = $this->paginationFactory->createCollection($qb, $request, 'api_posts_collection');
 
-        return $this->createApiResponse($paginatedCollection);
+        return $this->createApiResponse(['posts' => $paginatedCollection], ['groups' => 'post:show']);
+    }
+
+    /**
+     * New post.
+     *
+     * @SWG\Parameter(
+     *     name="Post",
+     *     in="body",
+     *     description="Create new Post",
+     *     type="object",
+     *     @Model(type=Post::class, groups={"post:edit"})
+     * ),
+     * @SWG\Response(
+     *     response=200,
+     *     description="Create Post",
+     *     @Model(type=Post::class, groups={"post:edit"})
+     * )
+     * @SWG\Tag(name="posts")
+     * @Security(name="Bearer")
+     *
+     * @FOSRest\Post("/posts")
+     * @param Request $request
+     * @return Response
+     */
+    public function new(Request $request): Response
+    {
+        /** @var Post $post */
+        $post = $this->serializer->deserialize($request->getContent(), Post::class, 'json', ['groups' => 'post:edit']);
+        $post->setAuthor($this->getUser());
+        $this->em->persist($post);
+        $this->em->flush();
+
+        return new Response($post);
     }
 
     /**
@@ -116,7 +152,7 @@ class PostController extends AbstractFOSRestController
             throw new HttpException(400, 'Comments not found');
         }
 
-        return $this->createApiResponse(['comments' => $comments]);
+        return $this->createApiResponse(['comments' => $comments], ['groups' => 'comment:show']);
     }
 
     /**
@@ -141,7 +177,7 @@ class PostController extends AbstractFOSRestController
             throw new HttpException(400, 'Tags not found');
         }
 
-        return $this->createApiResponse(['tags' => $tags]);
+        return $this->createApiResponse(['tags' => $tags], ['groups' => 'tag:show']);
     }
 
     /**
@@ -166,18 +202,19 @@ class PostController extends AbstractFOSRestController
             throw new HttpException(400, 'Author not found');
         }
 
-        return $this->createApiResponse(['author' => $author]);
+        return $this->createApiResponse(['author' => $author], ['groups' => 'author:show']);
     }
 
     /**
      * @param $data
+     * @param $context
      * @param int $statusCode
      *
      * @return Response
      */
-    protected function createApiResponse($data, $statusCode = 200): Response
+    protected function createApiResponse($data, $context, $statusCode = 200): Response
     {
-        $json = $this->serialize($data);
+        $json = $this->serialize($data, $context);
 
         return new Response(
             $json, $statusCode, [
@@ -190,14 +227,13 @@ class PostController extends AbstractFOSRestController
      * Use JMS Serializer to serialize objects.
      *
      * @param mixed $data
+     * @param $context
      * @param mixed $format
      *
      * @return string
      */
-    protected function serialize($data, $format = 'json'): string
+    protected function serialize($data, $context, $format = 'json'): string
     {
-        $serializer = SerializerBuilder::create()->build();
-
-        return $serializer->serialize($data, $format);
+        return $this->serializer->serialize($data, $format, $context);
     }
 }
