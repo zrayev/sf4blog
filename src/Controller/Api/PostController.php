@@ -48,16 +48,11 @@ class PostController extends AbstractFOSRestController
      *
      * @FOSRest\Get("/posts/{id<\d+>}")
      * @param Post $post
-     * @throws HttpException
      * @return response
      * @ParamConverter("post", class="App:Post")
      */
     public function getPost(Post $post): Response
     {
-        if (!$post) {
-            throw new HttpException(400, 'Post not found');
-        }
-
         return $this->createApiResponse(['data' => $post], ['groups' => 'post:show']);
     }
 
@@ -74,15 +69,10 @@ class PostController extends AbstractFOSRestController
      * @FOSRest\Delete("/posts/{id<\d+>}")
      * @param Post $post
      * @ParamConverter("post", class="App:Post")
-     * @throws HttpException
      * @return Response
      */
     public function deletePost(Post $post): Response
     {
-        if (!$post) {
-            throw new HttpException(400, 'Post not found');
-        }
-
         $post->getTags()->clear();
         $post->getComments()->clear();
         $this->em->remove($post);
