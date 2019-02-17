@@ -43,7 +43,31 @@ nelmio_api_doc:
                                 properties:
                                     token:
                                         type: string
+                                    refresh_token:
+                                        type: string
+                                    type:
+                                        type: string
 
+            /api/token/refresh:
+                post:
+                    tags:
+                        - Token refresh
+                    parameters:
+                        - name: data
+                          in: body
+                          schema:
+                              type: object
+                              properties:
+                                  refresh_token:
+                                      type: string
+                    responses:
+                        '200':
+                            description: Token refreshed successfully
+                            schema:
+                                type: object
+                                properties:
+                                    token:
+                                        type: string
     areas:
         default:
             path_patterns: [ ^/api/ ]

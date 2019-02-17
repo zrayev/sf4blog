@@ -40,10 +40,10 @@ class PostController extends AbstractFOSRestController
      *     description="Return Post by ID",
      *     @Model(type=Post::class, groups={"post:show"})
      * )
-     * @SWG\Tag(name="post")
+     * @SWG\Tag(name="posts")
      * @Security(name="Bearer")
      *
-     * @FOSRest\Get("/post/{id}")
+     * @FOSRest\Get("/posts/{id}")
      * @param Post $post
      * @throws HttpException
      * @return response
@@ -54,7 +54,7 @@ class PostController extends AbstractFOSRestController
         $postData = $this->em->getRepository(Post::class)->find($post->getId());
 
         if (!$postData) {
-            throw new HttpException(400, 'Posts not found');
+            throw new HttpException(400, 'Post not found');
         }
 
         return $this->createApiResponse(['post' => $postData]);
@@ -85,8 +85,6 @@ class PostController extends AbstractFOSRestController
     }
 
     /**
-     * Centralise Response creation for our controllers.
-     *
      * @param $data
      * @param int $statusCode
      *
