@@ -43,7 +43,7 @@ class PostController extends AbstractFOSRestController
      * @SWG\Tag(name="posts")
      * @Security(name="Bearer")
      *
-     * @FOSRest\Get("/posts/{id}")
+     * @FOSRest\Get("/posts/{id<\d+>}")
      * @param Post $post
      * @throws HttpException
      * @return response
@@ -51,23 +51,33 @@ class PostController extends AbstractFOSRestController
      */
     public function getPost(Post $post): Response
     {
-        $postData = $this->em->getRepository(Post::class)->find($post->getId());
-
-        if (!$postData) {
+        if (!$post) {
             throw new HttpException(400, 'Post not found');
         }
 
-        return $this->createApiResponse(['post' => $postData]);
+        return $this->createApiResponse(['post' => $post]);
     }
 
     /**
-     * Return list of paginated posts.
+     * Return list of paginatedCollection posts.
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return list of paginated posts",
+     *     description="Return list of paginatedCollection posts",
      *     @Model(type=Post::class, groups={"post:show"})
      * )
+     * @SWG\Parameter(
+     *     name="page",
+     *     in="query",
+     *     description="Page number",
+     *     type="integer",
+     * )
+     * @SWG\Parameter(
+     *     name="per_page",
+     *     in="query",
+     *     description="Page items count",
+     *     type="integer",
+     * ),
      * @SWG\Tag(name="posts")
      * @Security(name="Bearer")
      *
