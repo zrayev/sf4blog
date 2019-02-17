@@ -62,6 +62,38 @@ class PostController extends AbstractFOSRestController
     }
 
     /**
+     * Delete post by ID.
+     *
+     * @SWG\Response(
+     *     response=204,
+     *     description="Delete Post by ID",
+     * )
+     * @SWG\Tag(name="posts")
+     * @Security(name="Bearer")
+     *
+     * @FOSRest\Delete("/posts/{id<\d+>}")
+     * @param Post $post
+     * @ParamConverter("post", class="App:Post")
+     * @throws HttpException
+     * @return Response
+     */
+    public function deletePost(Post $post): Response
+    {
+        if (!$post) {
+            throw new HttpException(400, 'Post not found');
+        }
+
+        $post->getTags()->clear();
+        $post->getComments()->clear();
+        $this->em->remove($post);
+        $this->em->flush();
+
+        return new Response('', Response::HTTP_NO_CONTENT, [
+            'Content-Type' => 'application/json',
+        ]);
+    }
+
+    /**
      * Return list of paginatedCollection posts.
      *
      * @SWG\Response(
@@ -216,7 +248,7 @@ class PostController extends AbstractFOSRestController
      *
      * @return Response
      */
-    protected function createApiResponse($data, $context = [], $statusCode = 200): Response
+    protected function createApiResponse($data, array $context = [], $statusCode = 200): Response
     {
         $json = $this->serialize($data, $context);
 
@@ -228,8 +260,6 @@ class PostController extends AbstractFOSRestController
     }
 
     /**
-     * Use JMS Serializer to serialize objects.
-     *
      * @param mixed $data
      * @param $context
      * @param mixed $format
