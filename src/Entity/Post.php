@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Swagger\Annotations as SWG;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
@@ -21,26 +23,36 @@ class Post
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"post:show"})
+     * @SWG\Property(description="The unique identifier of the post.")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"post:show", "post:edit"})
+     * @SWG\Property(description="The title of the post.")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"post:show", "post:edit"})
+     * @SWG\Property(description="The description of the post.")
      */
     private $description;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"post:show", "post:edit"})
+     * @SWG\Property(description="The content of the post.")
      */
     private $body;
 
     /**
      * @ORM\Column(type="smallint")
+     * @Groups({"post:show", "post:edit"})
+     * @SWG\Property(description="Post status.")
      */
     private $status;
 
@@ -62,6 +74,8 @@ class Post
     /**
      * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(type="string", length=255)
+     * @Groups({"post:show"})
+     * @SWG\Property(description="The slug of the post.")
      */
     private $slug;
 
@@ -74,6 +88,8 @@ class Post
      * @var \DateTime
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
+     * @Groups({"post:show"})
+     * @SWG\Property(description="Posting data.")
      */
     private $createdAt;
 
@@ -81,17 +97,10 @@ class Post
      * @var \DateTime
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
+     * @Groups({"post:show"})
+     * @SWG\Property(description="Modifying data.")
      */
     private $modifiedAt;
-
-    /**
-     * @var User
-     *
-     * @Gedmo\Blameable(on="change", field={"title", "body"})
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="modified_by", referencedColumnName="id")
-     */
-    private $modifiedBy;
 
     public function __construct()
     {
@@ -359,13 +368,5 @@ class Post
         $this->modifiedAt = $modifiedAt;
 
         return $this;
-    }
-
-    /**
-     * @return User
-     */
-    public function getModifiedBy(): User
-    {
-        return $this->modifiedBy;
     }
 }

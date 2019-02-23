@@ -10,6 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Mgilet\NotificationBundle\Annotation\Notifiable;
 use Mgilet\NotificationBundle\NotifiableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -21,31 +22,37 @@ class User implements UserInterface, NotifiableInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"author:show"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64, unique=true)
+     * @Groups({"author:show"})
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"author:show"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Groups({"author:show"})
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Groups({"author:show"})
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"author:show"})
      */
     private $roles = [];
 
@@ -57,6 +64,7 @@ class User implements UserInterface, NotifiableInterface
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"author:show"})
      */
     private $enabled;
 
@@ -69,6 +77,7 @@ class User implements UserInterface, NotifiableInterface
      * @var \DateTime
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
+     * @Groups({"author:show"})
      */
     private $createdAt;
 
