@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73fe69a96ad42806163fbd50c237829e",
+    "content-hash": "d0754aa9669036e303526c80cb208cf9",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -2331,16 +2331,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v3.3.1",
+            "version": "v3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "1b104bbf748f2af0496897c98d5ded3ac545ed43"
+                "reference": "279d20be784b9879ad0a12859efa3a301404f06c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/1b104bbf748f2af0496897c98d5ded3ac545ed43",
-                "reference": "1b104bbf748f2af0496897c98d5ded3ac545ed43",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/279d20be784b9879ad0a12859efa3a301404f06c",
+                "reference": "279d20be784b9879ad0a12859efa3a301404f06c",
                 "shasum": ""
             },
             "require": {
@@ -2357,7 +2357,7 @@
                 "doctrine/annotations": "^1.2",
                 "doctrine/common": "^2.4",
                 "friendsofsymfony/rest-bundle": "^2.0",
-                "jms/serializer-bundle": "^2.0",
+                "jms/serializer-bundle": "^2.0|^3.0",
                 "sensio/framework-extra-bundle": "^3.0",
                 "symfony/asset": "^3.4|^4.0",
                 "symfony/browser-kit": "^3.4|^4.0",
@@ -2372,7 +2372,7 @@
                 "symfony/templating": "^3.4|^4.0",
                 "symfony/twig-bundle": "^3.4|^4.0",
                 "symfony/validator": "^3.4|^4.0",
-                "willdurand/hateoas-bundle": "^1.0"
+                "willdurand/hateoas-bundle": "^1.0|^2.0"
             },
             "suggest": {
                 "api-platform/core": "For using an API oriented framework.",
@@ -2410,7 +2410,7 @@
                 "documentation",
                 "rest"
             ],
-            "time": "2019-01-25T17:25:46+00:00"
+            "time": "2019-02-18T16:27:10+00:00"
         },
         {
             "name": "ocramius/package-versions",
@@ -3596,16 +3596,16 @@
         },
         {
             "name": "sonata-project/doctrine-orm-admin-bundle",
-            "version": "3.8.2",
+            "version": "3.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle.git",
-                "reference": "b43a2d47da18f37b319afffbd7322c42dc0e0ad2"
+                "reference": "49da00385f402c712fd155c3872a72030bd520b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataDoctrineORMAdminBundle/zipball/b43a2d47da18f37b319afffbd7322c42dc0e0ad2",
-                "reference": "b43a2d47da18f37b319afffbd7322c42dc0e0ad2",
+                "url": "https://api.github.com/repos/sonata-project/SonataDoctrineORMAdminBundle/zipball/49da00385f402c712fd155c3872a72030bd520b5",
+                "reference": "49da00385f402c712fd155c3872a72030bd520b5",
                 "shasum": ""
             },
             "require": {
@@ -3613,7 +3613,7 @@
                 "doctrine/orm": "^2.5",
                 "php": "^7.1",
                 "sonata-project/admin-bundle": "^3.29",
-                "sonata-project/core-bundle": "^3.8",
+                "sonata-project/core-bundle": "^3.14",
                 "sonata-project/exporter": "^1.11.0 || ^2.0",
                 "symfony/config": "^2.8 || ^3.2 || ^4.0",
                 "symfony/console": "^2.8 || ^3.2 || ^4.0",
@@ -3676,7 +3676,7 @@
                 "generator",
                 "sonata"
             ],
-            "time": "2019-02-04T15:57:33+00:00"
+            "time": "2019-02-28T19:22:10+00:00"
         },
         {
             "name": "sonata-project/exporter",
@@ -8801,16 +8801,16 @@
         },
         {
             "name": "symfony/panther",
-            "version": "v0.2.0",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/panther.git",
-                "reference": "d67f9dbcac173150fe00673e6564b3482762c615"
+                "reference": "5e41bc856eded5f546c71173a1e8e260c5e3a07a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/panther/zipball/d67f9dbcac173150fe00673e6564b3482762c615",
-                "reference": "d67f9dbcac173150fe00673e6564b3482762c615",
+                "url": "https://api.github.com/repos/symfony/panther/zipball/5e41bc856eded5f546c71173a1e8e260c5e3a07a",
+                "reference": "5e41bc856eded5f546c71173a1e8e260c5e3a07a",
                 "shasum": ""
             },
             "require": {
@@ -8826,7 +8826,7 @@
             "require-dev": {
                 "fabpot/goutte": "^3.2.3",
                 "guzzlehttp/guzzle": "^6.3",
-                "phpunit/phpunit": "^7.0",
+                "phpunit/phpunit": "^7.3",
                 "symfony/css-selector": "^3.4 || ^4.0",
                 "symfony/framework-bundle": "^3.4 || ^4.0"
             },
@@ -8866,7 +8866,7 @@
                 "testing",
                 "webdriver"
             ],
-            "time": "2018-09-26T10:35:52+00:00"
+            "time": "2019-02-27T12:48:28+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",
@@ -9259,7 +9259,6 @@
     "platform": {
         "php": "^7.1.3",
         "ext-ctype": "*",
-        "ext-http": "*",
         "ext-iconv": "*"
     },
     "platform-dev": []
