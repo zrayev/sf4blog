@@ -10,13 +10,17 @@ matrix:
 
 before_script:
     - composer self-update
+    - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
+#    - php ./bin/console doctrine:database:create --env=test
+    - php ./bin/console doctrine:schema:create --env=test
+    - php ./bin/console doctrine:fixtures:load --env=test
 
 install:
     - composer install --ignore-platform-reqs
     - ./bin/phpunit install
 
 script:
-    - ./bin/phpunit
+    - ./bin/phpunit --configuration phpunit.xml.dist --coverage-text
     # this checks that the YAML config files contain no syntax errors
     - ./bin/console lint:yaml config
     # this checks that the Twig template files contain no syntax errors
