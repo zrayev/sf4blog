@@ -8,18 +8,20 @@ matrix:
         - php: 7.2
         - php: 7.3
 
-before_script:
+env:
+    - SYMFONY_VERSION="4.2.*" DB=mysql
+
+before-install:
     - composer self-update
-    - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
-#    - php ./bin/console doctrine:database:create --env=test
-    - php ./bin/console doctrine:schema:create --env=test
-    - php ./bin/console doctrine:fixtures:load --env=test
 
 install:
-    - composer install --ignore-platform-reqs
-    - ./bin/phpunit install
+    - composer install
+    - cp .env.dist .env
+    - php bin/console doctrine:database:create --env=test
+    - php bin/console doctrine:schema:create --env=test
 
 script:
+    - vendor/bin/behat
     - ./bin/phpunit --configuration phpunit.xml.dist --coverage-text
     # this checks that the YAML config files contain no syntax errors
     - ./bin/console lint:yaml config
