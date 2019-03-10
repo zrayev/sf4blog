@@ -1,0 +1,21 @@
+default:
+    suites:
+        default:
+            contexts:
+                - FeatureContext: { kernel: '@kernel', em: "@doctrine.orm.entity_manager", 'jwtManager': '@lexik_jwt_authentication.jwt_manager' }
+                - Behat\MinkExtension\Context\MinkContext
+                - Behatch\Context\RestContext
+                - Behatch\Context\JsonContext
+    extensions:
+        Behat\Symfony2Extension:
+            kernel:
+                env: 'test'
+                debug: 'true'
+                bootstrap: features/bootstrap/bootstrap.php
+                class: App\Kernel
+        Behat\MinkExtension:
+            base_url: "http://learn.loc/"
+            sessions:
+                default:
+                    symfony2: ~
+        Behatch\Extension: ~
