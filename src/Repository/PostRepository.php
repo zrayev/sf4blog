@@ -59,18 +59,4 @@ class PostRepository extends ServiceEntityRepository
             ->getQuery()
             ;
     }
-
-    /**
-     * @param $title
-     *
-     * @return Query
-     */
-    public function findByTitleQuery($title): Query
-    {
-        return $this->createQueryBuilder('p')
-            ->where('p.title LIKE :title')
-            ->setParameter(':title', "%$title%")
-            ->getQuery()
-            ;
-    }
 }

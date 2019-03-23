@@ -132,6 +132,9 @@
     "egulias/email-validator": {
         "version": "2.1.7"
     },
+    "elasticsearch/elasticsearch": {
+        "version": "v6.1.0"
+    },
     "exsyst/swagger": {
         "version": "v0.4.1"
     },
@@ -140,6 +143,18 @@
     },
     "fig/link-util": {
         "version": "1.0.0"
+    },
+    "friendsofsymfony/elastica-bundle": {
+        "version": "5.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "5.0",
+            "ref": "3f73f240ee0c3719e89f1c994ce66904e2ef84f6"
+        },
+        "files": [
+            "config/packages/fos_elastica.yaml"
+        ]
     },
     "friendsofsymfony/rest-bundle": {
         "version": "2.2",
@@ -158,6 +173,12 @@
     },
     "gesdinet/jwt-refresh-token-bundle": {
         "version": "v0.5.4"
+    },
+    "guzzlehttp/ringphp": {
+        "version": "1.1.1"
+    },
+    "guzzlehttp/streams": {
+        "version": "3.0.0"
     },
     "hoa/compiler": {
         "version": "3.17.08.08"
@@ -285,8 +306,14 @@
     "psr/simple-cache": {
         "version": "1.0.1"
     },
+    "react/promise": {
+        "version": "v2.7.1"
+    },
     "redcode/tree-bundle": {
         "version": "0.1-alpha"
+    },
+    "ruflin/elastica": {
+        "version": "6.1.1"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
@@ -488,6 +515,9 @@
     },
     "symfony/polyfill-intl-icu": {
         "version": "v1.10.0"
+    },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.11.0"
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.10.0"

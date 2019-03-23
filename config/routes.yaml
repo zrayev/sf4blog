@@ -9,11 +9,6 @@ post_show:
     path: /{_locale}/post/{slug}
     controller: App\Controller\PostController::show
 
-post_search:
-    path: /{_locale}/search/post/{count<\d+>}
-    controller: App\Controller\PostController::search
-    defaults:   { count: 10 }
-
 category_posts:
     path: /{_locale}/{categorySlug}/posts/{count<\d+>}
     controller: App\Controller\CategoryController::getCategoryPosts
@@ -72,3 +67,9 @@ api_login_check:
 gesdinet_jwt_refresh_token:
     path:       /api/token/refresh
     controller: gesdinet.jwtrefreshtoken::refresh
+
+search:
+    path: /{_locale}/search
+    controller: App\Controller\SearchController::index
+    requirements:
+        _locale:  en|uk
