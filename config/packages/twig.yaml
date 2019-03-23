@@ -5,3 +5,6 @@ twig:
 
     form_themes:
         - 'bootstrap_4_layout.html.twig'
+
+    paths:
+        '%kernel.project_dir%/templates': theme

@@ -6,18 +6,18 @@ use App\Entity\Post;
 use App\Entity\User;
 use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Symfony\Component\Security\Core\Security;
 
 class PostVoter extends Voter
 {
     public const EDIT = 'edit';
     public const DELETE = 'delete';
-    private $security;
+    private $authorizationChecker;
 
-    public function __construct(Security $security)
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
     {
-        $this->security = $security;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     protected function supports($attribute, $subject)
@@ -50,7 +50,7 @@ class PostVoter extends Voter
         }
 
         // ROLE_SUPER_ADMIN can edit all posts
-        if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
+        if ($this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {
             return true;
         }
 
@@ -67,11 +67,23 @@ class PostVoter extends Voter
         throw new LogicException('This code should not be reached!');
     }
 
+    /**
+     * @param Post $post
+     * @param User $user
+     *
+     * @return bool
+     */
     private function canEdit(Post $post, User $user): bool
     {
         return $user === $post->getAuthor();
     }
 
+    /**
+     * @param Post $post
+     * @param User $user
+     *
+     * @return bool
+     */
     private function canDelete(Post $post, User $user): bool
     {
         return $user === $post->getAuthor();

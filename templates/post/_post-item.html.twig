@@ -5,19 +5,17 @@
                 {{- post.title -}}
             {% endfilter %}
         </h2>
-        <p class="card-text">{{- post.description -}}</p>
+        <p class="card-text">{{- post.description|raw -}}</p>
         <a href="{{- path('post_show', {slug: post.slug}) -}}" class="btn btn-primary btn-sm active" role="button">{{ 'Show'|trans }}</a>
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <a href="{{- path('post_edit', {slug: post.slug}) -}}" class="btn btn-secondary btn-sm" role="button">{{ 'Edit'|trans }}</a>
-            <a href="{{- path('post_delete', {slug: post.slug}) -}}" class="btn btn-secondary btn-sm" role="button">{{ 'Delete'|trans }}</a>
-        {% endif %}
     </div>
     <div class="card-footer text-muted">
         {% trans with {'%createdAt%': post.createdAt|date('Y-m-d'), '%username%': post.author.username} %}Posted on %createdAt% by %username%{% endtrans %} <br>
-        {{ 'Category'|trans }}: {{ post.category.title }} <br>
-        {{ 'Tags'|trans }}:
+        {{ 'Category'|trans }}: <a href="{{- path('category_posts', {categorySlug:  post.category.slug}) -}}">{{  post.category.title }}</a><br>
+        {% transchoice post.tags|length %}
+            {1} Tag|]1,Inf[ Tags
+        {% endtranschoice %}:
           {% for tag in post.tags %}
-              <a href="{{- path('tag_show', {slug: tag.slug}) -}}" class="btn btn-outline-primary btn-sm">{{ tag.title }}</a>
+              <span class="tag">{{ tag.title }}</span>
           {% endfor %}
     </div>
 </div>

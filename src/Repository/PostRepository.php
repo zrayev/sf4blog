@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -20,17 +22,55 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $status
-     *
-     * @return mixed
+     * @return Query
      */
-    public function findAllPublishArticles($status)
+    public function findAllPublishPostsQuery(): Query
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.status = :val')
-            ->setParameter('val', $status)
-            ->orderBy('p.id', 'ASC')
+            ->andWhere('p.status = :status')
+            ->setParameter('status', Post::STATUS_PUBLISH)
+            ->orderBy('p.id', 'DESC')
             ->getQuery()
         ;
+    }
+
+    /**
+     * @return Query
+     */
+    public function findAllQuery(): Query
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC')
+            ->getQuery()
+            ;
+    }
+
+    /**
+     * @param $category
+     *
+     * @return Query
+     */
+    public function findPostsForCategoryQuery(Category $category): Query
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.category = :category')
+            ->setParameter('category', $category)
+            ->orderBy('p.id', 'DESC')
+            ->getQuery()
+            ;
+    }
+
+    /**
+     * @param $title
+     *
+     * @return Query
+     */
+    public function findByTitleQuery($title): Query
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.title LIKE :title')
+            ->setParameter(':title', "%$title%")
+            ->getQuery()
+            ;
     }
 }

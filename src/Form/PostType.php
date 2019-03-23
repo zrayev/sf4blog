@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\Category;
 use App\Entity\Post;
 use App\Entity\Tag;
-use App\Entity\User;
 use App\Form\Type\PostWorkflowType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -33,16 +32,6 @@ class PostType extends AbstractType
             ->add('status', PostWorkflowType::class, [
                 'label' => 'label.status',
                 'placeholder' => 'placeholder.status', ])
-            ->add('author', EntityType::class, [
-                'label' => 'label.authorName',
-                'class' => User::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.username', 'ASC');
-                },
-                'choice_label' => 'username',
-                'required' => true,
-            ])
             ->add('category', EntityType::class, [
                 'label' => 'label.category',
                 'class' => Category::class,

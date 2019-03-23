@@ -27,19 +27,53 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    app.notification_sender:
+        class: App\Service\NotificationSender
+        lazy:  true
+        arguments: ['@doctrine.orm.entity_manager', '@templating', ' @router']
+
     app.menu_builder:
         class: App\Menu\Builder
         arguments: ["@knp_menu.factory"]
 
     app.main_menu:
         class: Knp\Menu\MenuItem
-        factory: ["@app.menu_builder", MyMenu]
+        factory: ["@app.menu_builder", MainMenu]
         arguments: ["@request_stack"]
         tags:
             - { name: knp_menu.menu, alias: nav }
+    app.user_menu:
+        class: Knp\Menu\MenuItem
+        factory: ["@app.menu_builder", UserMenu]
+        arguments: ["@request_stack"]
+        tags:
+            - { name: knp_menu.menu, alias: user_nav }
 
     security.access.post_voter:
         class:      App\Security\PostVoter
         public:     false
         tags:
             - { name: security.voter }
+
+    admin.post:
+        class: App\Admin\PostAdmin
+        arguments: [~, App\Entity\Post, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Post }
+
+    admin.category:
+        class: App\Admin\CategoryAdmin
+        arguments: [~, App\Entity\Category, RedCodeTreeBundle:TreeAdmin , 'title']
+        tags:
+        - { name: sonata.admin, manager_type: orm, group: default, label: Category }
+
+    admin.tag:
+        class: App\Admin\TagAdmin
+        arguments: [~, App\Entity\Tag, ~]
+        tags:
+        - { name: sonata.admin, manager_type: orm, label: Tag }
+
+    app.pagintaion:
+        class: App\Service\PaginationFactory
+        autowire: true
+        public: true

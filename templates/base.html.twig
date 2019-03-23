@@ -12,28 +12,26 @@
   {% block nav %}
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container">
-  <a class="navbar-brand" href="{{ path('blog') }}">Blog</a>
+  <a class="navbar-brand" href="{{ path('index') }}">Blog</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
   <span class="navbar-toggler-icon"></span>
   </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
         {{ knp_menu_render('nav', {'currentClass': 'active'}) }}
+        <form class="form-inline my-2 my-lg-0" role="search" action="{{ path('post_search') }}">
+            <input class="form-control mr-sm-2" name="title" type="text" placeholder="{{ 'enter a few words'|trans }}" aria-label="{{ 'enter a few words'|trans }}">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">{{ 'Search'|trans }}</button>
+        </form>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="{{ path('index', {'_locale':'en'}) }}" class="btn">EN</a></li>
             <li><a href="{{ path('index', {'_locale':'uk'}) }}" class="btn">UA</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <li class="mr-4 text-light">{{ app.user.username }} </li>
-                <li>
-                    <a href="{{ path('logout') }}" class="text-light">{{ 'Logout'|trans }}</a>
-                </li>
-            {% else %}
-                <li>
-                    <a href="{{ path('app_login') }}" class="text-light">{{ 'Login'|trans }}</a>
-                </li>
+                <li class="mr-4 text-light">{{ app.user.username }} / {{ mgilet_notification_count(app.user) }} </li>
             {% endif %}
         </ul>
+        {{ knp_menu_render('user_nav', {'currentClass': 'active'}) }}
     </div>
   </div>
   </nav>
@@ -46,6 +44,16 @@
         </div>
       {% endfor %}
     {% endblock %}
+    {{ wo_render_breadcrumbs() }}
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <ul class="notifications">
+            <li><details>
+                    <summary>Show notifications</summary>
+                    {{ mgilet_notification_render(app.user, { 'template': '@theme/layouts/_notifications.html.twig'}) }}
+                </details>
+            </li>
+        </ul>
+    {% endif %}
     {% block content %}
     {% endblock %}
     </div>
@@ -59,6 +67,12 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src='//cdn.tinymce.com/4/tinymce.min.js'></script>
+    <script>
+      tinymce.init({
+          selector: 'textarea'
+      });
+    </script>
   {% endblock %}
 </body>
 </html>

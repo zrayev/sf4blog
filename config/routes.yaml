@@ -1,19 +1,7 @@
 index:
-    path: /{_locale}
+    path: /{_locale}/{count<\d+>}
     controller: App\Controller\PostController::index
-    defaults:   { _locale: en }
-    requirements:
-        _locale:  en|uk
-
-blog:
-    path: /{_locale}/blog
-    controller: App\Controller\PostController::index
-    requirements:
-        _locale:  en|uk
-
-post_new:
-    path: /{_locale}/post/new
-    controller: App\Controller\PostController::new
+    defaults:   { _locale: en, count: 10 }
     requirements:
         _locale:  en|uk
 
@@ -21,39 +9,15 @@ post_show:
     path: /{_locale}/post/{slug}
     controller: App\Controller\PostController::show
 
-post_delete:
-    path: /{_locale}/post/{slug}/delete
-    controller: App\Controller\PostController::delete
-    requirements:
-        _locale:  en|uk
+post_search:
+    path: /{_locale}/search/post/{count<\d+>}
+    controller: App\Controller\PostController::search
+    defaults:   { count: 10 }
 
-post_edit:
-    path: /{_locale}/post/edit/{slug}
-    controller: App\Controller\PostController::edit
-    requirements:
-        _locale:  en|uk
-
-category_new:
-    path: /{_locale}/category/new
-    controller: App\Controller\CategoryController::new
-    requirements:
-        _locale:  en|uk
-
-category_edit:
-    path: /{_locale}/category/edit/{slug}
-    controller: App\Controller\CategoryController::edit
-    requirements:
-        _locale:  en|uk
-
-categories:
-    path: /{_locale}/categories
-    controller: App\Controller\CategoryController::index
-    requirements:
-        _locale:  en|uk
-
-category_show:
-    path: /{_locale}/category/{slug}
-    controller: App\Controller\CategoryController::index
+category_posts:
+    path: /{_locale}/{categorySlug}/posts/{count<\d+>}
+    controller: App\Controller\CategoryController::getCategoryPosts
+    defaults:   { count: 10 }
     requirements:
         _locale:  en|uk
 
@@ -63,33 +27,48 @@ comment_new:
     requirements:
         _locale:  en|uk
 
-tag_new:
-    path: /{_locale}/tag/new
-    controller: App\Controller\TagController::new
-    requirements:
-        _locale:  en|uk
-
-tag_show:
-    path: /{_locale}/tag/{slug}
-    controller: App\Controller\TagController::index
-    requirements:
-        _locale:  en|uk
-
-tags:
-    path: /{_locale}/tags
-    controller: App\Controller\TagController::index
-    requirements:
-        _locale:  en|uk
-
-tag_edit:
-    path: /{_locale}/tag/edit/{slug}
-    controller: App\Controller\TagController::edit
-    requirements:
-        _locale:  en|uk
-
 logout:
     path: /logout
 
 app_login:
     path: /login
     controller: App\Controller\SecurityController::login
+
+mgilet_notification:
+    resource: "@MgiletNotificationBundle/Controller/"
+    prefix: /notifications
+
+send_notification:
+    path: /send-notification
+    controller: App\Controller\PostController::sendNotification
+
+_sonata_admin:
+    resource: .
+    type: sonata_admin
+    prefix: /admin
+
+redcode_tree:
+    resource: "@RedCodeTreeBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+app.swagger_ui:
+    path: /api-doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+
+app.swagger:
+    path: /api-doc.json
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger }
+
+api:
+    path: /api
+    controller: App\Controller\Api\SecurityController::api
+
+api_login_check:
+    path:     /api/login
+    methods:  POST
+
+gesdinet_jwt_refresh_token:
+    path:       /api/token/refresh
+    controller: gesdinet.jwtrefreshtoken::refresh

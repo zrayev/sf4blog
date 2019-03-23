@@ -1,0 +1,35 @@
+language: php
+sudo: false
+
+matrix:
+    fast_finish: true
+    include:
+        - php: 7.1
+        - php: 7.2
+        - php: 7.3
+
+env:
+    - SYMFONY_VERSION="4.2.*" DB=mysql
+
+before-install:
+    - composer self-update
+
+install:
+    - composer install
+    - php bin/console doctrine:database:create --env=test
+    - php bin/console doctrine:schema:create --env=test
+
+script:
+    - vendor/bin/behat
+    - ./bin/phpunit --configuration phpunit.xml.dist --coverage-text
+    # this checks that the YAML config files contain no syntax errors
+    - ./bin/console lint:yaml config
+    # this checks that the Twig template files contain no syntax errors
+    - ./bin/console lint:twig templates
+    # this checks that the XLIFF translations contain no syntax errors
+    - ./bin/console lint:xliff translations
+    # this checks that Doctrine's mapping configurations are valid
+    - ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
+
+services:
+    - mysql

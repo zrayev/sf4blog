@@ -37,3 +37,11 @@ Categories: Categories
 Posts: Posts
 'Posted on %createdAt% by %username%': 'Posted on %createdAt% by %username%'
 '{1} Comment|]1,Inf[ Comments': '{1} Comment|]1,Inf[ Comments'
+'{1} Tag|]1,Inf[ Tags': '{1} Tag|]1,Inf[ Tags'
+delete: delete
+show: show
+'Commented %createdAt% at %username%': 'Commented %createdAt% at %username%'
+'enter a few words': 'enter a few words'
+Search: Search
+'Search Results': 'Search Results'
+'Commented %createdAt% at %authorName%': 'Commented %createdAt% at %authorName%'
