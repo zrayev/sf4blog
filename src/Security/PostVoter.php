@@ -67,11 +67,23 @@ class PostVoter extends Voter
         throw new LogicException('This code should not be reached!');
     }
 
+    /**
+     * @param Post $post
+     * @param User $user
+     *
+     * @return bool
+     */
     private function canEdit(Post $post, User $user): bool
     {
         return $user === $post->getAuthor();
     }
 
+    /**
+     * @param Post $post
+     * @param User $user
+     *
+     * @return bool
+     */
     private function canDelete(Post $post, User $user): bool
     {
         return $user === $post->getAuthor();

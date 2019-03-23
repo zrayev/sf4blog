@@ -6,9 +6,7 @@ use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Form\CommentType;
-use App\Form\PostType;
 use App\Service\Pagination;
-use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -51,65 +49,6 @@ class PostController extends AbstractController
     }
 
     /**
-     * @param Request $request
-     * @param PaginatorInterface $paginator
-     * @param Breadcrumbs $breadcrumbs
-     *
-     * @return Response
-     */
-    public function adminIndex(Request $request, PaginatorInterface $paginator, Breadcrumbs $breadcrumbs): Response
-    {
-        $breadcrumbs->addRouteItem('Home', 'index');
-        $breadcrumbs->addItem('Posts', $this->get('router')->generate('posts'));
-        $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(Post::class)->findAllQuery();
-        $paginatePosts = $paginator->paginate($posts, $request->query->getInt('page', 1), 10);
-
-        return $this->render('post/posts.html.twig', [
-            'posts' => $paginatePosts,
-        ]);
-    }
-
-    /**
-     * @param Request $request
-     * @param Breadcrumbs $breadcrumbs
-     *
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @return Response
-     */
-    public function new(Request $request, Breadcrumbs $breadcrumbs): Response
-    {
-        $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $post = new Post();
-        $post->setAuthor($this->getUser());
-        $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm(PostType::class, $post);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($post);
-            $em->flush();
-            $this->addFlash(
-                'notice',
-                $this->translator->trans('notification.post_created', [
-                    '%title%' => $post->getTitle(),
-                ])
-            );
-            $url = $this->generateUrl(
-                'post_show',
-                ['slug' => $post->getSlug()]
-            );
-            $this->sendNotification($post->getTitle(), $url);
-
-            return $this->redirectToRoute('blog');
-        }
-
-        return $this->render('post/new.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
      * @param Post $post
      * @param Breadcrumbs $breadcrumbs
      *
@@ -122,40 +61,6 @@ class PostController extends AbstractController
         $breadcrumbs->addItem($post->getTitle());
 
         return $this->render('post/show.html.twig', [
-            'post' => $post,
-        ]);
-    }
-
-    /**
-     * @param Request $request
-     * @param Post $post
-     * @param Breadcrumbs $breadcrumbs
-     *
-     * @return RedirectResponse|Response
-     * @ParamConverter("post", class="App:Post")
-     */
-    public function edit(Request $request, Post $post, Breadcrumbs $breadcrumbs)
-    {
-        $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
-        $breadcrumbs->addItem($post->getTitle());
-        $this->denyAccessUnlessGranted('edit', $post);
-        $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm(PostType::class, $post);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
-            $this->addFlash(
-                'notice',
-                $this->translator->trans('notification.post_edited', [
-                    '%title%' => $post->getTitle(),
-                ])
-            );
-
-            return $this->redirectToRoute('blog');
-        }
-
-        return $this->render('post/edit.html.twig', [
-            'form' => $form->createView(),
             'post' => $post,
         ]);
     }
@@ -204,32 +109,6 @@ class PostController extends AbstractController
             'post' => $post,
             'form' => $form->createView(),
         ]);
-    }
-
-    /**
-     * @param Post $post
-     * @param TranslatorInterface $translator
-     * @param Breadcrumbs $breadcrumbs
-     *
-     * @return Response
-     * @ParamConverter("post", class="App:Post")
-     */
-    public function delete(Post $post, TranslatorInterface $translator, Breadcrumbs $breadcrumbs): Response
-    {
-        $breadcrumbs->addItem('Home', $this->get('router')->generate('index'));
-        $breadcrumbs->addItem($post->getTitle());
-        $this->denyAccessUnlessGranted('delete', $post);
-        $em = $this->getDoctrine()->getManager();
-        $post->getTags()->clear();
-        $post->getComments()->clear();
-        $em->remove($post);
-        $em->flush();
-        $this->addFlash(
-            'notice',
-            $this->translator->trans('notification.post_deleted')
-        );
-
-        return $this->redirectToRoute('posts');
     }
 
     /**

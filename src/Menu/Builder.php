@@ -32,7 +32,7 @@ class Builder
      *
      * @return ItemInterface
      */
-    public function MainMenu(RequestStack $requestStack)
+    public function MainMenu(RequestStack $requestStack): ItemInterface
     {
         $masterCategories = $this->em->getRepository(Category::class)
             ->findBy(['parent' => null]);
@@ -44,10 +44,6 @@ class Builder
             $menu->addChild($masterCategory->getTitle(), ['route' => 'category_posts', 'routeParameters' => $params]);
         }
 
-        $menu->addChild('Posts', ['route' => 'posts']);
-        $menu->addChild('Categories', ['route' => 'categories']);
-        $menu->addChild('Tags', ['route' => 'tags']);
-
         foreach ($menu as $child) {
             $child->setLinkAttribute('class', 'nav-link')
                 ->setAttribute('class', 'nav-item');
@@ -56,7 +52,12 @@ class Builder
         return $menu;
     }
 
-    public function UserMenu(RequestStack $requestStack)
+    /**
+     * @param RequestStack $requestStack
+     *
+     * @return ItemInterface
+     */
+    public function UserMenu(RequestStack $requestStack): ItemInterface
     {
         $menu = $this->factory->createItem('root');
         $menu->setChildrenAttributes(['class' => 'navbar-nav mr-auto navbar-right']);
