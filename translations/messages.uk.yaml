@@ -43,5 +43,6 @@ show: перегляд
 'Commented %createdAt% at %username%': 'Коментар залишено %createdAt% від %username%'
 'enter a few words': 'введіть декілька слів'
 Search: Пошук
+Home: Головна
 'Commented %createdAt% at %authorName%': 'Коментар залишено %createdAt% від %authorName%'
-'Search Results': 'Результати пошуку'
+'Search results for request': 'Результати пошуку для запиту'

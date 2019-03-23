@@ -26,24 +26,6 @@ class Pagination
      *
      * @return PaginationInterface
      */
-    public function paginationSearchQuery(Request $request, $count): PaginationInterface
-    {
-        $title = $request->get('title');
-        $query = $this->em->getRepository(Post::class)->findByTitleQuery($title);
-        $pagination = $this->knpPaginator->paginate(
-            $query,
-            $request->query->getInt('page', 1), $count
-        );
-
-        return $pagination;
-    }
-
-    /**
-     * @param Request $request
-     * @param $count
-     *
-     * @return PaginationInterface
-     */
     public function paginationBlogIndexQuery(Request $request, $count): PaginationInterface
     {
         $query = $this->em->getRepository(Post::class)->findAllPublishPostsQuery();
