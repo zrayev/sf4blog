@@ -2,6 +2,8 @@ index:
     path: /{_locale}/{count<\d+>}
     controller: App\Controller\PostController::index
     defaults:   { _locale: en, count: 10 }
+    options:
+        sitemap: true
     requirements:
         _locale:  en|uk
 
