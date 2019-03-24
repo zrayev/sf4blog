@@ -5,10 +5,13 @@ security:
 
     providers:
         # used to reload user from session & other features (e.g. switch_user)
+
         app_user_provider:
             entity:
                 class: App\Entity\User
                 property: email
+#        entity_provider:
+#            id: hwi_oauth.user.provider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -40,6 +43,15 @@ security:
                 path:   logout
 
             form_login: true
+            oauth:
+                resource_owners:
+                    facebook:           "/login/check-facebook"
+                login_path:        /login
+                use_forward:       false
+                failure_path:      /login
+
+                oauth_user_provider:
+                    service: hwi_oauth.user.provider
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator

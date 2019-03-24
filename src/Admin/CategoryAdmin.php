@@ -29,14 +29,13 @@ class CategoryAdmin extends AbstractTreeAdmin
     {
         $listMapper
             ->addIdentifier('id')
-            ->addIdentifier('title')
-            ->addIdentifier('createdAt')
+            ->add('title')
+            ->add('createdAt')
             ->add('lft')
             ->add('lvl')
             ->add('rgt')
-            ->add('_action', null, [
+            ->add('_action', 'actions', [
                 'actions' => [
-                    'show' => [],
                     'edit' => [],
                     'delete' => [],
                 ],

@@ -64,7 +64,7 @@ class Builder
         if ($this->authorizationChecker->isGranted(['ROLE_ADMIN'])) {
             $menu->addChild('Admin', ['route' => 'sonata_admin_redirect', 'label' => 'Admin']);
         }
-        if ($this->authorizationChecker->isGranted(['ROLE_USER'])) {
+        if ($this->authorizationChecker->isGranted(['``'])) {
             $menu->addChild('Logout', ['route' => 'logout', 'label' => 'Logout']);
         } else {
             $menu->addChild('Login', ['route' => 'app_login', 'label' => 'Login']);

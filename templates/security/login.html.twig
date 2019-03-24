@@ -31,5 +31,8 @@
     <button class="btn btn-lg btn-primary" type="submit">
         Sign in
     </button>
+    <a href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}">
+        <span>Login with facebook</span>
+    </a>
 </form>
 {% endblock %}
