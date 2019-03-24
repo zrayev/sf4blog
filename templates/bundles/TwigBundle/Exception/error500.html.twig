@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{ status_code }}
+{% endblock %}
+{% block content %}
+    <h1 class="pt-1">Error 500</h1>
+    <p>
+        There was an internal server error.
+    </p>
+    <p>
+        Try loading this page again in some minutes or <a href="{{ path('index') }}">go back to the homepage</a>.
+    </p>
+{% endblock %}
