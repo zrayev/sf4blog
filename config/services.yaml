@@ -26,6 +26,9 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+    HWI\Bundle\OAuthBundle\Security\Http\ResourceOwnerMap:
+        alias: hwi_oauth.resource_ownermap.main
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
@@ -56,6 +59,12 @@ services:
         public:     false
         tags:
             - { name: security.voter }
+
+    admin.user:
+        class: App\Admin\PersonAdmin
+        arguments: [~, App\Entity\User, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: User }
 
     admin.post:
         class: App\Admin\PostAdmin

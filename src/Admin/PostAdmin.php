@@ -96,21 +96,23 @@ class PostAdmin extends AbstractAdmin
             ->add('id')
             ->add('title')
             ->add('status')
-            ->add('category')
-            ->add('tags')
-            ->add('createdAt')
-            ->add('modifiedAt');
+            ->add('category');
     }
 
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
             ->addIdentifier('id')
-            ->addIdentifier('title')
-            ->addIdentifier('status')
-            ->addIdentifier('category')
-            ->addIdentifier('tags')
-            ->addIdentifier('createdAt')
-            ->addIdentifier('modifiedAt');
+            ->add('title')
+            ->add('status')
+            ->add('category')
+            ->add('tags')
+            ->add('createdAt')
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'edit' => [],
+                    'delete' => [],
+                ],
+            ]);
     }
 }

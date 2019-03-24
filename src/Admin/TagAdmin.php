@@ -28,7 +28,13 @@ class TagAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('id')
-            ->addIdentifier('title')
-            ->addIdentifier('createdAt');
+            ->add('title')
+            ->add('createdAt')
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'edit' => [],
+                    'delete' => [],
+                ],
+            ]);
     }
 }
