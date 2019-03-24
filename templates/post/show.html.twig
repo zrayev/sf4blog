@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 {% block title %} {{ post.title }} {% endblock %}
 {% block content %}
+    {% import "@msalsas_voting/msalsas_voting_widget.html.twig" as msalsas_voting_widget %}
+    {{ msalsas_voting_widget.shakeItCSS() }}
+    {{ msalsas_voting_widget.shakeItJS() }}
+    {{ msalsas_voting_widget.shakeItModal() }}
+    {{ msalsas_voting_widget.shakeIt(post.id) }}
     <div class="row pb-4">
         <div class="col-md-9">
             {% block left %}

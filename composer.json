@@ -15,6 +15,7 @@
         "knplabs/knp-paginator-bundle": "^2.8",
         "lexik/jwt-authentication-bundle": "^2.6",
         "mgilet/notification-bundle": "^3.1",
+        "msalsas/voting-bundle": "^1.1",
         "nelmio/api-doc-bundle": "^3.3",
         "ocramius/proxy-manager": "^2.2",
         "php-http/guzzle6-adapter": "^1.1",

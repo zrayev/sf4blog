@@ -46,3 +46,7 @@ Search: Пошук
 Home: Головна
 'Commented %createdAt% at %authorName%': 'Коментар залишено %createdAt% від %authorName%'
 'Search results for request': 'Результати пошуку для запиту'
+msalsas_voting:
+    votes: рейтинг
+    shake_it: лайк
+    shaken: вподобано

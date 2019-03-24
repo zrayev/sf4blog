@@ -286,6 +286,19 @@
     "monolog/monolog": {
         "version": "1.24.0"
     },
+    "msalsas/voting-bundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "c347ea89d380c403deadd722ca78008c30408dc6"
+        },
+        "files": [
+            "config/packages/msalsas_voting.yaml",
+            "config/routes/msalsas_voting.yaml"
+        ]
+    },
     "namshi/jose": {
         "version": "7.2.3"
     },

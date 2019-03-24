@@ -35,4 +35,5 @@ return [
     Presta\SitemapBundle\PrestaSitemapBundle::class => ['all' => true],
     Http\HttplugBundle\HttplugBundle::class => ['all' => true],
     HWI\Bundle\OAuthBundle\HWIOAuthBundle::class => ['all' => true],
+    Msalsas\VotingBundle\MsalsasVotingBundle::class => ['all' => true],
 ];
