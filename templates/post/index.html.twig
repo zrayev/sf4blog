@@ -6,6 +6,24 @@
     <h1 class="text-center">{{ 'Blog'|trans }}
         {{ posts.getTotalItemCount }}
     </h1>
+    <div class="row form-group">
+        <div class="col-md-6">
+            {{ knp_pagination_filter(posts, {
+                'p.title': 'Title',
+                'p.description': 'Description',
+                'p.id': 'ID',
+                'p.slug': 'slug',
+            }, {'button': 'Filter'}) }}
+        </div>
+        <div class="col-md-6">
+            <span class="badge badge-pill badge-light">{{ knp_pagination_sortable(posts, 'ID', 'p.id') }}</span>
+            <span class="badge badge-pill badge-light">{{ knp_pagination_sortable(posts, 'Title', 'p.title') }}</span>
+            <span class="badge badge-pill badge-light">{{ knp_pagination_sortable(posts, 'Slug', 'p.slug') }}</span>
+            <span class="badge badge-pill badge-light">{{ knp_pagination_sortable(posts, 'Description', 'p.description') }}</span>
+            <span class="badge badge-pill badge-light">{{ knp_pagination_sortable(posts, 'Created At', 'p.createdAt') }}</span>
+            <span class="badge badge-pill badge-light">{{ knp_pagination_sortable(posts, 'Modified At', 'p.modifiedAt') }}</span>
+        </div>
+    </div>
     {% if posts|length == 0 %}
         <p class="text-center">{{ 'Posts not found'|trans }}. {{ 'You can will create new post'|trans }}.</p>
     {% else %}
@@ -17,8 +35,8 @@
         <div class="navigation pagination justify-content-center mb-4">
           {{ knp_pagination_render(posts) }}
         </div>
-        <a href="{{ path('index', { 'count': 10 }) }}">10</a>
-        <a href="{{ path('index', { 'count': 25 }) }}">25</a>
-        <a href="{{ path('index', { 'count': 50 }) }}">50</a>
+        <a class="badge badge-info" href="{{ path('index', { 'count': 10 }) }}">10</a>
+        <a class="badge badge-info" href="{{ path('index', { 'count': 25 }) }}">25</a>
+        <a class="badge badge-info" href="{{ path('index', { 'count': 50 }) }}">50</a>
     {% endif %}
 {% endblock %}
