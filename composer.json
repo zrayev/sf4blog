@@ -58,6 +58,7 @@
         "behatch/contexts": "^3.2",
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "fzaninotto/faker": "^1.8",
+        "phpmetrics/phpmetrics": "^2.4",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
         "symfony/phpunit-bridge": "4.2.*",
