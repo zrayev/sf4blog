@@ -7,3 +7,11 @@ label.status: Статус
 label.category: Категорія
 label.tags: Теги
 placeholder.status: 'Оберіть статус'
+label.username: Username
+label.email: Email
+label.first_name: Ім'я
+label.last_name: Прізвище
+label.roles: Роль
+label.enabled: Активувати
+label.password: Пароль
+label.register: Реєстрація

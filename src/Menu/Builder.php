@@ -68,6 +68,7 @@ class Builder
             $menu->addChild('Logout', ['route' => 'logout', 'label' => 'Logout']);
         } else {
             $menu->addChild('Login', ['route' => 'app_login', 'label' => 'Login']);
+            $menu->addChild('Register', ['route' => 'app_register', 'label' => 'Register']);
         }
 
         foreach ($menu as $child) {

@@ -31,6 +31,13 @@ app_login:
     path: /login
     controller: App\Controller\SecurityController::login
 
+app_register:
+    path: /{_locale}/register
+    controller: App\Controller\RegistrationController::register
+    defaults:   { _locale: en }
+    requirements:
+        _locale:  en|uk
+
 mgilet_notification:
     resource: "@MgiletNotificationBundle/Controller/"
     prefix: /notifications
