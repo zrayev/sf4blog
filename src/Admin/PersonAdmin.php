@@ -20,15 +20,6 @@ final class PersonAdmin extends AbstractAdmin
     private $passwordEncoder;
 
     /**
-     * @var array
-     */
-    private static $availableUserRoles = [
-        'ROLE SUPER ADMIN' => 'ROLE_SUPER_ADMIN',
-        'ROLE ADMIN' => 'ROLE_ADMIN',
-        'ROLE USER' => 'ROLE_USER',
-    ];
-
-    /**
      * PersonAdmin constructor.
      * @param string $code
      * @param string $class
@@ -77,7 +68,7 @@ final class PersonAdmin extends AbstractAdmin
             ->add('email', EmailType::class)
             ->add('roles', ChoiceType::class, [
                 'multiple' => true,
-                'choices' => self::$availableUserRoles,
+                'choices' => User::$availableUserRoles,
             ])
             ->add('enabled', BooleanType::class)
             ->end()

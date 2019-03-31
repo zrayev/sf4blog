@@ -72,3 +72,4 @@ msalsas_voting:
         already_clicked: 'You have already clicked.'
         too_much_anon_votes: 'Too much anonymous votes.'
         invalid_reason: 'Invalid reason.'
+'Register': Register

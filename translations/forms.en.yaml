@@ -7,3 +7,11 @@ label.status: Status
 label.category: Category
 label.tags: Tags
 placeholder.status: 'Choose a article status option'
+label.username: Username
+label.email: Email
+label.first_name: 'First name'
+label.last_name: 'Last name'
+label.roles: Roles
+label.enabled: Enabled
+label.password: Password
+label.register: Register

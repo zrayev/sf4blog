@@ -9,15 +9,25 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Mgilet\NotificationBundle\Annotation\Notifiable;
 use Mgilet\NotificationBundle\NotifiableInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @Notifiable(name="user")
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class User implements UserInterface, NotifiableInterface
 {
+    /**
+     * @var array
+     */
+    public static $availableUserRoles = [
+        'ROLE SUPER ADMIN' => 'ROLE_SUPER_ADMIN',
+        'ROLE ADMIN' => 'ROLE_ADMIN',
+        'ROLE USER' => 'ROLE_USER',
+    ];
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
