@@ -4,9 +4,9 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'en'
-    router.request_context.host:   learn.loc
-    router.request_context.scheme: http
+    locale: '%env(resolve:DEFAULT_LANGUAGE)%'
+    router.request_context.host:   '%env(resolve:HOST)%'
+    router.request_context.scheme: '%env(resolve:SCHEME)%'
 
 services:
     # default configuration for services in *this* file
@@ -88,11 +88,3 @@ services:
         class: App\Service\PaginationFactory
         autowire: true
         public: true
-
-    app.sitemap.blog_post_subscriber:
-        class: App\EventListener\SitemapSubscriber
-        arguments:
-            - "@router"
-            - "@doctrine.orm.entity_manager"
-        tags:
-            - { name: "kernel.event_subscriber", priority: 100 }
