@@ -5,9 +5,9 @@ namespace App\Controller\Api;
 use App\Entity\Post;
 use App\Service\PaginationFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use Elastica\Exception\NotFoundException;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as FOSRest;
-use HttpException;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -167,7 +167,7 @@ class PostController extends AbstractFOSRestController
      * @SWG\Tag(name="posts")
      * @Security(name="Bearer")
      * @param Post $post
-     * @throws HttpException
+     * @throws NotFoundException
      * @return Response
      * @ParamConverter("post", class="App:Post")
      */
@@ -175,7 +175,7 @@ class PostController extends AbstractFOSRestController
     {
         $comments = $post->getComments();
         if (!$comments) {
-            throw new HttpException(400, 'Comments not found');
+            throw new NotFoundException(404, 'Comments not found');
         }
 
         return $this->createApiResponse(['data' => $comments], ['groups' => 'comment:show']);
@@ -192,7 +192,7 @@ class PostController extends AbstractFOSRestController
      * @SWG\Tag(name="posts")
      * @Security(name="Bearer")
      * @param Post $post
-     * @throws HttpException
+     * @throws NotFoundException
      * @return Response
      * @ParamConverter("post", class="App:Post")
      */
@@ -200,7 +200,7 @@ class PostController extends AbstractFOSRestController
     {
         $tags = $post->getTags();
         if (!$tags) {
-            throw new HttpException(400, 'Tags not found');
+            throw new NotFoundException(404, 'Tags not found');
         }
 
         return $this->createApiResponse(['data' => $tags], ['groups' => 'tag:show']);
@@ -217,7 +217,7 @@ class PostController extends AbstractFOSRestController
      * @SWG\Tag(name="posts")
      * @Security(name="Bearer")
      * @param Post $post
-     * @throws HttpException
+     * @throws NotFoundException
      * @return Response
      * @ParamConverter("post", class="App:Post")
      */
@@ -225,7 +225,7 @@ class PostController extends AbstractFOSRestController
     {
         $author = $post->getAuthor();
         if (!$author) {
-            throw new HttpException(400, 'Author not found');
+            throw new NotFoundException(404, 'Author not found');
         }
 
         return $this->createApiResponse(['data' => $author], ['groups' => 'author:show']);
